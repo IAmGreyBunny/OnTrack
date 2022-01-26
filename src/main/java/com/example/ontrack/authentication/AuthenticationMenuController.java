@@ -1,10 +1,13 @@
-package com.example.ontrack;
+package com.example.ontrack.authentication;
 
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
@@ -15,8 +18,9 @@ import java.util.ResourceBundle;
 public class AuthenticationMenuController implements Initializable {
 
     @FXML
-    private VBox authenticationFormVBox;
-    private Parent fxml;
+    private VBox authenticationFormVBox;    //This is the where the forms will be loaded upon
+    private Parent form;                    //content of form
+
 
     @Override
     public void initialize(URL url, ResourceBundle rb){
@@ -25,9 +29,9 @@ public class AuthenticationMenuController implements Initializable {
         t.play();
         t.setOnFinished(actionEvent -> {
             try{
-                fxml = FXMLLoader.load(getClass().getResource("LoginPanel.fxml"));
+                form = FXMLLoader.load(getClass().getResource("LoginForm.fxml"));
                 authenticationFormVBox.getChildren().removeAll();
-                authenticationFormVBox.getChildren().setAll(fxml);
+                authenticationFormVBox.getChildren().setAll(form);
             }catch (IOException ex){
 
             }
@@ -41,9 +45,9 @@ public class AuthenticationMenuController implements Initializable {
         t.play();
         t.setOnFinished(actionEvent -> {
             try{
-                fxml = FXMLLoader.load(getClass().getResource("LoginPanel.fxml"));
+                form = FXMLLoader.load(getClass().getResource("LoginForm.fxml"));
                 authenticationFormVBox.getChildren().removeAll();
-                authenticationFormVBox.getChildren().setAll(fxml);
+                authenticationFormVBox.getChildren().setAll(form);
             }catch (IOException ex){
 
             }
@@ -57,12 +61,13 @@ public class AuthenticationMenuController implements Initializable {
         t.play();
         t.setOnFinished(actionEvent -> {
             try{
-                fxml = FXMLLoader.load(getClass().getResource("RegisterPanel.fxml"));
+                form = FXMLLoader.load(getClass().getResource("RegistrationForm.fxml"));
                 authenticationFormVBox.getChildren().removeAll();
-                authenticationFormVBox.getChildren().setAll(fxml);
+                authenticationFormVBox.getChildren().setAll(form);
             }catch (IOException ex){
 
             }
         });
     }
+
 }

@@ -1,4 +1,4 @@
-package com.example.ontrack;
+package com.example.ontrack.authentication;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

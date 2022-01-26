@@ -12,4 +12,6 @@ module com.example.ontrack {
 
     opens com.example.ontrack to javafx.fxml;
     exports com.example.ontrack;
+    exports com.example.ontrack.authentication;
+    opens com.example.ontrack.authentication to javafx.fxml;
 }

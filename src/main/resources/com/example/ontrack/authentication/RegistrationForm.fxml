@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="370.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<VBox fx:controller="com.example.ontrack.authentication.RegistrationFormController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="370.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label text="Register">
          <font>
@@ -21,77 +21,77 @@
       </Label>
       <HBox alignment="CENTER" prefWidth="200.0">
          <children>
-            <TextField prefWidth="300.0" promptText="Username">
+            <TextField fx:id="registrationUsername" prefWidth="300.0" promptText="Username">
                <HBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </HBox.margin>
             </TextField>
          </children>
       </HBox>
-      <Label text="Username Error" textFill="RED" visible="false">
+      <Label fx:id="registrationUsernameErrorLabel" text="Username Error" textFill="RED" visible="false">
          <VBox.margin>
             <Insets left="40.0" />
          </VBox.margin>
       </Label>
       <HBox alignment="CENTER" prefWidth="200.0">
          <children>
-            <TextField prefWidth="300.0" promptText="Email">
+            <TextField fx:id="registrationEmail" prefWidth="300.0" promptText="Email">
                <HBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </HBox.margin>
             </TextField>
          </children>
       </HBox>
-      <Label text="Email Error" textFill="RED" visible="false">
+      <Label fx:id="registrationEmailErrorLabel" text="Email Error" textFill="RED" visible="false">
          <VBox.margin>
             <Insets left="40.0" />
          </VBox.margin>
       </Label>
       <HBox alignment="CENTER" prefWidth="200.0">
          <children>
-            <TextField prefWidth="300.0" promptText="Confirm Email">
+            <TextField fx:id="registrationEmailConfirm" prefWidth="300.0" promptText="Confirm Email">
                <HBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </HBox.margin>
             </TextField>
          </children>
       </HBox>
-      <Label text="Confirm Email Error" textFill="RED" visible="false">
+      <Label fx:id="registrationEmailConfirmErrorLabel" text="Confirm Email Error" textFill="RED" visible="false">
          <VBox.margin>
             <Insets left="40.0" />
          </VBox.margin>
       </Label>
       <HBox alignment="CENTER" prefWidth="200.0">
          <children>
-            <PasswordField prefWidth="300.0" promptText="Password">
+            <PasswordField fx:id="registrationPassword" prefWidth="300.0" promptText="Password">
                <HBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </HBox.margin>
             </PasswordField>
          </children>
       </HBox>
-      <Label text="Password Error" textFill="RED" visible="false">
+      <Label fx:id="registrationPasswordErrorLabel" text="Password Error" textFill="RED" visible="false">
          <VBox.margin>
             <Insets left="40.0" />
          </VBox.margin>
       </Label>
       <HBox alignment="CENTER" prefWidth="200.0">
          <children>
-            <PasswordField prefWidth="300.0" promptText="Confirm Password">
+            <PasswordField fx:id="registrationPasswordConfirm" prefWidth="300.0" promptText="Confirm Password">
                <HBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </HBox.margin>
             </PasswordField>
          </children>
       </HBox>
-      <Label text="Confirm Password Error" textFill="RED" visible="false">
+      <Label fx:id="registrationPasswordConfirmErrorLabel" text="Confirm Password Error" textFill="RED" visible="false">
          <VBox.margin>
             <Insets left="40.0" />
          </VBox.margin>
       </Label>
       <HBox alignment="CENTER" prefWidth="200.0">
          <children>
-            <Button mnemonicParsing="false" prefWidth="300.0" text="Register" />
+            <Button mnemonicParsing="false" onAction="#onRegistration" prefWidth="300.0" text="Register" />
          </children>
       </HBox>
    </children>
