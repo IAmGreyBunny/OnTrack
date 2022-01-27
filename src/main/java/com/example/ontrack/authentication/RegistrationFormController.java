@@ -1,10 +1,12 @@
 package com.example.ontrack.authentication;
 
+import com.example.ontrack.database.DatabaseManager;
+import com.example.ontrack.database.databaseobjects.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-import java.text.Normalizer;
+import java.sql.Connection;
 
 public class RegistrationFormController {
 
@@ -35,16 +37,25 @@ public class RegistrationFormController {
     @FXML
     private void onRegistration()
     {
+        //Gets User input
+        String username = registrationUsername.getText();
+        String email = registrationEmail.getText();
+        String emailConfirm = registrationEmailConfirm.getText();
+        String password = registrationPassword.getText();
+        String passwordConfirm = registrationPasswordConfirm.getText();
+
         System.out.println("___________________________________");//For Debugging
-        String usernameError = FormValidator.validateUsername(registrationUsername.getText());
-        String emailError = FormValidator.validateEmail(registrationEmail.getText());
-        String emailConfirmError = FormValidator.validateEmailConfirm(registrationEmail.getText(),registrationEmailConfirm.getText());
-        String passwordError = FormValidator.validatePassword(registrationPassword.getText());
-        String passwordConfirmError = FormValidator.validatePasswordConfirm(registrationPassword.getText(),registrationPasswordConfirm.getText());
+        Boolean hasError = false;
+        String usernameError = FormValidator.validateUsername(username);
+        String emailError = FormValidator.validateEmail(email);
+        String emailConfirmError = FormValidator.validateEmailConfirm(email,emailConfirm);
+        String passwordError = FormValidator.validatePassword(password);
+        String passwordConfirmError = FormValidator.validatePasswordConfirm(password,passwordConfirm);
 
         //If error exist, set label visible and text to error message
         if(!usernameError.isEmpty())
         {
+            hasError=true;
             registrationUsernameErrorLabel.setText(usernameError);
             registrationUsernameErrorLabel.setVisible(true);
         }
@@ -56,6 +67,7 @@ public class RegistrationFormController {
 
         if(!emailError.isEmpty())
         {
+            hasError=true;
             registrationEmailErrorLabel.setText(emailError);
             registrationEmailErrorLabel.setVisible(true);
         }
@@ -67,6 +79,7 @@ public class RegistrationFormController {
 
         if(!emailConfirmError.isEmpty())
         {
+            hasError=true;
             registrationEmailConfirmErrorLabel.setText(emailConfirmError);
             registrationEmailConfirmErrorLabel.setVisible(true);
         }
@@ -78,6 +91,7 @@ public class RegistrationFormController {
 
         if(!passwordError.isEmpty())
         {
+            hasError=true;
             registrationPasswordErrorLabel.setText(passwordError);
             registrationPasswordErrorLabel.setVisible(true);
         }
@@ -89,6 +103,7 @@ public class RegistrationFormController {
 
         if(!passwordConfirmError.isEmpty())
         {
+            hasError=true;
             registrationPasswordConfirmErrorLabel.setText(passwordConfirmError);
             registrationPasswordConfirmErrorLabel.setVisible(true);
         }
@@ -98,6 +113,14 @@ public class RegistrationFormController {
             registrationPasswordConfirmErrorLabel.setVisible(false);
         }
 
+        //Form validation successful
+        if(hasError==false)
+        {
+            //Database connection
+            DatabaseManager databaseManager = new DatabaseManager();
+            Connection database = databaseManager.getConnection();
+            User.registerUser(database,username,email,password);
+        }
         //For debugging purposes
         System.out.println(usernameError);
         System.out.println(emailError);
