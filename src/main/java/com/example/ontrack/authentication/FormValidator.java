@@ -4,9 +4,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class FormValidator {
-    private static Pattern emailRegex = Pattern.compile("^(.+)@(.+)$");
-    private static Pattern usernameRegex = Pattern.compile("^[A-Za-z][A-Za-z0-9_]{8,24}$");
-    private static Pattern passwordRegex = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,30}$");
+    private static final Pattern emailRegex = Pattern.compile("^(.+)@(.+)$");
+    private static final Pattern usernameRegex = Pattern.compile("^[A-Za-z][A-Za-z0-9_]{8,24}$");
+    private static final Pattern passwordRegex = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,30}$");
 
     private static Matcher matcher;
 

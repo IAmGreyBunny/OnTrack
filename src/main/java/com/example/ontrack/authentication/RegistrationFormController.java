@@ -12,15 +12,15 @@ public class RegistrationFormController {
 
     //Various form fields
     @FXML
-    private TextField registrationUsername;
+    private TextField registrationUsernameTextField;
     @FXML
-    private TextField registrationEmail;
+    private TextField registrationEmailTextField;
     @FXML
-    private TextField registrationEmailConfirm;
+    private TextField registrationEmailConfirmTextField;
     @FXML
-    private TextField registrationPassword;
+    private TextField registrationPasswordTextField;
     @FXML
-    private TextField registrationPasswordConfirm;
+    private TextField registrationPasswordConfirmTextField;
 
     //Error Labels
     @FXML
@@ -38,11 +38,11 @@ public class RegistrationFormController {
     private void onRegistration()
     {
         //Gets User input
-        String username = registrationUsername.getText();
-        String email = registrationEmail.getText();
-        String emailConfirm = registrationEmailConfirm.getText();
-        String password = registrationPassword.getText();
-        String passwordConfirm = registrationPasswordConfirm.getText();
+        String username = registrationUsernameTextField.getText();
+        String email = registrationEmailTextField.getText();
+        String emailConfirm = registrationEmailConfirmTextField.getText();
+        String password = registrationPasswordTextField.getText();
+        String passwordConfirm = registrationPasswordConfirmTextField.getText();
 
         System.out.println("___________________________________");//For Debugging
         Boolean hasError = false;
@@ -119,7 +119,11 @@ public class RegistrationFormController {
             //Database connection
             DatabaseManager databaseManager = new DatabaseManager();
             Connection database = databaseManager.getConnection();
-            User.registerUser(database,username,email,password);
+            Boolean registrationSuccess = User.registerUser(database,username,email,password);
+            if(registrationSuccess)
+            {
+              //TO DO: registration complete
+            }
         }
         //For debugging purposes
         System.out.println(usernameError);

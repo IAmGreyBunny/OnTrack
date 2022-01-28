@@ -2,6 +2,7 @@ package com.example.ontrack.database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 
 public class DatabaseManager {
     public Connection databaseLink;
@@ -27,6 +28,12 @@ public class DatabaseManager {
         }
 
         return databaseLink;
+    }
+
+    //Get resultset size
+    public static int getResultSetSize(ResultSet rs)
+    {
+        return 0;
     }
 
 }
