@@ -49,7 +49,7 @@
       </Label>
       <HBox alignment="CENTER" prefWidth="200.0">
          <children>
-            <Button mnemonicParsing="false" onAction="#onLogin" prefWidth="300.0" text="Login" />
+            <Button fx:id="loginButton" mnemonicParsing="false" onAction="#onLogin" prefWidth="300.0" text="Login" />
          </children>
       </HBox>
       <Label fx:id="loginFailErrorLabel" alignment="CENTER" prefHeight="17.0" prefWidth="300.0" text="CheckCredentials" textAlignment="CENTER" textFill="RED" visible="false">

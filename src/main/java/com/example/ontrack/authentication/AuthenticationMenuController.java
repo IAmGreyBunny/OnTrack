@@ -19,6 +19,7 @@ public class AuthenticationMenuController implements Initializable {
     private Parent form;                    //content of form
 
 
+    //animation and login form on initialisation
     @Override
     public void initialize(URL url, ResourceBundle rb){
         TranslateTransition t = new TranslateTransition(Duration.seconds(0.5),authenticationFormVBox);
@@ -35,6 +36,7 @@ public class AuthenticationMenuController implements Initializable {
         });
     }
 
+    //Function to slide over registration and show login form, tied to button click
     @FXML
     private void showLoginPanel(){
         TranslateTransition t = new TranslateTransition(Duration.seconds(0.5),authenticationFormVBox);
@@ -51,6 +53,7 @@ public class AuthenticationMenuController implements Initializable {
         });
     }
 
+    //Function to slide over login and show registration form, tied to button click
     @FXML
     private void showRegisterPanel(){
         TranslateTransition t = new TranslateTransition(Duration.seconds(0.5),authenticationFormVBox);

@@ -44,6 +44,7 @@ public class RegistrationFormController {
         String password = registrationPasswordTextField.getText();
         String passwordConfirm = registrationPasswordConfirmTextField.getText();
 
+        //Validates user input, returns error message
         System.out.println("___________________________________");//For Debugging
         Boolean hasError = false;
         String usernameError = FormValidator.validateUsername(username);
@@ -52,7 +53,7 @@ public class RegistrationFormController {
         String passwordError = FormValidator.validatePassword(password);
         String passwordConfirmError = FormValidator.validatePasswordConfirm(password,passwordConfirm);
 
-        //If error exist, set label visible and text to error message
+        //If error message exist, set label visible and text to error message
         if(!usernameError.isEmpty())
         {
             hasError=true;
@@ -113,7 +114,7 @@ public class RegistrationFormController {
             registrationPasswordConfirmErrorLabel.setVisible(false);
         }
 
-        //Form validation successful
+        //Form validation successful, Creates an account in database
         if(hasError==false)
         {
             //Database connection
@@ -122,15 +123,8 @@ public class RegistrationFormController {
             Boolean registrationSuccess = User.registerUser(database,username,email,password);
             if(registrationSuccess)
             {
-              //TO DO: registration complete
+              //TO DO: registration complete alert box
             }
         }
-        //For debugging purposes
-        System.out.println(usernameError);
-        System.out.println(emailError);
-        System.out.println(emailConfirmError);
-        System.out.println(passwordError);
-        System.out.println(passwordConfirmError);
-
     }
 }
