@@ -1,4 +1,4 @@
-package com.example.ontrack.database.databaseobjects;
+package com.example.ontrack.authentication;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

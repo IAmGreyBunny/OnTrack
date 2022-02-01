@@ -30,7 +30,8 @@ public class AuthenticationMenuController implements Initializable {
                 form = FXMLLoader.load(getClass().getResource("LoginForm.fxml"));
                 authenticationFormVBox.getChildren().removeAll();
                 authenticationFormVBox.getChildren().setAll(form);
-            }catch (IOException ex){
+            }catch (IOException ex)
+            {
 
             }
         });

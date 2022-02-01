@@ -2,7 +2,6 @@ package com.example.ontrack.authentication;
 
 import com.example.ontrack.Main;
 import com.example.ontrack.database.DatabaseManager;
-import com.example.ontrack.database.databaseobjects.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
