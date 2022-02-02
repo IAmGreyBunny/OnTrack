@@ -79,6 +79,7 @@ public class LoginFormController {
             if(user != null)
             {
                 CurrentUser.getInstance().setUser(user);
+                System.out.println();
                 System.out.println("Successfully Logged in");
                 loginFailErrorLabel.setVisible(false);
 
@@ -104,6 +105,7 @@ public class LoginFormController {
             }
             else
             {
+                System.out.println();
                 System.out.println("Log in unsuccessful");
                 loginFailErrorLabel.setText("Incorrect Login Information : Check Credentials");
                 loginFailErrorLabel.setVisible(true);

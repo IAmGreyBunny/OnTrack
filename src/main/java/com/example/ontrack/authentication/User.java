@@ -41,6 +41,7 @@ public class User {
     {
         String sql = String.format("SELECT * FROM user WHERE (email = '%s' AND password = '%s')",email,password);
         try{
+            System.out.println();
             System.out.println("Executing Query:\n" + sql);
             PreparedStatement statement = connection.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
             ResultSet resultSet = statement.executeQuery();

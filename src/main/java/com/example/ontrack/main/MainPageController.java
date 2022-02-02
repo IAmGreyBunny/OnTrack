@@ -16,6 +16,7 @@ public class MainPageController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb){
+        System.out.println();
         System.out.println("Current User");
         System.out.println("----------------------------------------");
         System.out.println("Username: " + user.getUsername());
