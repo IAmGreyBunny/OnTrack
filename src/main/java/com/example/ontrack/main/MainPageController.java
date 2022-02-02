@@ -1,10 +1,14 @@
 package com.example.ontrack.main;
 
+import com.example.ontrack.Main;
 import com.example.ontrack.authentication.CurrentUser;
 import com.example.ontrack.authentication.User;
 import javafx.animation.TranslateTransition;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
 
 import java.io.IOException;
@@ -14,6 +18,10 @@ import java.util.ResourceBundle;
 public class MainPageController implements Initializable {
     User user = CurrentUser.getInstance().getUser();
 
+    private Parent form;
+    @FXML
+    private AnchorPane leftPane;
+
     @Override
     public void initialize(URL url, ResourceBundle rb){
         System.out.println();
@@ -22,5 +30,15 @@ public class MainPageController implements Initializable {
         System.out.println("Username: " + user.getUsername());
         System.out.println("Email: " + user.getEmail());
         System.out.println("Password: " + user.getPassword());
+
+        try{
+            form = FXMLLoader.load(Main.class.getResource("task/AddTaskForm.fxml"));
+            leftPane.getChildren().removeAll();
+            leftPane.getChildren().setAll(form);
+        }
+        catch (IOException ex)
+        {
+
+        }
     }
 }
