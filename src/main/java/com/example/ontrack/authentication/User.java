@@ -10,6 +10,13 @@ public class User {
     private String email;
     private String password;
 
+    User(String username, String email, String password)
+    {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
+
     //Creates a user entry in database, returns a true if entry is created successfully
     public static Boolean registerUser(Connection connection,String username,String email,String password)
     {
@@ -30,7 +37,7 @@ public class User {
     }
 
     //Checks if email and password combination exists
-    public static Boolean authenticateUser(Connection connection,String email,String password)
+    public static User authenticateUser(Connection connection,String email,String password)
     {
         String sql = String.format("SELECT * FROM user WHERE (email = '%s' AND password = '%s')",email,password);
         try{
@@ -51,17 +58,42 @@ public class User {
 
             if (size>=1)
             {
-                return true;
+                User user = new User(resultSet.getString("username"),resultSet.getString("email"),resultSet.getString("password"));
+                return user;
             }
             else
             {
-                return false;
+                return null;
             }
         }
         catch(Exception e)
         {
             e.printStackTrace();
         }
-        return false;
+        return null;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

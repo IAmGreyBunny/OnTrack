@@ -73,11 +73,12 @@ public class LoginFormController {
             //Database connection, attempts to log in user
             DatabaseManager databaseManager = new DatabaseManager();
             Connection database = databaseManager.getConnection();
-            Boolean userAuthenticationSuccess = User.authenticateUser(database,email,password);
+            User user = User.authenticateUser(database,email,password);
 
             //If user credential matched in database
-            if(userAuthenticationSuccess)
+            if(user != null)
             {
+                CurrentUser.getInstance().setUser(user);
                 System.out.println("Successfully Logged in");
                 loginFailErrorLabel.setVisible(false);
 
