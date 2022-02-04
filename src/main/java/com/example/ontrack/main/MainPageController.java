@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.util.Duration;
 
 import java.io.IOException;
@@ -20,7 +21,7 @@ public class MainPageController implements Initializable {
 
     private Parent form;
     @FXML
-    private AnchorPane leftPane;
+    private BorderPane borderPane;
 
     @Override
     public void initialize(URL url, ResourceBundle rb){
@@ -33,8 +34,7 @@ public class MainPageController implements Initializable {
 
         try{
             form = FXMLLoader.load(Main.class.getResource("task/AddTaskForm.fxml"));
-            leftPane.getChildren().removeAll();
-            leftPane.getChildren().setAll(form);
+            borderPane.setLeft(form);
         }
         catch (IOException ex)
         {
