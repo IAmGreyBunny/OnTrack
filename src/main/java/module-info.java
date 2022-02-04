@@ -18,4 +18,5 @@ module com.example.OnTrack {
     opens com.example.ontrack.task to javafx.fxml;
     opens com.example.ontrack.main to javafx.fxml;
     opens com.example.ontrack.authentication to javafx.fxml;
+    opens com.example.ontrack.task.form to javafx.fxml;
 }

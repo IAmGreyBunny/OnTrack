@@ -19,7 +19,7 @@ public class Main extends Application {
         stage.show();
 
         /*
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("task/RepetitionRuleForm.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("task/AddRepetitionRuleForm.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("OnTrack");
         stage.setScene(scene);

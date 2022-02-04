@@ -33,7 +33,7 @@ public class MainPageController implements Initializable {
         System.out.println("Password: " + user.getPassword());
 
         try{
-            form = FXMLLoader.load(Main.class.getResource("task/AddTaskForm.fxml"));
+            form = FXMLLoader.load(Main.class.getResource("task/form/AddTaskForm.fxml"));
             borderPane.setLeft(form);
         }
         catch (IOException ex)
