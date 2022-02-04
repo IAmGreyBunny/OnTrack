@@ -1,6 +1,8 @@
 package com.example.ontrack.task;
 
-public class Lesson extends RepeatableTask{
+import com.example.ontrack.task.repetition.RepeatableTask;
+
+public class Lesson extends RepeatableTask {
     private int lessonId;
     private String subject;
     private String venue;

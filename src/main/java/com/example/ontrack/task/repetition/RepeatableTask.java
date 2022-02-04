@@ -1,6 +1,8 @@
-package com.example.ontrack.task;
+package com.example.ontrack.task.repetition;
 
-public abstract class RepeatableTask extends Task{
+import com.example.ontrack.task.Task;
+
+public abstract class RepeatableTask extends Task {
     private int round;
     private RepetitionRule repetitionRule;
 

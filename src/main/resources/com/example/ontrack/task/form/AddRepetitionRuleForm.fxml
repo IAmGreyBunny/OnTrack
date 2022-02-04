@@ -18,7 +18,7 @@
    <children>
       <VBox alignment="TOP_CENTER" prefHeight="600.0" prefWidth="400.0">
          <children>
-            <Label alignment="CENTER" prefHeight="30.0" prefWidth="515.0" text="Edit Rule" textAlignment="CENTER">
+            <Label alignment="CENTER" prefHeight="30.0" prefWidth="515.0" text="Add Rule" textAlignment="CENTER">
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </VBox.margin>
@@ -31,10 +31,10 @@
                   <Font size="20.0" />
                </font>
             </Label>
-            <TableView prefHeight="200.0" prefWidth="200.0">
+            <TableView fx:id="roundTableView" prefHeight="200.0" prefWidth="200.0">
               <columns>
-                <TableColumn prefWidth="75.0" text="C1" />
-                <TableColumn prefWidth="324.0" text="C2" />
+                <TableColumn fx:id="roundNumber" prefWidth="75.0" text="Round" />
+                <TableColumn fx:id="roundInterval" prefWidth="324.0" text="Interval (Days)" />
               </columns>
             </TableView>
             <GridPane fx:id="iterationGridPane" alignment="CENTER">
@@ -53,12 +53,12 @@
                      </GridPane.margin>
                   </Label>
                   <Label alignment="CENTER" text="Interval (Days)" GridPane.columnIndex="1" />
-                  <TextField maxWidth="50.0" minWidth="50.0" prefWidth="50.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <TextField fx:id="roundIntervalTextField" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <GridPane.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </GridPane.margin>
                   </TextField>
-                  <TextField maxWidth="50.0" minWidth="50.0" prefWidth="50.0" GridPane.rowIndex="1">
+                  <TextField fx:id="roundNumberTextField" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" GridPane.rowIndex="1">
                      <GridPane.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </GridPane.margin>
@@ -71,25 +71,29 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
             </GridPane>
-            <HBox alignment="CENTER" prefWidth="200.0">
+            <VBox alignment="CENTER" prefWidth="100.0">
                <children>
-                  <Button alignment="CENTER" mnemonicParsing="false" text="Apply" textAlignment="CENTER">
-                     <HBox.margin>
+                  <HBox alignment="CENTER" prefWidth="200.0">
+                     <children>
+                        <Button fx:id="addApplyButton" alignment="CENTER" mnemonicParsing="false" onAction="#onAddChangeButtonClick" prefWidth="90.0" text="Add/Change" textAlignment="CENTER">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button fx:id="deleteButton" alignment="CENTER" mnemonicParsing="false" onAction="#onDeleteButtonClick" prefWidth="90.0" text="Delete" textAlignment="CENTER">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <Button alignment="CENTER" mnemonicParsing="false" text="Save">
+                     <VBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </HBox.margin>
-                  </Button>
-                  <Button alignment="CENTER" mnemonicParsing="false" text="Delete" textAlignment="CENTER">
-                     <HBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </HBox.margin>
+                     </VBox.margin>
                   </Button>
                </children>
-            </HBox>
-            <Button mnemonicParsing="false" text="Save">
-               <VBox.margin>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </VBox.margin>
-            </Button>
+            </VBox>
          </children>
       </VBox>
    </children>

@@ -4,16 +4,21 @@ import com.example.ontrack.Main;
 import com.example.ontrack.database.DatabaseManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
+import java.net.URL;
 import java.sql.Connection;
+import java.util.ResourceBundle;
 
-public class LoginFormController {
+public class LoginFormController implements Initializable {
 
     //Various form fields
     @FXML
@@ -32,6 +37,13 @@ public class LoginFormController {
     private Label loginPasswordErrorLabel;
     @FXML
     private Label loginFailErrorLabel;
+
+    //FOR EASE OF LOGIN DURING TESTING, REMOVED WHEN DONE
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        loginEmailTextField.setText("TestUser123@gmail.com");
+        loginPasswordTextField.setText("P@ssword1234");
+    }
 
     @FXML
     private void onLogin()
@@ -87,17 +99,16 @@ public class LoginFormController {
                 ((Stage) loginButton.getScene().getWindow()).close(); //Close login page
 
                 //Open main window
-                Stage mainWindow = new Stage();
-                FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("main/MainPage.fxml"));
-                Scene mainScene = null;
                 try {
                     //Setup new window
-                    mainScene = new Scene(fxmlLoader.load());
-                    mainWindow.setTitle("OnTrack");
-                    mainWindow.setScene(mainScene);
-                    mainWindow.setResizable(false);
-                    mainWindow.setFullScreen(true);
-                    mainWindow.show();
+                    Stage stage = new Stage(StageStyle.UNDECORATED);
+                    FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("main/MainPage.fxml"));
+                    Scene scene = new Scene(fxmlLoader.load());
+                    stage.setScene(scene);
+                    stage.setResizable(false);
+                    stage.setMaximized(true);
+                    //stage.setFullScreen(true); //Do Not Use Fullscreen
+                    stage.show();
 
                 } catch (IOException e) {
                     e.printStackTrace();

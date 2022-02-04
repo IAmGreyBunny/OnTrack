@@ -1,4 +1,4 @@
-package com.example.ontrack.task;
+package com.example.ontrack.task.repetition;
 
 import javafx.collections.ObservableList;
 
@@ -8,5 +8,5 @@ public class RepetitionRule {
     private int userId;
     private String ruleName;
     private String type;
-    private ObservableList<Integer> interval;
+    private ObservableList<Round> rounds;
 }
