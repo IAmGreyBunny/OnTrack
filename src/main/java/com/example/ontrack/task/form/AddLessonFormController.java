@@ -2,6 +2,9 @@ package com.example.ontrack.task.form;
 
 import com.example.ontrack.IBackButton;
 import com.example.ontrack.Main;
+import com.example.ontrack.task.repetition.RepetitionRule;
+import com.example.ontrack.task.repetition.Round;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -15,6 +18,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 
 import java.io.IOException;
 import java.net.URL;
@@ -29,18 +33,56 @@ public class AddLessonFormController implements IBackButton, Initializable {
     Button addRepetitionRuleButton;
 
     @FXML
-    ComboBox<String> repetitionRuleDropDown;
+    ComboBox<RepetitionRule> repetitionRuleDropDown;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        //Setup repetitionRuleDropDown combobox with user listofrepetitionrules
+        //String converter required for displaying RepetitionRule object as string
+        ObservableList<RepetitionRule> listOfRepetitionRules = RepetitionRule.getUserRepetitionRules();
+        StringConverter<RepetitionRule> converter = new StringConverter<RepetitionRule>() {
+            @Override
+            public String toString(RepetitionRule repetitionRule) {
+                if(repetitionRule != null)
+                {
+                    return repetitionRule.getRuleName();
+                }
+                else
+                {
+                    return "";
+                }
+
+            }
+
+            @Override
+            public RepetitionRule fromString(String s) {
+                for(RepetitionRule repetitionRule:listOfRepetitionRules)
+                {
+                    if (repetitionRule.getRuleName().equals(s))
+                    {
+                        return repetitionRule;
+                    }
+                }
+                return null;
+            }
+        };
+        repetitionRuleDropDown.setConverter(converter);
+        repetitionRuleDropDown.setItems(listOfRepetitionRules);
+
+        //Setup repetitionRuleDropDown so to disable edit on empty fields
         if(repetitionRuleDropDown.getValue()==null)
         {
             editRepetitionRuleButton.setDisable(true);
         }
         repetitionRuleDropDown.setOnAction(actionEvent -> {
-            if(repetitionRuleDropDown.getValue()==null||repetitionRuleDropDown.getValue().isEmpty())
+            if(repetitionRuleDropDown.getValue()==null)
             {
                 editRepetitionRuleButton.setDisable(true);
+            }
+            else
+            {
+                editRepetitionRuleButton.setDisable(false);
             }
         });
     }

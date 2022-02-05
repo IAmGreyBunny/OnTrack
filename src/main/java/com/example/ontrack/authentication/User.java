@@ -11,6 +11,7 @@ public class User {
     private String username;
     private String email;
     private String password;
+    private int userId;
 
     User(String username, String email, String password)
     {
@@ -51,8 +52,6 @@ public class User {
 
         String sql = String.format("SELECT * FROM user WHERE (email = '%s' AND password = '%s')",email,password);
         try{
-            System.out.println();
-            System.out.println("Executing Query:\n" + sql);
             PreparedStatement statement = connection.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
             ResultSet resultSet = statement.executeQuery();
             int size = 0;
@@ -60,16 +59,13 @@ public class User {
             {
                 resultSet.last();
                 size=resultSet.getRow();
-                System.out.println("Result contains: "+size);
-            }
-            else
-            {
-                System.out.println("Query Fails");
             }
 
             if (size>=1)
             {
                 User user = new User(resultSet.getString("username"),resultSet.getString("email"),resultSet.getString("password"));
+                user.getUserId();
+                CurrentUser.getInstance().setUser(user);
                 return user;
             }
             else
@@ -84,7 +80,7 @@ public class User {
         return null;
     }
 
-    public int getUid()
+    public int getUserId()
     {
         //Connect to database
         DatabaseManager databaseManager = new DatabaseManager();
@@ -93,8 +89,6 @@ public class User {
         //Look for user in database, and return userid if it exists
         String sql = String.format("SELECT * FROM user WHERE (email = '%s' AND password = '%s')",email,password);
         try{
-            System.out.println();
-            System.out.println("Executing Query:\n" + sql);
             PreparedStatement statement = connection.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
             ResultSet resultSet = statement.executeQuery();
 
@@ -104,7 +98,6 @@ public class User {
             {
                 resultSet.last();
                 size=resultSet.getRow();
-                System.out.println("Result contains: "+size);
             }
             else
             {
@@ -130,6 +123,10 @@ public class User {
         return 0;
     }
 
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
     public String getUsername() {
         return username;
     }
@@ -153,4 +150,5 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
 }

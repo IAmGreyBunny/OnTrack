@@ -20,7 +20,6 @@ public class DatabaseManager {
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
             databaseLink = DriverManager.getConnection(url,databaseUser,databasePassword);
-            System.out.println("Successfully Connected to Database");
         }
         catch (Exception e)
         {
@@ -28,12 +27,6 @@ public class DatabaseManager {
         }
 
         return databaseLink;
-    }
-
-    //Get resultset size
-    public static int getResultSetSize(ResultSet rs)
-    {
-        return 0;
     }
 
 }
