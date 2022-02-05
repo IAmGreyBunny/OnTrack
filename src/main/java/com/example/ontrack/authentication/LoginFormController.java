@@ -88,7 +88,7 @@ public class LoginFormController implements Initializable {
             //If user credential matched in database
             if(user != null)
             {
-                System.out.println("Successfully Logged in");
+                System.out.println("Successfully Logged in\n");
                 loginFailErrorLabel.setVisible(false);
 
                 //Close login page
