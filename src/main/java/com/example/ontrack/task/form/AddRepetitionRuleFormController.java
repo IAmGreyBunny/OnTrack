@@ -1,37 +1,44 @@
 package com.example.ontrack.task.form;
 
+import com.example.ontrack.task.form.validator.RepetitionRuleValidator;
+import com.example.ontrack.task.form.validator.TaskFormValidator;
+import com.example.ontrack.task.repetition.RepetitionRule;
 import com.example.ontrack.task.repetition.Round;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.GridPane;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class RepetitionRuleFormController implements Initializable {
+public class AddRepetitionRuleFormController implements Initializable {
     @FXML
     Button addApplyButton;
     @FXML
     Button deleteButton;
     @FXML
+    Button saveButton;
+
+    @FXML
     TextField roundNumberTextField;
     @FXML
     TextField roundIntervalTextField;
+    @FXML
+    TextField ruleNameTextField;
+
+    @FXML
+    ComboBox<String> repeatTypeDropDown;
 
     @FXML
     private TableView<Round> roundTableView;
     @FXML
-    private TableColumn<Round,Integer> roundNumber;
+    private TableColumn<Round,Integer> roundNumberColumn;
     @FXML
-    private TableColumn<Round,Integer> roundInterval;
+    private TableColumn<Round,Integer> roundIntervalColumn;
 
-    private Round currentSelectedRound;
 
     //Initialise default values for the table as example for user
     ObservableList<Round> listOfRounds = FXCollections.observableArrayList(
@@ -43,8 +50,9 @@ public class RepetitionRuleFormController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //Tie attributes of Round class to table columns
-        roundNumber.setCellValueFactory(new PropertyValueFactory<>("roundNumber"));
-        roundInterval.setCellValueFactory(new PropertyValueFactory<>("roundInterval"));
+        roundNumberColumn.setCellValueFactory(new PropertyValueFactory<>("roundNumber"));
+        roundIntervalColumn.setCellValueFactory(new PropertyValueFactory<>("roundInterval"));
+        roundIntervalColumn.setSortable(false);
 
         //Set default values
         roundTableView.setItems(listOfRounds);
@@ -56,16 +64,20 @@ public class RepetitionRuleFormController implements Initializable {
             {
                 roundNumberTextField.setText(String.valueOf(newSelection.getRoundNumber()));
                 roundIntervalTextField.setText(String.valueOf(newSelection.getRoundInterval()));
-                currentSelectedRound = obs.getValue();
             }
         });
-    }
 
+        //Set up combobox repetition types
+        repeatTypeDropDown.getItems().addAll(
+                "Repeat Last",
+                "Start Over",
+                "Do not repeat"
+        );
+    }
 
     @FXML
     private void onAddChangeButtonClick()
     {
-
         int roundNumber=0;
         int roundInterval=0;
 
@@ -76,7 +88,7 @@ public class RepetitionRuleFormController implements Initializable {
         }
 
         //Check if input value is valid
-        if(roundNumber>=1 && roundInterval>=1)
+        if(roundNumber>0 && roundInterval>0)
         {
             //If round number exist, change its round interval
             for(Round round:listOfRounds)
@@ -85,6 +97,7 @@ public class RepetitionRuleFormController implements Initializable {
                 {
                     round.setRoundInterval(roundInterval);
                     roundTableView.refresh();
+                    roundTableView.getSortOrder().add(roundNumberColumn);
                     return;
                 }
             }
@@ -92,7 +105,51 @@ public class RepetitionRuleFormController implements Initializable {
             //If round does not exist,create a new one
             listOfRounds.add(new Round(roundNumber,roundInterval));
             roundTableView.refresh();
+            roundTableView.getSortOrder().add(roundNumberColumn);
         }
+    }
+
+    @FXML
+    private void onSaveButtonClick()
+    {
+        //Sort list before doing anything else
+        roundNumberColumn.setSortType(TableColumn.SortType.ASCENDING);
+        roundTableView.getSortOrder().add(roundNumberColumn);
+
+        //Form validation
+        Boolean hasError = false;
+        String ruleName = ruleNameTextField.getText();
+        String repeatType = repeatTypeDropDown.getValue();
+        String ruleNameErrorMessage = RepetitionRuleValidator.validateName(ruleName);
+        String repeatTypeErrorMessage = RepetitionRuleValidator.validateRepeatType(repeatType);
+        String roundConsistencyErrorMessage = RepetitionRuleValidator.validateRoundConsistency(listOfRounds);
+
+        //Check for form validation errors
+        if (!roundConsistencyErrorMessage.isEmpty())
+        {
+            System.out.println(roundConsistencyErrorMessage);
+            hasError = true;
+        }
+
+        if (!ruleNameErrorMessage.isEmpty())
+        {
+            System.out.println(ruleNameErrorMessage);
+            hasError = true;
+        }
+
+        if (!repeatTypeErrorMessage.isEmpty())
+        {
+            System.out.println(repeatTypeErrorMessage);
+            hasError = true;
+        }
+
+        //If form validation is successful
+        if(!hasError)
+        {
+            RepetitionRule repetitionRule = new RepetitionRule(ruleName,repeatType,listOfRounds);
+            RepetitionRule.createRepetitionRule(repetitionRule);
+        }
+
     }
 
     //Deletes selected row
