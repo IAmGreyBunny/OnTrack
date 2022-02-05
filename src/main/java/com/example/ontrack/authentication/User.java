@@ -20,8 +20,12 @@ public class User {
     }
 
     //Creates a user entry in database, returns a true if entry is created successfully
-    public static Boolean registerUser(Connection connection,String username,String email,String password)
+    public static Boolean registerUser(String username,String email,String password)
     {
+        //Gets connection to database
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+
         //Creates query from user account information
         String sql = String.format("INSERT INTO user(username,email,password) VALUES ('%s','%s','%s')",username,email,password);
         try{
@@ -39,8 +43,12 @@ public class User {
     }
 
     //Checks if email and password combination exists
-    public static User authenticateUser(Connection connection,String email,String password)
+    public static User authenticateUser(String email,String password)
     {
+        //Database Connection
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+
         String sql = String.format("SELECT * FROM user WHERE (email = '%s' AND password = '%s')",email,password);
         try{
             System.out.println();

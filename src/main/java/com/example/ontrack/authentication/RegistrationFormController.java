@@ -117,9 +117,7 @@ public class RegistrationFormController {
         if(hasError==false)
         {
             //Database connection
-            DatabaseManager databaseManager = new DatabaseManager();
-            Connection database = databaseManager.getConnection();
-            Boolean registrationSuccess = User.registerUser(database,username,email,password);
+            Boolean registrationSuccess = User.registerUser(username,email,password);
             if(registrationSuccess)
             {
               //TO DO: registration complete alert box

@@ -9,7 +9,7 @@ public class RepetitionRuleValidator{
     public static String validateName(String name)
     {
         String errorMessage = "";
-        if(name.isEmpty())
+        if(name == null || name.isEmpty())
         {
             errorMessage = "Rule name is required";
         }
@@ -20,7 +20,7 @@ public class RepetitionRuleValidator{
     public static String validateRepeatType(String repeatType)
     {
         String errorMessage = "";
-        if(repeatType.isEmpty())
+        if(repeatType == null || repeatType.isEmpty())
         {
             errorMessage = "Repeat type is required";
         }

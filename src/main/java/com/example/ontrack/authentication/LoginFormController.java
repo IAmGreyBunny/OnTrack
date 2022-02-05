@@ -83,9 +83,7 @@ public class LoginFormController implements Initializable {
         if(hasError==false)
         {
             //Database connection, attempts to log in user
-            DatabaseManager databaseManager = new DatabaseManager();
-            Connection database = databaseManager.getConnection();
-            User user = User.authenticateUser(database,email,password);
+            User user = User.authenticateUser(email,password);
 
             //If user credential matched in database
             if(user != null)
