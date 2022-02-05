@@ -2,6 +2,7 @@ package com.example.ontrack.task.repetition;
 
 import com.example.ontrack.authentication.CurrentUser;
 import com.example.ontrack.authentication.User;
+import com.example.ontrack.database.DatabaseHelper;
 import com.example.ontrack.database.DatabaseManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -90,18 +91,9 @@ public class RepetitionRule {
         try{
             PreparedStatement statement = connection.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
             ResultSet resultSet = statement.executeQuery();
-            int size = 0;
-            if(resultSet!=null)
-            {
-                resultSet.last();
-                size=resultSet.getRow();
-            }
-            else
-            {
-                System.out.println("Query Fails");
-            }
 
-            if (size>=1)
+
+            if (DatabaseHelper.getResultSetSize(resultSet)>=1)
             {
                 resultSet.beforeFirst();
                 while(resultSet.next())
@@ -144,20 +136,8 @@ public class RepetitionRule {
                 PreparedStatement statement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
                 ResultSet resultSet = statement.executeQuery();
 
-                //Get size of query
-                int size = 0;
-                if(resultSet!=null)
-                {
-                    resultSet.last();
-                    size=resultSet.getRow();
-                }
-                else
-                {
-                    System.out.println("Query Fails");
-                }
-
                 //If rule exist, return ruleid
-                if (size>=1)
+                if (DatabaseHelper.getResultSetSize(resultSet)>=1)
                 {
                     this.ruleId = resultSet.getInt("ruleId");
                     return ruleId;
@@ -218,18 +198,8 @@ public class RepetitionRule {
             try{
                 PreparedStatement statement = connection.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
                 ResultSet resultSet = statement.executeQuery();
-                int size = 0;
-                if(resultSet!=null)
-                {
-                    resultSet.last();
-                    size=resultSet.getRow();
-                }
-                else
-                {
-                    System.out.println("Query Fails");
-                }
 
-                if (size>=1)
+                if (DatabaseHelper.getResultSetSize(resultSet)>=1)
                 {
                     resultSet.beforeFirst();
                     while(resultSet.next())

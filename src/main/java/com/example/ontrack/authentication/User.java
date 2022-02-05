@@ -1,5 +1,6 @@
 package com.example.ontrack.authentication;
 
+import com.example.ontrack.database.DatabaseHelper;
 import com.example.ontrack.database.DatabaseManager;
 
 import java.sql.Connection;
@@ -54,14 +55,7 @@ public class User {
         try{
             PreparedStatement statement = connection.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
             ResultSet resultSet = statement.executeQuery();
-            int size = 0;
-            if(resultSet!=null)
-            {
-                resultSet.last();
-                size=resultSet.getRow();
-            }
-
-            if (size>=1)
+            if (DatabaseHelper.getResultSetSize(resultSet) >=1)
             {
                 User user = new User(resultSet.getString("username"),resultSet.getString("email"),resultSet.getString("password"));
                 user.getUserId();
@@ -92,20 +86,9 @@ public class User {
             PreparedStatement statement = connection.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
             ResultSet resultSet = statement.executeQuery();
 
-            //Check if user exists
-            int size = 0;
-            if(resultSet!=null)
-            {
-                resultSet.last();
-                size=resultSet.getRow();
-            }
-            else
-            {
-                System.out.println("Query Fails");
-            }
 
             //If user exist, return the uid
-            if (size>=1)
+            if (DatabaseHelper.getResultSetSize(resultSet)>=1)
             {
                 int uid = resultSet.getInt("userId");
                 return uid;

@@ -45,8 +45,9 @@ public class LoginFormController implements Initializable {
         loginPasswordTextField.setText("P@ssword1234");
     }
 
+    //On Login Button Clicked
     @FXML
-    private void onLogin()
+    private void onLoginButtonClicked()
     {
         //Flag for form validation
         Boolean hasError = false;
