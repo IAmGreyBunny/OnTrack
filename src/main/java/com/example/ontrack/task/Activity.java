@@ -3,28 +3,25 @@ package com.example.ontrack.task;
 import com.example.ontrack.authentication.CurrentUser;
 import com.example.ontrack.database.DatabaseHelper;
 import com.example.ontrack.database.DatabaseManager;
-import com.example.ontrack.repetition.RepetitionRule;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-public class Exam extends Task {
-    private int examId;
-    private String subject;
+public class Activity extends Task {
+    private int activityId;
     private String venue;
 
-    public Exam(String name, String desc, String venue, String subject)
+    public Activity(String name, String desc, String venue)
     {
         this.taskName=name;
         this.description = desc;
-        this.subject=subject;
         this.venue=venue;
     }
 
     //Create lesson in database
-    public void createExamInDb()
+    public void createActivityInDb()
     {
         //Gets connection to database
         DatabaseManager databaseManager = new DatabaseManager();
@@ -35,12 +32,11 @@ public class Exam extends Task {
         int currentUid = CurrentUser.getInstance().getUser().getUserId();
 
         //Add repetition rule into database
-        sql = String.format("INSERT INTO Exams(userId,name,description,venue,subject,status) VALUES (%s,'%s','%s','%s','%s',%s)",
+        sql = String.format("INSERT INTO Activities(userId,name,description,venue,status) VALUES (%s,'%s','%s','%s',%s)",
                 currentUid,
                 this.taskName,
                 this.description,
                 this.venue,
-                this.subject,
                 0);
         try{
             Statement statement = connection.createStatement();
@@ -52,10 +48,10 @@ public class Exam extends Task {
         }
     }
 
-    public int getExamId() {
-        if(this.examId != 0)
+    public int getActivityId() {
+        if(this.activityId != 0)
         {
-            return examId;
+            return activityId;
         }
         else
         {
@@ -68,7 +64,7 @@ public class Exam extends Task {
             int currentUid = CurrentUser.getInstance().getUser().getUserId();
 
             //Look for rule name with the same user id as current user
-            sql = String.format("SELECT * FROM Exams WHERE (name = '%s' AND userId = '%s')",this.taskName,currentUid);
+            sql = String.format("SELECT * FROM Activities WHERE (name = '%s' AND userId = '%s')",this.taskName,currentUid);
             try{
                 PreparedStatement statement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
                 ResultSet resultSet = statement.executeQuery();
@@ -76,8 +72,8 @@ public class Exam extends Task {
                 //If rule exist, return ruleid
                 if (DatabaseHelper.getResultSetSize(resultSet)>=1)
                 {
-                    this.examId = resultSet.getInt("examId");
-                    return examId;
+                    this.activityId = resultSet.getInt("activityId");
+                    return activityId;
                 }
                 else
                 {
@@ -92,16 +88,8 @@ public class Exam extends Task {
         }
     }
 
-    public void setExamId(int examId) {
-        this.examId = examId;
-    }
-
-    public String getSubject() {
-        return subject;
-    }
-
-    public void setSubject(String subject) {
-        this.subject = subject;
+    public void setActivityId(int activityId) {
+        this.activityId = activityId;
     }
 
     public String getVenue() {

@@ -46,22 +46,6 @@ public class AddExamFormController implements IBackButton, Initializable {
     }
 
     @FXML
-    public void loadEditRepetitionRuleForm()
-    {
-
-    }
-
-    @FXML
-    public void loadAddRepetitionRuleForm() throws IOException {
-        Stage stage = new Stage();
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("task/form/AddRepetitionRuleForm.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
-        stage.setScene(scene);
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.show();
-    }
-
-    @FXML
     public void onBackButtonClicked()
     {
         Parent form;
@@ -109,7 +93,10 @@ public class AddExamFormController implements IBackButton, Initializable {
         {
             errorMessage += examSubjectError + "\n";
         }
-
+        if(!examVenueError.isEmpty())
+        {
+            errorMessage += examVenueError + "\n";
+        }
         if(!errorMessage.isEmpty())
         {
             //TO DO: ERROR MESSAGE BOX TO BE IMPLEMENTED LATER
