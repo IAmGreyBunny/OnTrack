@@ -1,9 +1,9 @@
-package com.example.ontrack.task.form.validator;
+package com.example.ontrack.repetition;
 
-import com.example.ontrack.task.repetition.Round;
+import com.example.ontrack.repetition.Round;
 import javafx.collections.ObservableList;
 
-public class RepetitionRuleValidator{
+public class RepetitionRuleFormValidator {
 
     //Check name
     public static String validateName(String name)

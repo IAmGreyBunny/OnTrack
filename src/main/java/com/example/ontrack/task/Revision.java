@@ -10,23 +10,21 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-public class Lesson extends RepeatableTask {
-    private int lessonId;
+public class Revision extends RepeatableTask {
+    private int revisionId;
     private String subject;
-    private String venue;
 
-    public Lesson(String name, String subject,String desc, String venue, RepetitionRule repetitionRule)
+    public Revision(String name, String subject, String desc, RepetitionRule repetitionRule)
     {
         this.taskName=name;
         this.description = desc;
         this.subject=subject;
-        this.venue=venue;
         this.repetitionRule = repetitionRule;
         this.currentRound=1;
     }
 
     //Create lesson in database
-    public void createLessonInDb()
+    public void createRevisionInDb()
     {
         //Gets connection to database
         DatabaseManager databaseManager = new DatabaseManager();
@@ -37,7 +35,7 @@ public class Lesson extends RepeatableTask {
         int currentUid = CurrentUser.getInstance().getUser().getUserId();
 
         //Add repetition rule into database
-        sql = String.format("INSERT INTO lessons(userId,name,description,status,round) VALUES (%s,'%s','%s',%s,%s)",
+        sql = String.format("INSERT INTO revisions(userId,name,description,status,round) VALUES (%s,'%s','%s',%s,%s)",
                 currentUid,
                 this.taskName,
                 this.description,
@@ -61,9 +59,9 @@ public class Lesson extends RepeatableTask {
         String sql = "";
 
         //Add repetition rule into database
-        sql = String.format("UPDATE lessons SET repetitionRuleId = %s WHERE lessonId = %s",
+        sql = String.format("UPDATE revisions SET repetitionRuleId = %s WHERE revisionId = %s",
                 repetitionRule.getRuleId(),
-                this.getLessonId()
+                this.getRevisionIdId()
         );
         try{
             Statement statement = connection.createStatement();
@@ -77,10 +75,10 @@ public class Lesson extends RepeatableTask {
         }
     }
 
-    public int getLessonId() {
-        if(this.lessonId != 0)
+    public int getRevisionIdId() {
+        if(this.revisionId != 0)
         {
-            return lessonId;
+            return revisionId;
         }
         else
         {
@@ -93,7 +91,7 @@ public class Lesson extends RepeatableTask {
             int currentUid = CurrentUser.getInstance().getUser().getUserId();
 
             //Look for rule name with the same user id as current user
-            sql = String.format("SELECT * FROM lessons WHERE (name = '%s' AND userId = '%s')",this.taskName,currentUid);
+            sql = String.format("SELECT * FROM revisions WHERE (name = '%s' AND userId = '%s')",this.taskName,currentUid);
             try{
                 PreparedStatement statement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
                 ResultSet resultSet = statement.executeQuery();
@@ -101,8 +99,8 @@ public class Lesson extends RepeatableTask {
                 //If rule exist, return ruleid
                 if (DatabaseHelper.getResultSetSize(resultSet)>=1)
                 {
-                    this.lessonId = resultSet.getInt("lessonId");
-                    return lessonId;
+                    this.revisionId = resultSet.getInt("revisionId");
+                    return revisionId;
                 }
                 else
                 {
@@ -117,8 +115,8 @@ public class Lesson extends RepeatableTask {
         }
     }
 
-    public void setLessonId(int lessonId) {
-        this.lessonId = lessonId;
+    public void setRevisionId(int lessonId) {
+        this.revisionId = lessonId;
     }
 
     public String getSubject() {
@@ -127,14 +125,6 @@ public class Lesson extends RepeatableTask {
 
     public void setSubject(String subject) {
         this.subject = subject;
-    }
-
-    public String getVenue() {
-        return venue;
-    }
-
-    public void setVenue(String venue) {
-        this.venue = venue;
     }
 
     @Override

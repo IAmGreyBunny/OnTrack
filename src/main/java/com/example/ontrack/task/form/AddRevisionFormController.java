@@ -2,8 +2,8 @@ package com.example.ontrack.task.form;
 
 import com.example.ontrack.IBackButton;
 import com.example.ontrack.Main;
-import com.example.ontrack.task.Lesson;
-import com.example.ontrack.task.form.validator.LessonTaskFormValidator;
+import com.example.ontrack.task.Revision;
+import com.example.ontrack.task.form.validator.RevisionTaskFormValidator;
 import com.example.ontrack.repetition.RepetitionRule;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -24,7 +24,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class AddLessonFormController implements IBackButton, Initializable {
+public class AddRevisionFormController implements IBackButton, Initializable {
     @FXML
     Button backButton;
     @FXML
@@ -35,13 +35,11 @@ public class AddLessonFormController implements IBackButton, Initializable {
     Button saveTaskButton;
 
     @FXML
-    TextField lessonNameTextField;
+    TextField revisionNameTextField;
     @FXML
-    TextArea lessonDescTextArea;
+    TextArea revisionDescTextArea;
     @FXML
-    TextField lessonSubjectTextField;
-    @FXML
-    TextField lessonVenueTextField;
+    TextField revisionSubjectTextField;
 
     @FXML
     ComboBox<RepetitionRule> repetitionRuleDropDown;
@@ -132,46 +130,39 @@ public class AddLessonFormController implements IBackButton, Initializable {
     public void onSaveTaskButtonClicked()
     {
         //Gets user input
-        String lessonName = lessonNameTextField.getText();
-        String lessonDesc = lessonDescTextArea.getText();
-        String lessonSubject = lessonSubjectTextField.getText();
-        String lessonVenue = lessonVenueTextField.getText();
-        RepetitionRule lessonRepetitionRule = repetitionRuleDropDown.getValue();
+        String revisionName = revisionNameTextField.getText();
+        String revisionDesc = revisionDescTextArea.getText();
+        String revisionSubject = revisionSubjectTextField.getText();
+        RepetitionRule revisionRepetitionRule = repetitionRuleDropDown.getValue();
 
         //Create error messages
-        String lessonNameError = "";
-        String lessonDescError = "";
-        String lessonSubjectError = "";
-        String lessonVenueError = "";
-        String lessonRepetitionRuleError = "";
+        String revisionNameError = "";
+        String revisionDescError = "";
+        String revisionSubjectError = "";
+        String revisionRepetitionRuleError = "";
         String errorMessage = "";
 
         //Validate user input
-        lessonNameError = LessonTaskFormValidator.validateTaskName(lessonName);
-        lessonDescError = LessonTaskFormValidator.validateTaskDesc(lessonDesc);
-        lessonSubjectError = LessonTaskFormValidator.validateSubject(lessonSubject);
-        lessonVenueError = LessonTaskFormValidator.validateVenue(lessonVenue);
-        lessonRepetitionRuleError = LessonTaskFormValidator.validateRepetitionRule(lessonRepetitionRule);
+        revisionNameError = RevisionTaskFormValidator.validateTaskName(revisionName);
+        revisionDescError = RevisionTaskFormValidator.validateTaskDesc(revisionDesc);
+        revisionSubjectError = RevisionTaskFormValidator.validateSubject(revisionSubject);
+        revisionRepetitionRuleError = RevisionTaskFormValidator.validateRepetitionRule(revisionRepetitionRule);
 
-        if(!lessonNameError.isEmpty())
+        if(!revisionNameError.isEmpty())
         {
-            errorMessage += lessonNameError + "\n";
+            errorMessage += revisionNameError + "\n";
         }
-        if(!lessonDescError.isEmpty())
+        if(!revisionDescError.isEmpty())
         {
-            errorMessage += lessonDescError + "\n";
+            errorMessage += revisionDescError + "\n";
         }
-        if(!lessonSubjectError.isEmpty())
+        if(!revisionSubjectError.isEmpty())
         {
-            errorMessage += lessonSubjectError + "\n";
+            errorMessage += revisionSubjectError + "\n";
         }
-        if(!lessonVenueError.isEmpty())
+        if(!revisionRepetitionRuleError.isEmpty())
         {
-            errorMessage += lessonVenueError + "\n";
-        }
-        if(!lessonRepetitionRuleError.isEmpty())
-        {
-            errorMessage += lessonRepetitionRuleError + "\n";
+            errorMessage += revisionRepetitionRuleError + "\n";
         }
 
         if(!errorMessage.isEmpty())
@@ -181,9 +172,9 @@ public class AddLessonFormController implements IBackButton, Initializable {
         }
         else
         {
-            Lesson lesson = new Lesson(lessonName,lessonDesc,lessonSubject,lessonVenue,lessonRepetitionRule);
-            lesson.createLessonInDb();
-            lesson.setRepetitionRule(lessonRepetitionRule);
+            Revision revision = new Revision(revisionName,revisionDesc,revisionSubject,revisionRepetitionRule);
+            revision.createRevisionInDb();
+            revision.setRepetitionRule(revisionRepetitionRule);
         }
 
     }

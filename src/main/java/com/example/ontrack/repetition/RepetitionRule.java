@@ -1,7 +1,6 @@
-package com.example.ontrack.task.repetition;
+package com.example.ontrack.repetition;
 
 import com.example.ontrack.authentication.CurrentUser;
-import com.example.ontrack.authentication.User;
 import com.example.ontrack.database.DatabaseHelper;
 import com.example.ontrack.database.DatabaseManager;
 import javafx.collections.FXCollections;
@@ -11,7 +10,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.List;
 
 public class RepetitionRule {
     private int userId;
@@ -37,7 +35,7 @@ public class RepetitionRule {
 
 
     //Create repetition rule in database
-    public static boolean createRepetitionRule(RepetitionRule repetitionRule)
+    public boolean createRepetitionRuleInDb(RepetitionRule repetitionRule)
     {
         boolean success = true;
         //Gets connection to database
@@ -49,7 +47,7 @@ public class RepetitionRule {
         int currentUid = CurrentUser.getInstance().getUser().getUserId();
 
         //Add repetition rule into database
-        sql = String.format("INSERT INTO repetitionRule(ruleName,repeatType,userid) VALUES ('%s','%s',%s)",repetitionRule.ruleName,repetitionRule.repeatType, currentUid);
+        sql = String.format("INSERT INTO repetitionRules(ruleName,repeatType,userid) VALUES ('%s','%s',%s)",this.ruleName,this.repeatType, currentUid);
         try{
             Statement statement = connection.createStatement();
             statement.executeUpdate(sql);
@@ -63,7 +61,7 @@ public class RepetitionRule {
         //Add round info of repetition rule into database
         for(Round round: repetitionRule.rounds)
         {
-            sql = String.format("INSERT INTO Rounds(ruleId,roundNumber,roundInterval) VALUES (%s,%s,%s)",repetitionRule.getRuleId(),round.getRoundNumber(), round.getRoundInterval());
+            sql = String.format("INSERT INTO Rounds(ruleId,roundNumber,roundInterval) VALUES (%s,%s,%s)",this.getRuleId(),round.getRoundNumber(), round.getRoundInterval());
             try{
                 Statement statement = connection.createStatement();
                 statement.executeUpdate(sql);
@@ -87,7 +85,7 @@ public class RepetitionRule {
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
 
-        String sql = String.format("SELECT * FROM repetitionRule WHERE (userId = %s)",CurrentUser.getInstance().getUser().getUserId());
+        String sql = String.format("SELECT * FROM repetitionRules WHERE (userId = %s)",CurrentUser.getInstance().getUser().getUserId());
         try{
             PreparedStatement statement = connection.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
             ResultSet resultSet = statement.executeQuery();
@@ -114,8 +112,9 @@ public class RepetitionRule {
 
     public int getRuleId()
     {
-
-        //If ruleid exist, return ruleid, else find ruleid from database and return it
+        // If ruleid exist,ruleid can never be null,only 0,
+        // return ruleid, else find ruleid from database and return it
+        // ruleid can never be null,only 0,
         if(this.ruleId!=0)
         {
             return this.ruleId;
@@ -131,7 +130,7 @@ public class RepetitionRule {
             int currentUid = CurrentUser.getInstance().getUser().getUserId();
 
             //Look for rule name with the same user id as current user
-            sql = String.format("SELECT * FROM repetitionRule WHERE (ruleName = '%s' AND userId = '%s')",this.getRuleName(),currentUid);
+            sql = String.format("SELECT * FROM repetitionRules WHERE (ruleName = '%s' AND userId = '%s')",this.getRuleName(),currentUid);
             try{
                 PreparedStatement statement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
                 ResultSet resultSet = statement.executeQuery();
@@ -150,9 +149,10 @@ public class RepetitionRule {
             catch(Exception e)
             {
                 e.printStackTrace();
+                return 0;
             }
         }
-        return 0;
+
     }
 
     public void setRuleId(int ruleId)

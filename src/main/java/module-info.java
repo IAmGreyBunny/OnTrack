@@ -15,9 +15,9 @@ module com.example.OnTrack {
     opens com.example.ontrack to javafx.fxml;
     exports com.example.ontrack;
     exports com.example.ontrack.authentication;
-    opens com.example.ontrack.task to javafx.fxml;
     opens com.example.ontrack.main to javafx.fxml;
     opens com.example.ontrack.authentication to javafx.fxml;
     opens com.example.ontrack.task.form to javafx.fxml;
-    opens com.example.ontrack.task.repetition to javafx.fxml, javafx.base;
+    opens com.example.ontrack.repetition to javafx.fxml, javafx.base;
+    opens com.example.ontrack.task to javafx.base, javafx.fxml;
 }

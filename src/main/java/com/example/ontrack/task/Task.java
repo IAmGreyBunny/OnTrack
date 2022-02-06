@@ -1,7 +1,7 @@
 package com.example.ontrack.task;
 
 public class Task {
-    String taskName;
-    String description;
-    Boolean status;
+    protected String taskName;
+    protected String description;
+    protected Boolean status;
 }

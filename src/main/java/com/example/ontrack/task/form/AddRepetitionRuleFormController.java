@@ -1,9 +1,8 @@
 package com.example.ontrack.task.form;
 
-import com.example.ontrack.task.form.validator.RepetitionRuleValidator;
-import com.example.ontrack.task.form.validator.TaskFormValidator;
-import com.example.ontrack.task.repetition.RepetitionRule;
-import com.example.ontrack.task.repetition.Round;
+import com.example.ontrack.repetition.RepetitionRuleFormValidator;
+import com.example.ontrack.repetition.RepetitionRule;
+import com.example.ontrack.repetition.Round;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -120,9 +119,9 @@ public class AddRepetitionRuleFormController implements Initializable {
         Boolean hasError = false;
         String ruleName = ruleNameTextField.getText();
         String repeatType = repeatTypeDropDown.getValue();
-        String ruleNameErrorMessage = RepetitionRuleValidator.validateName(ruleName);
-        String repeatTypeErrorMessage = RepetitionRuleValidator.validateRepeatType(repeatType);
-        String roundConsistencyErrorMessage = RepetitionRuleValidator.validateRoundConsistency(listOfRounds);
+        String ruleNameErrorMessage = RepetitionRuleFormValidator.validateName(ruleName);
+        String repeatTypeErrorMessage = RepetitionRuleFormValidator.validateRepeatType(repeatType);
+        String roundConsistencyErrorMessage = RepetitionRuleFormValidator.validateRoundConsistency(listOfRounds);
 
         //Check for form validation errors
         if (!roundConsistencyErrorMessage.isEmpty())
@@ -147,7 +146,7 @@ public class AddRepetitionRuleFormController implements Initializable {
         if(!hasError)
         {
             RepetitionRule repetitionRule = new RepetitionRule(ruleName,repeatType,listOfRounds);
-            RepetitionRule.createRepetitionRule(repetitionRule);
+            repetitionRule.createRepetitionRuleInDb(repetitionRule);
         }
 
     }

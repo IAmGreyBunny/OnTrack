@@ -1,4 +1,4 @@
-package com.example.ontrack.task.repetition;
+package com.example.ontrack.repetition;
 
 public class Round {
     private int roundNumber;
