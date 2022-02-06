@@ -10,23 +10,21 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-public class Lesson extends RepeatableTask {
-    private int lessonId;
+public class Exam extends Task {
+    private int examId;
     private String subject;
     private String venue;
 
-    public Lesson(String name, String subject,String desc, String venue, RepetitionRule repetitionRule)
+    public Exam(String name, String desc, String venue, String subject)
     {
         this.taskName=name;
         this.description = desc;
         this.subject=subject;
         this.venue=venue;
-        this.repetitionRule = repetitionRule;
-        this.currentRound=1;
     }
 
     //Create lesson in database
-    public void createLessonInDb()
+    public void createExamInDb()
     {
         //Gets connection to database
         DatabaseManager databaseManager = new DatabaseManager();
@@ -37,13 +35,13 @@ public class Lesson extends RepeatableTask {
         int currentUid = CurrentUser.getInstance().getUser().getUserId();
 
         //Add repetition rule into database
-        sql = String.format("INSERT INTO lessons(userId,name,description,venue,status,round) VALUES (%s,'%s','%s','%s',%s,%s)",
+        sql = String.format("INSERT INTO Exams(userId,name,description,venue,subject,status) VALUES (%s,'%s','%s','%s','%s',%s)",
                 currentUid,
                 this.taskName,
                 this.description,
                 this.venue,
-                0,
-                this.currentRound);
+                this.subject,
+                0);
         try{
             Statement statement = connection.createStatement();
             statement.executeUpdate(sql);
@@ -54,34 +52,10 @@ public class Lesson extends RepeatableTask {
         }
     }
 
-    @Override
-    public void setRepetitionRule(RepetitionRule repetitionRule) {
-        //Gets connection to database
-        DatabaseManager databaseManager = new DatabaseManager();
-        Connection connection = databaseManager.getConnection();
-        String sql = "";
-
-        //Add repetition rule into database
-        sql = String.format("UPDATE lessons SET repetitionRuleId = %s WHERE lessonId = %s",
-                repetitionRule.getRuleId(),
-                this.getLessonId()
-        );
-        try{
-            Statement statement = connection.createStatement();
-            statement.executeUpdate(sql);
-            //If repetition rule is successfully linked in db, set current lesson object repetition rule to the same one
-            this.repetitionRule = repetitionRule;
-        }
-        catch(Exception e)
+    public int getExamId() {
+        if(this.examId != 0)
         {
-            e.printStackTrace();
-        }
-    }
-
-    public int getLessonId() {
-        if(this.lessonId != 0)
-        {
-            return lessonId;
+            return examId;
         }
         else
         {
@@ -94,7 +68,7 @@ public class Lesson extends RepeatableTask {
             int currentUid = CurrentUser.getInstance().getUser().getUserId();
 
             //Look for rule name with the same user id as current user
-            sql = String.format("SELECT * FROM lessons WHERE (name = '%s' AND userId = '%s')",this.taskName,currentUid);
+            sql = String.format("SELECT * FROM Exams WHERE (name = '%s' AND userId = '%s')",this.taskName,currentUid);
             try{
                 PreparedStatement statement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
                 ResultSet resultSet = statement.executeQuery();
@@ -102,8 +76,8 @@ public class Lesson extends RepeatableTask {
                 //If rule exist, return ruleid
                 if (DatabaseHelper.getResultSetSize(resultSet)>=1)
                 {
-                    this.lessonId = resultSet.getInt("lessonId");
-                    return lessonId;
+                    this.examId = resultSet.getInt("examId");
+                    return examId;
                 }
                 else
                 {
@@ -118,8 +92,8 @@ public class Lesson extends RepeatableTask {
         }
     }
 
-    public void setLessonId(int lessonId) {
-        this.lessonId = lessonId;
+    public void setExamId(int lessonId) {
+        this.examId = lessonId;
     }
 
     public String getSubject() {
@@ -136,20 +110,5 @@ public class Lesson extends RepeatableTask {
 
     public void setVenue(String venue) {
         this.venue = venue;
-    }
-
-    @Override
-    public Task getPreviousTask(Task currentTask) {
-        return null;
-    }
-
-    @Override
-    public Task getNextTask(Task currentTask) {
-        return null;
-    }
-
-    @Override
-    public Task createNextTask(Task currentTask) {
-        return null;
     }
 }
