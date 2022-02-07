@@ -11,6 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
@@ -19,6 +20,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 public class AddActivityFormController implements IBackButton, Initializable {
@@ -33,6 +36,8 @@ public class AddActivityFormController implements IBackButton, Initializable {
     TextArea activityDescTextArea;
     @FXML
     TextField activityVenueTextField;
+    @FXML
+    DatePicker activityDatePicker;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -59,6 +64,7 @@ public class AddActivityFormController implements IBackButton, Initializable {
         String activityName = activityNameTextField.getText();
         String activityDesc = activityDescTextArea.getText();
         String activityVenue = activityVenueTextField.getText();
+        LocalDate activityDate = activityDatePicker.getValue();
 
         //Create error messages
         String activityNameError = "";
@@ -90,7 +96,7 @@ public class AddActivityFormController implements IBackButton, Initializable {
         }
         else
         {
-            Activity activity = new Activity(activityName,activityDesc,activityVenue);
+            Activity activity = new Activity(activityName,activityDesc,activityVenue,activityDate);
             activity.createActivityInDb();
         }
 

@@ -11,10 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -22,6 +19,7 @@ import javafx.util.StringConverter;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class AddRevisionFormController implements IBackButton, Initializable {
@@ -40,6 +38,8 @@ public class AddRevisionFormController implements IBackButton, Initializable {
     TextArea revisionDescTextArea;
     @FXML
     TextField revisionSubjectTextField;
+    @FXML
+    DatePicker revisionStartDatePicker;
 
     @FXML
     ComboBox<RepetitionRule> repetitionRuleDropDown;
@@ -134,6 +134,7 @@ public class AddRevisionFormController implements IBackButton, Initializable {
         String revisionDesc = revisionDescTextArea.getText();
         String revisionSubject = revisionSubjectTextField.getText();
         RepetitionRule revisionRepetitionRule = repetitionRuleDropDown.getValue();
+        LocalDate revisionStartDate = revisionStartDatePicker.getValue();
 
         //Create error messages
         String revisionNameError = "";
@@ -172,7 +173,7 @@ public class AddRevisionFormController implements IBackButton, Initializable {
         }
         else
         {
-            Revision revision = new Revision(revisionName,revisionDesc,revisionSubject,revisionRepetitionRule);
+            Revision revision = new Revision(revisionName,revisionDesc,revisionSubject,revisionRepetitionRule,revisionStartDate);
             revision.createRevisionInDb();
             revision.setRepetitionRule(revisionRepetitionRule);
         }

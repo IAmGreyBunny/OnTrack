@@ -13,10 +13,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -24,6 +21,7 @@ import javafx.util.StringConverter;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class AddExamFormController implements IBackButton, Initializable {
@@ -40,6 +38,8 @@ public class AddExamFormController implements IBackButton, Initializable {
     TextField examVenueTextField;
     @FXML
     TextField examSubjectTextField;
+    @FXML
+    DatePicker examDatePicker;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -67,6 +67,7 @@ public class AddExamFormController implements IBackButton, Initializable {
         String examDesc = examDescTextArea.getText();
         String examSubject = examSubjectTextField.getText();
         String examVenue = examVenueTextField.getText();
+        LocalDate examDate = examDatePicker.getValue();
 
         //Create error messages
         String examNameError = "";
@@ -104,7 +105,7 @@ public class AddExamFormController implements IBackButton, Initializable {
         }
         else
         {
-            Exam exam = new Exam(examName,examDesc,examSubject,examVenue);
+            Exam exam = new Exam(examName,examDesc,examSubject,examVenue,examDate);
             exam.createExamInDb();
         }
 

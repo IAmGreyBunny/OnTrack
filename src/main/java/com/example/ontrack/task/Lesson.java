@@ -9,19 +9,22 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.time.LocalDate;
 
 public class Lesson extends RepeatableTask {
     private int lessonId;
     private String subject;
     private String venue;
+    private LocalDate date;
 
-    public Lesson(String name, String subject,String desc, String venue, RepetitionRule repetitionRule)
+    public Lesson(String name, String subject,String desc, String venue, RepetitionRule repetitionRule,LocalDate date)
     {
         this.taskName=name;
         this.description = desc;
         this.subject=subject;
         this.venue=venue;
         this.repetitionRule = repetitionRule;
+        this.date=date;
         this.currentRound=1;
     }
 
@@ -37,13 +40,14 @@ public class Lesson extends RepeatableTask {
         int currentUid = CurrentUser.getInstance().getUser().getUserId();
 
         //Add repetition rule into database
-        sql = String.format("INSERT INTO lessons(userId,name,description,venue,status,round) VALUES (%s,'%s','%s','%s',%s,%s)",
+        sql = String.format("INSERT INTO lessons(userId,name,description,venue,status,round,lessonDate) VALUES (%s,'%s','%s','%s',%s,%s,'%s')",
                 currentUid,
                 this.taskName,
                 this.description,
                 this.venue,
                 0,
-                this.currentRound);
+                this.currentRound,
+                this.date.toString());
         try{
             Statement statement = connection.createStatement();
             statement.executeUpdate(sql);
@@ -94,7 +98,7 @@ public class Lesson extends RepeatableTask {
             int currentUid = CurrentUser.getInstance().getUser().getUserId();
 
             //Look for rule name with the same user id as current user
-            sql = String.format("SELECT * FROM lessons WHERE (name = '%s' AND userId = '%s')",this.taskName,currentUid);
+            sql = String.format("SELECT * FROM lessons WHERE (name = '%s' AND userId = '%s' AND lessonDate='%s')",this.taskName,currentUid,this.date.toString());
             try{
                 PreparedStatement statement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
                 ResultSet resultSet = statement.executeQuery();

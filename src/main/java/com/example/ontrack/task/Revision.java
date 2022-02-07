@@ -9,18 +9,21 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.time.LocalDate;
 
 public class Revision extends RepeatableTask {
     private int revisionId;
     private String subject;
+    private LocalDate date;
 
-    public Revision(String name, String subject, String desc, RepetitionRule repetitionRule)
+    public Revision(String name, String subject, String desc, RepetitionRule repetitionRule, LocalDate date)
     {
         this.taskName=name;
         this.description = desc;
         this.subject=subject;
         this.repetitionRule = repetitionRule;
         this.currentRound=1;
+        this.date = date;
     }
 
     //Create lesson in database
@@ -35,12 +38,13 @@ public class Revision extends RepeatableTask {
         int currentUid = CurrentUser.getInstance().getUser().getUserId();
 
         //Add repetition rule into database
-        sql = String.format("INSERT INTO revisions(userId,name,description,status,round) VALUES (%s,'%s','%s',%s,%s)",
+        sql = String.format("INSERT INTO revisions(userId,name,description,status,round,revisionDate) VALUES (%s,'%s','%s',%s,%s,'%s')",
                 currentUid,
                 this.taskName,
                 this.description,
                 0,
-                this.currentRound);
+                this.currentRound,
+                this.date.toString());
         try{
             Statement statement = connection.createStatement();
             statement.executeUpdate(sql);
@@ -61,7 +65,7 @@ public class Revision extends RepeatableTask {
         //Add repetition rule into database
         sql = String.format("UPDATE revisions SET repetitionRuleId = %s WHERE revisionId = %s",
                 repetitionRule.getRuleId(),
-                this.getRevisionIdId()
+                this.getRevisionId()
         );
         try{
             Statement statement = connection.createStatement();
@@ -75,7 +79,7 @@ public class Revision extends RepeatableTask {
         }
     }
 
-    public int getRevisionIdId() {
+    public int getRevisionId() {
         if(this.revisionId != 0)
         {
             return revisionId;
@@ -91,7 +95,7 @@ public class Revision extends RepeatableTask {
             int currentUid = CurrentUser.getInstance().getUser().getUserId();
 
             //Look for rule name with the same user id as current user
-            sql = String.format("SELECT * FROM revisions WHERE (name = '%s' AND userId = '%s')",this.taskName,currentUid);
+            sql = String.format("SELECT * FROM revisions WHERE (name = '%s' AND userId = '%s' AND  revisionDate = '%s')",this.taskName,currentUid,this.date);
             try{
                 PreparedStatement statement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
                 ResultSet resultSet = statement.executeQuery();

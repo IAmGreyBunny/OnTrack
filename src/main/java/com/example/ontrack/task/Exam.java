@@ -9,18 +9,21 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.time.LocalDate;
 
 public class Exam extends Task {
     private int examId;
     private String subject;
     private String venue;
+    private LocalDate date;
 
-    public Exam(String name, String desc, String venue, String subject)
+    public Exam(String name, String desc, String venue, String subject,LocalDate date)
     {
         this.taskName=name;
         this.description = desc;
         this.subject=subject;
         this.venue=venue;
+        this.date = date;
     }
 
     //Create lesson in database
@@ -35,13 +38,14 @@ public class Exam extends Task {
         int currentUid = CurrentUser.getInstance().getUser().getUserId();
 
         //Add repetition rule into database
-        sql = String.format("INSERT INTO Exams(userId,name,description,venue,subject,status) VALUES (%s,'%s','%s','%s','%s',%s)",
+        sql = String.format("INSERT INTO Exams(userId,name,description,venue,subject,status,examDate) VALUES (%s,'%s','%s','%s','%s',%s,'%s')",
                 currentUid,
                 this.taskName,
                 this.description,
                 this.venue,
                 this.subject,
-                0);
+                0,
+                this.date.toString());
         try{
             Statement statement = connection.createStatement();
             statement.executeUpdate(sql);

@@ -11,10 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -22,6 +19,7 @@ import javafx.util.StringConverter;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class AddLessonFormController implements IBackButton, Initializable {
@@ -42,12 +40,15 @@ public class AddLessonFormController implements IBackButton, Initializable {
     TextField lessonSubjectTextField;
     @FXML
     TextField lessonVenueTextField;
+    @FXML
+    DatePicker lessonStartDatePicker;
 
     @FXML
     ComboBox<RepetitionRule> repetitionRuleDropDown;
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    public void initialize(URL url, ResourceBundle resourceBundle)
+    {
 
         //Setup repetitionRuleDropDown combobox with user listofrepetitionrules
         //String converter required for displaying RepetitionRule object as string
@@ -137,6 +138,7 @@ public class AddLessonFormController implements IBackButton, Initializable {
         String lessonSubject = lessonSubjectTextField.getText();
         String lessonVenue = lessonVenueTextField.getText();
         RepetitionRule lessonRepetitionRule = repetitionRuleDropDown.getValue();
+        LocalDate lessonStartDate = lessonStartDatePicker.getValue();
 
         //Create error messages
         String lessonNameError = "";
@@ -181,7 +183,7 @@ public class AddLessonFormController implements IBackButton, Initializable {
         }
         else
         {
-            Lesson lesson = new Lesson(lessonName,lessonDesc,lessonSubject,lessonVenue,lessonRepetitionRule);
+            Lesson lesson = new Lesson(lessonName,lessonDesc,lessonSubject,lessonVenue,lessonRepetitionRule,lessonStartDate);
             lesson.createLessonInDb();
             lesson.setRepetitionRule(lessonRepetitionRule);
         }

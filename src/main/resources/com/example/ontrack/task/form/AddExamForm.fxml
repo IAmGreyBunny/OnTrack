@@ -76,7 +76,7 @@
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <DatePicker editable="false" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                  <DatePicker fx:id="examDatePicker" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="5">
                      <GridPane.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </GridPane.margin>
