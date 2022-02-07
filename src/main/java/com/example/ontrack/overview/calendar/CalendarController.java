@@ -34,8 +34,6 @@ public class CalendarController implements Initializable {
         int row = 1;
         for(int column = firstDayOfMonth; column<=7;column++)
         {
-            System.out.println("Row:" +row);
-            System.out.println("Column:" +column);
             Label label = new Label(localDate.toString());
             if(localDate.getMonth().getValue()>month)
             {
