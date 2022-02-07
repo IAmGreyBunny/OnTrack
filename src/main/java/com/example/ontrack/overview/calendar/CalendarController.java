@@ -37,15 +37,15 @@ public class CalendarController implements Initializable {
             System.out.println("Row:" +row);
             System.out.println("Column:" +column);
             Label label = new Label(localDate.toString());
+            if(localDate.getMonth().getValue()>month)
+            {
+                break;
+            }
             calendarGridPane.add(label,column,row);
             if(column==6)
             {
                 row++;
                 column=-1;
-            }
-            if(localDate.getMonth().getValue()>month)
-            {
-                break;
             }
             localDate = localDate.plusDays(1);
         }
