@@ -26,10 +26,7 @@ public class CalendarController implements Initializable {
     public void loadCalendar(int month,int year)
     {
         LocalDate localDate = LocalDate.of(year,month,1);
-        System.out.println(localDate);
         int firstDayOfMonth = localDate.getDayOfWeek().getValue();
-        System.out.println(firstDayOfMonth);
-
 
         int row = 1;
         for(int column = firstDayOfMonth; column<=7;column++)
