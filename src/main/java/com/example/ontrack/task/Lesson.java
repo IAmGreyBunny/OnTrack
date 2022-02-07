@@ -4,6 +4,8 @@ import com.example.ontrack.authentication.CurrentUser;
 import com.example.ontrack.database.DatabaseHelper;
 import com.example.ontrack.database.DatabaseManager;
 import com.example.ontrack.repetition.RepetitionRule;
+import com.example.ontrack.repetition.Round;
+import javafx.collections.ObservableList;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,6 +19,7 @@ public class Lesson extends RepeatableTask {
     private String venue;
     private LocalDate date;
 
+    //Constructor for first lesson
     public Lesson(String name, String subject,String desc, String venue, RepetitionRule repetitionRule,LocalDate date)
     {
         this.taskName=name;
@@ -26,6 +29,18 @@ public class Lesson extends RepeatableTask {
         this.repetitionRule = repetitionRule;
         this.date=date;
         this.currentRound=1;
+    }
+
+    //Constructor for subsequent lesson
+    public Lesson(String name, String subject,String desc, String venue, RepetitionRule repetitionRule,LocalDate date,int currentRound)
+    {
+        this.taskName=name;
+        this.description = desc;
+        this.subject=subject;
+        this.venue=venue;
+        this.repetitionRule = repetitionRule;
+        this.date=date;
+        this.currentRound=currentRound;
     }
 
     //Create lesson in database
@@ -55,6 +70,23 @@ public class Lesson extends RepeatableTask {
         catch(Exception e)
         {
             e.printStackTrace();
+        }
+    }
+
+    //Create subsequent lesson in database
+    public void createLessonCycleInDb()
+    {
+        //Get rounds
+        ObservableList<Round> rounds = this.repetitionRule.getRounds();
+        int roundInterval=0;
+        for(Round round : rounds)
+        {
+            int roundNumber = round.getRoundNumber()+1;
+            roundInterval += round.getRoundInterval();
+
+            Lesson lesson = new Lesson(this.taskName, this.subject, this.description,this.venue, this.repetitionRule, this.date.plusDays(roundInterval), roundNumber);
+            lesson.createLessonInDb();
+            lesson.setRepetitionRule(this.repetitionRule);
         }
     }
 

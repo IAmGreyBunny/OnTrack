@@ -1,6 +1,3 @@
-CREATE DATABASE ontrack;
-USE ontrack;
-
 CREATE TABLE `Rounds`(
     `ruleId` INT UNSIGNED NOT NULL,
     `roundNumber` INT NOT NULL,
@@ -13,7 +10,7 @@ CREATE TABLE `RepetitionRules`(
     `userId` INT UNSIGNED NOT NULL
 );
 CREATE TABLE `Lessons`(
-    `lessonId` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `lessonId` INT UNSIGNED NOT NULL AUTO_INCREMENT  PRIMARY KEY,
     `userId` INT UNSIGNED NOT NULL,
     `name` VARCHAR(255) NOT NULL,
     `description` TEXT NULL,
@@ -23,8 +20,6 @@ CREATE TABLE `Lessons`(
     `round` INT NOT NULL,
     `status` TINYINT(1) NOT NULL
 );
-ALTER TABLE
-    `Lessons` ADD UNIQUE `lessons_name_unique`(`name`);
 CREATE TABLE `Revisions`(
     `revisionId` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `userId` INT UNSIGNED NOT NULL,
@@ -35,8 +30,6 @@ CREATE TABLE `Revisions`(
     `round` INT NOT NULL,
     `status` TINYINT(1) NOT NULL
 );
-ALTER TABLE
-    `Revisions` ADD UNIQUE `revisions_name_unique`(`name`);
 CREATE TABLE `Activities`(
     `activityId` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `name` VARCHAR(255) NOT NULL,

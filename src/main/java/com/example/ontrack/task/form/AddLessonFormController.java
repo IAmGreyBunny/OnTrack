@@ -186,6 +186,7 @@ public class AddLessonFormController implements IBackButton, Initializable {
             Lesson lesson = new Lesson(lessonName,lessonDesc,lessonSubject,lessonVenue,lessonRepetitionRule,lessonStartDate);
             lesson.createLessonInDb();
             lesson.setRepetitionRule(lessonRepetitionRule);
+            lesson.createLessonCycleInDb();
         }
 
     }

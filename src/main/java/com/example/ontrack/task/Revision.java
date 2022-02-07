@@ -4,6 +4,8 @@ import com.example.ontrack.authentication.CurrentUser;
 import com.example.ontrack.database.DatabaseHelper;
 import com.example.ontrack.database.DatabaseManager;
 import com.example.ontrack.repetition.RepetitionRule;
+import com.example.ontrack.repetition.Round;
+import javafx.collections.ObservableList;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,6 +18,7 @@ public class Revision extends RepeatableTask {
     private String subject;
     private LocalDate date;
 
+    //Constructor for first time
     public Revision(String name, String subject, String desc, RepetitionRule repetitionRule, LocalDate date)
     {
         this.taskName=name;
@@ -23,6 +26,17 @@ public class Revision extends RepeatableTask {
         this.subject=subject;
         this.repetitionRule = repetitionRule;
         this.currentRound=1;
+        this.date = date;
+    }
+
+    //Constructor for subsequent
+    public Revision(String name, String subject, String desc, RepetitionRule repetitionRule, LocalDate date, int currentRound)
+    {
+        this.taskName=name;
+        this.description = desc;
+        this.subject=subject;
+        this.repetitionRule = repetitionRule;
+        this.currentRound=currentRound;
         this.date = date;
     }
 
@@ -52,6 +66,23 @@ public class Revision extends RepeatableTask {
         catch(Exception e)
         {
             e.printStackTrace();
+        }
+    }
+
+    //Create subsequent lesson in database
+    public void createRevisionCycleInDb()
+    {
+        //Get rounds
+        ObservableList<Round> rounds = this.repetitionRule.getRounds();
+        int roundInterval=0;
+        for(Round round : rounds)
+        {
+            int roundNumber = round.getRoundNumber()+1;
+            roundInterval += round.getRoundInterval();
+
+            Revision revision = new Revision(this.taskName, this.subject, this.description, this.repetitionRule, this.date.plusDays(roundInterval), roundNumber);
+            revision.createRevisionInDb();
+            revision.setRepetitionRule(this.repetitionRule);
         }
     }
 

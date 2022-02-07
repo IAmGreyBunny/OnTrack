@@ -176,6 +176,7 @@ public class AddRevisionFormController implements IBackButton, Initializable {
             Revision revision = new Revision(revisionName,revisionDesc,revisionSubject,revisionRepetitionRule,revisionStartDate);
             revision.createRevisionInDb();
             revision.setRepetitionRule(revisionRepetitionRule);
+            revision.createRevisionCycleInDb();
         }
 
     }
