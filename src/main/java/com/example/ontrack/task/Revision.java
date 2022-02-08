@@ -18,7 +18,8 @@ public class Revision extends RepeatableTask {
     private String subject;
     private LocalDate date;
 
-    //Constructor for first time
+    //Constructor for first Revision in a cycle, used as a starting point
+    //Assumes current round = 1
     public Revision(String name, String subject, String desc, RepetitionRule repetitionRule, LocalDate date)
     {
         this.taskName=name;
@@ -29,7 +30,8 @@ public class Revision extends RepeatableTask {
         this.date = date;
     }
 
-    //Constructor for subsequent
+    //Constructor for creating subsequent lesson where round number is known
+    //current round number have to be given
     public Revision(String name, String subject, String desc, RepetitionRule repetitionRule, LocalDate date, int currentRound)
     {
         this.taskName=name;

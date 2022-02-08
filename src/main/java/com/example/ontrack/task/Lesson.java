@@ -19,7 +19,8 @@ public class Lesson extends RepeatableTask {
     private String venue;
     private LocalDate date;
 
-    //Constructor for first lesson
+    //Constructor for first Lesson in a cycle, used as a starting point
+    //Assumes current round = 1
     public Lesson(String name, String subject,String desc, String venue, RepetitionRule repetitionRule,LocalDate date)
     {
         this.taskName=name;
@@ -31,7 +32,8 @@ public class Lesson extends RepeatableTask {
         this.currentRound=1;
     }
 
-    //Constructor for subsequent lesson
+    //Constructor for creating subsequent lesson where round number is known
+    //current round number have to be given
     public Lesson(String name, String subject,String desc, String venue, RepetitionRule repetitionRule,LocalDate date,int currentRound)
     {
         this.taskName=name;

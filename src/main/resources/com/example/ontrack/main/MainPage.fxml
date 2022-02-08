@@ -37,11 +37,11 @@
       </HBox>
    </top>
    <center>
-      <TabPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FFE5B4;" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+      <TabPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #F4C2C2;" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
-            <Tab fx:id="calendarTab" style="-fx-background-color: #FFE5B4;" text="Calendar" />
-          <Tab style="-fx-background-color: #FFE5B4;" text="This Week" />
-          <Tab style="-fx-background-color: #FFE5B4;" text="Today" />
+            <Tab fx:id="calendarTab" style="-fx-background-color: #F4C2C2;" text="Calendar" />
+            <Tab fx:id="thisWeekTab" style="-fx-background-color: #F4C2C2;" text="This Week" />
+            <Tab fx:id="todayTab" style="-fx-background-color: #F4C2C2;" text="Today" />
         </tabs>
       </TabPane>
    </center>

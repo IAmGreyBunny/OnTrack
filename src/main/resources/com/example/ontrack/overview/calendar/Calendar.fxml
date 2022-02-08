@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox style="-fx-background-color: #FFE5B4;" VBox.vgrow="ALWAYS" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ontrack.overview.calendar.CalendarController">
+<HBox VBox.vgrow="ALWAYS" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ontrack.overview.calendar.CalendarController">
    <children>
       <VBox alignment="CENTER" prefHeight="800.0" prefWidth="1412.0" HBox.hgrow="ALWAYS">
          <children>
