@@ -4,6 +4,7 @@ import com.example.ontrack.authentication.CurrentUser;
 import com.example.ontrack.database.DatabaseHelper;
 import com.example.ontrack.database.DatabaseManager;
 import com.example.ontrack.repetition.RepetitionRule;
+import com.example.ontrack.repetition.RepetitionRuleHelper;
 import com.example.ontrack.repetition.Round;
 import javafx.collections.ObservableList;
 
@@ -40,6 +41,19 @@ public class Revision extends RepeatableTask {
         this.repetitionRule = repetitionRule;
         this.currentRound=currentRound;
         this.date = date;
+    }
+
+    //Constructor to create revision with full info
+    //Used for getting revision object from database
+    public Revision(int revisionId,String name,String desc, int repetitionRuleId,LocalDate date,int currentRound,Boolean status)
+    {
+        this.revisionId=revisionId;
+        this.taskName=name;
+        this.description=desc;
+        this.repetitionRule = RepetitionRuleHelper.getRepetitionRuleFromId(repetitionRuleId);
+        this.date=date;
+        this.currentRound=currentRound;
+        this.status=status;
     }
 
     //Create lesson in database

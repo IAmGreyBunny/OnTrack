@@ -29,10 +29,10 @@ public class CalendarController implements Initializable {
 
 
     public void loadCalendar(int month,int year) {
-        LocalDate localDate = LocalDate.of(year,month,1);
-        int firstDayOfMonth = localDate.getDayOfWeek().getValue();
+        LocalDate localDate = LocalDate.of(year,month,1); //LocalDate object of 1st day of month
+        int firstDayOfMonth = localDate.getDayOfWeek().getValue();   //Get 1st day of month as the starting column
 
-        int row = 1;
+        int row = 1; //Initialise row to 1, 0 is header
         for(int column = firstDayOfMonth; column<=7;column++)
         {
             //Create calendar cell for date

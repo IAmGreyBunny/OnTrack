@@ -15,12 +15,24 @@ public class Activity extends Task {
     private String venue;
     private LocalDate date;
 
+    //Constructor with partial info for activity, useful for creation of db entry
     public Activity(String name, String desc, String venue, LocalDate date)
     {
         this.taskName=name;
         this.description = desc;
         this.venue=venue;
         this.date = date;
+    }
+
+    //Constructor with full info for activity, useful for retrieval of db entry
+    public Activity(int activityId,String name, String desc, String venue,Boolean status,LocalDate date)
+    {
+        this.activityId = activityId;
+        this.taskName=name;
+        this.description = desc;
+        this.venue=venue;
+        this.date = date;
+        this.status = status;
     }
 
     //Create lesson in database

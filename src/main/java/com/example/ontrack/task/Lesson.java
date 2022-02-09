@@ -4,6 +4,7 @@ import com.example.ontrack.authentication.CurrentUser;
 import com.example.ontrack.database.DatabaseHelper;
 import com.example.ontrack.database.DatabaseManager;
 import com.example.ontrack.repetition.RepetitionRule;
+import com.example.ontrack.repetition.RepetitionRuleHelper;
 import com.example.ontrack.repetition.Round;
 import javafx.collections.ObservableList;
 
@@ -43,6 +44,20 @@ public class Lesson extends RepeatableTask {
         this.repetitionRule = repetitionRule;
         this.date=date;
         this.currentRound=currentRound;
+    }
+
+    //Constructor with full info
+    //Use this to Lesson objects from db
+    public Lesson(int lessonId,String name,String desc, String venue, int repetitionRuleId,LocalDate date,int currentRound,Boolean status)
+    {
+        this.lessonId=lessonId;
+        this.taskName=name;
+        this.description=desc;
+        this.venue=venue;
+        this.repetitionRule = RepetitionRuleHelper.getRepetitionRuleFromId(repetitionRuleId);
+        this.date=date;
+        this.currentRound=currentRound;
+        this.status=status;
     }
 
     //Create lesson in database
@@ -91,6 +106,8 @@ public class Lesson extends RepeatableTask {
             lesson.setRepetitionRule(this.repetitionRule);
         }
     }
+
+
 
     @Override
     public void setRepetitionRule(RepetitionRule repetitionRule) {

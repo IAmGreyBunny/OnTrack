@@ -1,6 +1,3 @@
-CREATE DATABASE ontrack;
-USE ontrack;
-
 CREATE TABLE `Rounds`(
     `ruleId` INT UNSIGNED NOT NULL,
     `roundNumber` INT NOT NULL,
@@ -24,7 +21,7 @@ CREATE TABLE `Lessons`(
     `status` TINYINT(1) NOT NULL
 );
 CREATE TABLE `Revisions`(
-    `revisionId` INT UNSIGNED NOT NULL AUTO_INCREMENT  PRIMARY KEY,
+    `revisionId` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `userId` INT UNSIGNED NOT NULL,
     `name` VARCHAR(255) NOT NULL,
     `description` TEXT NULL,
@@ -35,24 +32,24 @@ CREATE TABLE `Revisions`(
 );
 CREATE TABLE `Activities`(
     `activityId` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `userId` INT UNSIGNED NOT NULL,
     `name` VARCHAR(255) NOT NULL,
     `description` TEXT NULL,
     `venue` VARCHAR(255) NULL,
     `status` TINYINT(1) NOT NULL,
-    `activityDate` DATE NOT NULL
+    `activityDate` DATE NOT NULL,
+    `userId` INT UNSIGNED NOT NULL
 );
 ALTER TABLE
     `Activities` ADD UNIQUE `activities_name_unique`(`name`);
 CREATE TABLE `Exams`(
     `examId` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `userId` INT UNSIGNED NOT NULL,
     `name` VARCHAR(255) NOT NULL,
     `description` TEXT NULL,
     `subject` VARCHAR(255) NULL,
     `venue` VARCHAR(255) NULL,
     `status` TINYINT(1) NOT NULL,
-    `examDate` DATE NOT NULL
+    `examDate` DATE NOT NULL,
+    `userId` INT UNSIGNED NOT NULL
 );
 ALTER TABLE
     `Exams` ADD UNIQUE `exams_name_unique`(`name`);

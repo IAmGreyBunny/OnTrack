@@ -25,9 +25,10 @@ public class RepetitionRule {
         this.rounds = rounds;
     }
 
-    //Overloaded constructor
-    public RepetitionRule(String ruleName,String repeatType)
+    //Overloaded constructor for rounds not being given
+    public RepetitionRule(int ruleId,String ruleName,String repeatType)
     {
+        this.ruleId=ruleId;
         this.ruleName = ruleName;
         this.repeatType = repeatType;
         this.rounds = getRounds();
@@ -96,9 +97,10 @@ public class RepetitionRule {
                 resultSet.beforeFirst();
                 while(resultSet.next())
                 {
+                    int ruleId = resultSet.getInt("ruleId");
                     String ruleName = resultSet.getString("ruleName");
                     String repeatType = resultSet.getString("repeatType");
-                    RepetitionRule repetitionRule = new RepetitionRule(ruleName,repeatType);
+                    RepetitionRule repetitionRule = new RepetitionRule(ruleId,ruleName,repeatType);
                     userRepetitionRule.add(repetitionRule);
                 }
             }
@@ -201,14 +203,12 @@ public class RepetitionRule {
 
                 if (DatabaseHelper.getResultSetSize(resultSet)>=1)
                 {
-                    resultSet.beforeFirst();
-                    while(resultSet.next())
-                    {
+                    do{
                         int roundNumber = resultSet.getInt("roundNumber");
                         int roundInterval = resultSet.getInt("roundInterval");
                         Round round = new Round(roundNumber,roundInterval);
                         rounds.add(round);
-                    }
+                    }while(resultSet.next());
                 }
             }
             catch(Exception e)

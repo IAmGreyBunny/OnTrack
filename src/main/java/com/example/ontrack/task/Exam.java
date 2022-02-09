@@ -17,8 +17,20 @@ public class Exam extends Task {
     private String venue;
     private LocalDate date;
 
+    //Constructor with partial info for exam, useful for creation of db entry
     public Exam(String name, String desc, String venue, String subject,LocalDate date)
     {
+        this.taskName=name;
+        this.description = desc;
+        this.subject=subject;
+        this.venue=venue;
+        this.date = date;
+    }
+
+    //Constructor with full info for exam, useful for retrieval of db entry
+    public Exam(int examId,String name, String desc, String subject,String venue,Boolean status,LocalDate date)
+    {
+        this.examId = examId;
         this.taskName=name;
         this.description = desc;
         this.subject=subject;
