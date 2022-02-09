@@ -5,6 +5,8 @@ import com.example.ontrack.authentication.CurrentUser;
 import com.example.ontrack.task.*;
 import com.example.ontrack.task.info.ActivityInfoController;
 import com.example.ontrack.task.info.ExamInfoController;
+import com.example.ontrack.task.info.LessonInfoController;
+import com.example.ontrack.task.info.RevisionInfoController;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -133,7 +135,21 @@ public class CalendarCellController {
                 taskItemCell.setOnMouseClicked(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent mouseEvent) {
-                        System.out.println(lesson.getVenue());
+                        FXMLLoader lessonInfoLoader = new FXMLLoader(Main.class.getResource("task/info/LessonInfo.fxml"));
+                        Parent lessonInfo;
+                        LessonInfoController lessonInfoController;
+                        try
+                        {
+                            BorderPane borderPane = (BorderPane) ((Parent)mouseEvent.getSource()).getScene().getRoot();
+                            lessonInfo = lessonInfoLoader.load();
+                            lessonInfoController = lessonInfoLoader.getController();
+                            lessonInfoController.setLesson(lesson);
+                            borderPane.setLeft(lessonInfo);
+                        }
+                        catch (IOException e)
+                        {
+                            e.printStackTrace();
+                        }
                     }
                 });
                 taskListVbox.getChildren().add(taskItemCell);
@@ -156,6 +172,21 @@ public class CalendarCellController {
                 taskItemCell.setOnMouseClicked(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent mouseEvent) {
+                        FXMLLoader revisionInfoLoader = new FXMLLoader(Main.class.getResource("task/info/RevisionInfo.fxml"));
+                        Parent revisionInfo;
+                        RevisionInfoController revisionInfoController;
+                        try
+                        {
+                            BorderPane borderPane = (BorderPane) ((Parent)mouseEvent.getSource()).getScene().getRoot();
+                            revisionInfo = revisionInfoLoader.load();
+                            revisionInfoController = revisionInfoLoader.getController();
+                            revisionInfoController.setRevision(revision);
+                            borderPane.setLeft(revisionInfo);
+                        }
+                        catch (IOException e)
+                        {
+                            e.printStackTrace();
+                        }
                     }
                 });
                 taskListVbox.getChildren().add(taskItemCell);

@@ -21,11 +21,23 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Label fx:id="monthLabel" text="Month">
-                     <font>
-                        <Font size="30.0" />
-                     </font>
-                  </Label>
+                  <VBox alignment="CENTER">
+                     <children>
+                        <Label fx:id="monthLabel" text="Month">
+                           <font>
+                              <Font size="25.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="yearLabel" text="Year">
+                           <font>
+                              <Font size="25.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <HBox.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </HBox.margin>
+                  </VBox>
                   <Button fx:id="nextMonthButton" mnemonicParsing="false" onAction="#onNextMonthButtonClick" text="&gt;">
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

@@ -181,6 +181,14 @@ public class Revision extends RepeatableTask {
         }
     }
 
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
     public void setRevisionId(int lessonId) {
         this.revisionId = lessonId;
     }

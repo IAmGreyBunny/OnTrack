@@ -48,22 +48,22 @@
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label fx:id="activityName" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <Label fx:id="activityName" text="Label" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <GridPane.margin>
                         <Insets top="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label fx:id="activityDesc" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <Label fx:id="activityDesc" text="Label" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <GridPane.margin>
                         <Insets top="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label fx:id="activityVenue" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                  <Label fx:id="activityVenue" text="Label" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="3">
                      <GridPane.margin>
                         <Insets top="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label fx:id="activityDate" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                  <Label fx:id="activityDate" text="Label" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="4">
                      <GridPane.margin>
                         <Insets top="10.0" />
                      </GridPane.margin>

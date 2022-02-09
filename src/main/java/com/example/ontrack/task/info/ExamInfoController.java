@@ -8,23 +8,23 @@ import javafx.scene.control.Label;
 
 public class ExamInfoController implements IBackButton {
     @FXML
-    Label examName;
+    Label examNameLabel;
     @FXML
-    Label examDesc;
+    Label examDescLabel;
     @FXML
-    Label examVenue;
+    Label examVenueLabel;
     @FXML
-    Label examDate;
+    Label examDateLabel;
     @FXML
-    Label examSubject;
+    Label examSubjectLabel;
 
     public void setExam(Exam exam)
     {
-        examName.setText(exam.getTaskName());
-        examDesc.setText(exam.getDescription());
-        examVenue.setText(exam.getVenue());
-        examSubject.setText(exam.getSubject());
-        examDate.setText(exam.getDate().toString());
+        examNameLabel.setText(exam.getTaskName());
+        examDescLabel.setText(exam.getDescription());
+        examVenueLabel.setText(exam.getVenue());
+        examDateLabel.setText(exam.getSubject());
+        examSubjectLabel.setText(exam.getDate().toString());
     }
 
     @Override

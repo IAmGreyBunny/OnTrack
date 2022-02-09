@@ -70,6 +70,7 @@ public class AddRepetitionRuleFormController implements Initializable {
         repeatTypeDropDown.getItems().addAll(
                 "Repeat Last",
                 "Start Over",
+                "Singular Cycle",
                 "Do not repeat"
         );
     }

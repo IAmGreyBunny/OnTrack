@@ -195,6 +195,14 @@ public class Lesson extends RepeatableTask {
         this.venue = venue;
     }
 
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
     @Override
     public Task getPreviousTask(Task currentTask) {
         return null;
