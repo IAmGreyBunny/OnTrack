@@ -31,7 +31,7 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="TOP" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Button fx:id="backButton" mnemonicParsing="false" text="Go Back" />
+                  <Button fx:id="backButton" mnemonicParsing="false" onAction="#onBackButtonClicked" text="Go Back" />
                   <Label text="Name:" GridPane.rowIndex="1">
                      <GridPane.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

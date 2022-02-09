@@ -1,26 +1,35 @@
 package com.example.ontrack.task.info;
 
 import com.example.ontrack.IBackButton;
+import com.example.ontrack.Main;
 import com.example.ontrack.task.Exam;
 import com.example.ontrack.task.Lesson;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
+
+import java.io.IOException;
 
 public class LessonInfoController implements IBackButton {
     @FXML
-    Label lessonNameLabel;
+    private Label lessonNameLabel;
     @FXML
-    Label lessonDescLabel;
+    private Label lessonDescLabel;
     @FXML
-    Label lessonVenueLabel;
+    private Label lessonVenueLabel;
     @FXML
-    Label lessonDateLabel;
+    private Label lessonDateLabel;
     @FXML
-    Label lessonSubjectLabel;
+    private Label lessonSubjectLabel;
     @FXML
-    Label lessonCurrentRoundLabel;
+    private Label lessonCurrentRoundLabel;
     @FXML
-    Label lessonRepeatTypeLabel;
+    private Label lessonRepeatTypeLabel;
+    @FXML
+    private Button backButton;
 
     public void setLesson(Lesson lesson)
     {
@@ -35,6 +44,14 @@ public class LessonInfoController implements IBackButton {
 
     @Override
     public void onBackButtonClicked() {
-
+        Parent form;
+        BorderPane borderPane = (BorderPane) backButton.getScene().getRoot();
+        try {
+            form = FXMLLoader.load(Main.class.getResource("task/form/AddTaskForm.fxml"));
+            borderPane.setLeft(form);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

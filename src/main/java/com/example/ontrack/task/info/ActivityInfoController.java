@@ -1,19 +1,28 @@
 package com.example.ontrack.task.info;
 
 import com.example.ontrack.IBackButton;
+import com.example.ontrack.Main;
 import com.example.ontrack.task.Activity;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
+
+import java.io.IOException;
 
 public class ActivityInfoController implements IBackButton {
     @FXML
-    Label activityName;
+    private Label activityName;
     @FXML
-    Label activityDesc;
+    private Label activityDesc;
     @FXML
-    Label activityVenue;
+    private Label activityVenue;
     @FXML
-    Label activityDate;
+    private Label activityDate;
+    @FXML
+    private Button backButton;
 
     public void setActivity(Activity activity)
     {
@@ -25,6 +34,14 @@ public class ActivityInfoController implements IBackButton {
 
     @Override
     public void onBackButtonClicked() {
-
+        Parent form;
+        BorderPane borderPane = (BorderPane) backButton.getScene().getRoot();
+        try {
+            form = FXMLLoader.load(Main.class.getResource("task/form/AddTaskForm.fxml"));
+            borderPane.setLeft(form);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

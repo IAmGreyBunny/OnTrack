@@ -1,24 +1,33 @@
 package com.example.ontrack.task.info;
 
 import com.example.ontrack.IBackButton;
+import com.example.ontrack.Main;
 import com.example.ontrack.task.Lesson;
 import com.example.ontrack.task.Revision;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
+
+import java.io.IOException;
 
 public class RevisionInfoController implements IBackButton {
     @FXML
-    Label revisionNameLabel;
+    private Label revisionNameLabel;
     @FXML
-    Label revisionDescLabel;
+    private Label revisionDescLabel;
     @FXML
-    Label revisionDateLabel;
+    private Label revisionDateLabel;
     @FXML
-    Label revisionSubjectLabel;
+    private Label revisionSubjectLabel;
     @FXML
-    Label revisionCurrentRoundLabel;
+    private Label revisionCurrentRoundLabel;
     @FXML
-    Label revisionRepeatTypeLabel;
+    private Label revisionRepeatTypeLabel;
+    @FXML
+    private Button backButton;
 
     public void setRevision(Revision revision)
     {
@@ -32,6 +41,14 @@ public class RevisionInfoController implements IBackButton {
 
     @Override
     public void onBackButtonClicked() {
-
+        Parent form;
+        BorderPane borderPane = (BorderPane) backButton.getScene().getRoot();
+        try {
+            form = FXMLLoader.load(Main.class.getResource("task/form/AddTaskForm.fxml"));
+            borderPane.setLeft(form);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

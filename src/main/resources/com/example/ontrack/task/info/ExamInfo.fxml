@@ -28,7 +28,7 @@
                   <RowConstraints minHeight="10.0" valignment="TOP" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Button fx:id="backButton" mnemonicParsing="false" text="Go Back" />
+                  <Button fx:id="backButton" mnemonicParsing="false" onAction="#onBackButtonClicked" text="Go Back" />
                   <Label text="Name:" GridPane.rowIndex="1">
                      <GridPane.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -49,22 +49,22 @@
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label fx:id="examName" text="Label" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <Label fx:id="examNameLabel" text="Label" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <GridPane.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label fx:id="examDesc" text="Label" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <Label fx:id="examDescLabel" text="Label" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <GridPane.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label fx:id="examVenue" text="Label" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                  <Label fx:id="examVenueLabel" text="Label" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="3">
                      <GridPane.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label fx:id="examDate" text="Label" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                  <Label fx:id="examDateLabel" text="Label" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="5">
                      <GridPane.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </GridPane.margin>
@@ -74,7 +74,7 @@
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label fx:id="examSubject" text="Label" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                  <Label fx:id="examSubjectLabel" text="Label" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="4">
                      <GridPane.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </GridPane.margin>
