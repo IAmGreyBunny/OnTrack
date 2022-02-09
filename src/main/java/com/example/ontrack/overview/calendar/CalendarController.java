@@ -1,10 +1,14 @@
 package com.example.ontrack.overview.calendar;
 
 import com.example.ontrack.Main;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 
@@ -17,20 +21,47 @@ public class CalendarController implements Initializable {
 
     @FXML
     GridPane calendarGridPane;
+    @FXML
+    Label monthLabel;
+    @FXML
+    Button nextMonthButton;
+    @FXML
+    Button previousMonthButton;
+
+    LocalDate currentDate;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //Load calendar
-        LocalDate todayDate = LocalDate.now();
-        loadCalendar(todayDate.getMonth().getValue(),todayDate.getYear());
+        currentDate = LocalDate.now();
+        long startTime = System.currentTimeMillis();
+        loadCalendar(currentDate.getMonth().getValue(),currentDate.getYear());
+        long endTime = System.currentTimeMillis();
+        System.out.println("That took " + (endTime - startTime) + " milliseconds");
 
 
     }
 
+    @FXML
+    public void onNextMonthButtonClick()
+    {
+        currentDate=currentDate.plusMonths(1);
+        clearCalendarCells();
+        loadCalendar(currentDate.getMonth().getValue(),currentDate.getYear());
+    }
+
+    @FXML
+    public void onPreviousMonthButtonClick()
+    {
+        currentDate=currentDate.minusMonths(1);
+        clearCalendarCells();
+        loadCalendar(currentDate.getMonth().getValue(),currentDate.getYear());
+    }
 
     public void loadCalendar(int month,int year) {
         LocalDate localDate = LocalDate.of(year,month,1); //LocalDate object of 1st day of month
         int firstDayOfMonth = localDate.getDayOfWeek().getValue();   //Get 1st day of month as the starting column
+        monthLabel.setText(localDate.getMonth().toString());
 
         int row = 1; //Initialise row to 1, 0 is header
         for(int column = firstDayOfMonth; column<=7;column++)
@@ -66,5 +97,21 @@ public class CalendarController implements Initializable {
             localDate = localDate.plusDays(1);
         }
 
+    }
+
+    public void clearCalendarCells()
+    {
+        ObservableList<Node> nodesToRemove = FXCollections.observableArrayList();
+        for (Node node : calendarGridPane.getChildren()) {
+            if (GridPane.getColumnIndex(node) != null && GridPane.getRowIndex(node) != null) {
+                if (GridPane.getColumnIndex(node) >= 0 && GridPane.getRowIndex(node) >= 1) {
+                   nodesToRemove.add(node);
+                }
+            }
+        }
+        for(Node node:nodesToRemove)
+        {
+            calendarGridPane.getChildren().remove(node);
+        }
     }
 }
