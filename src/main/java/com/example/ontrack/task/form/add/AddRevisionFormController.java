@@ -1,4 +1,4 @@
-package com.example.ontrack.task.form;
+package com.example.ontrack.task.form.add;
 
 import com.example.ontrack.IBackButton;
 import com.example.ontrack.Main;
@@ -6,6 +6,8 @@ import com.example.ontrack.task.Revision;
 import com.example.ontrack.task.form.validator.RevisionTaskFormValidator;
 import com.example.ontrack.repetition.RepetitionRule;
 import javafx.collections.ObservableList;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -50,35 +52,40 @@ public class AddRevisionFormController implements IBackButton, Initializable {
 
         //Setup repetitionRuleDropDown combobox with user listofrepetitionrules
         //String converter required for displaying RepetitionRule object as string
-        ObservableList<RepetitionRule> listOfRepetitionRules = RepetitionRule.getUserRepetitionRules();
-        StringConverter<RepetitionRule> converter = new StringConverter<RepetitionRule>() {
+        repetitionRuleDropDown.setOnShown(new EventHandler<Event>() {
             @Override
-            public String toString(RepetitionRule repetitionRule) {
-                if(repetitionRule != null)
-                {
-                    return repetitionRule.getRuleName();
-                }
-                else
-                {
-                    return "";
-                }
+            public void handle(Event event) {
+                ObservableList<RepetitionRule> listOfRepetitionRules = RepetitionRule.getUserRepetitionRules();
+                StringConverter<RepetitionRule> converter = new StringConverter<RepetitionRule>() {
+                    @Override
+                    public String toString(RepetitionRule repetitionRule) {
+                        if(repetitionRule != null)
+                        {
+                            return repetitionRule.getRuleName();
+                        }
+                        else
+                        {
+                            return "";
+                        }
 
-            }
-
-            @Override
-            public RepetitionRule fromString(String s) {
-                for(RepetitionRule repetitionRule:listOfRepetitionRules)
-                {
-                    if (repetitionRule.getRuleName().equals(s))
-                    {
-                        return repetitionRule;
                     }
-                }
-                return null;
+
+                    @Override
+                    public RepetitionRule fromString(String s) {
+                        for(RepetitionRule repetitionRule:listOfRepetitionRules)
+                        {
+                            if (repetitionRule.getRuleName().equals(s))
+                            {
+                                return repetitionRule;
+                            }
+                        }
+                        return null;
+                    }
+                };
+                repetitionRuleDropDown.setConverter(converter);
+                repetitionRuleDropDown.setItems(listOfRepetitionRules);
             }
-        };
-        repetitionRuleDropDown.setConverter(converter);
-        repetitionRuleDropDown.setItems(listOfRepetitionRules);
+        });
 
         //Setup repetitionRuleDropDown so to disable edit on empty fields
         if(repetitionRuleDropDown.getValue()==null)
@@ -106,7 +113,7 @@ public class AddRevisionFormController implements IBackButton, Initializable {
     @FXML
     public void loadAddRepetitionRuleForm() throws IOException {
         Stage stage = new Stage();
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("task/form/AddRepetitionRuleForm.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("task/form/add/AddRepetitionRuleForm.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
         stage.initModality(Modality.APPLICATION_MODAL);
@@ -119,7 +126,7 @@ public class AddRevisionFormController implements IBackButton, Initializable {
         Parent form;
         BorderPane borderPane = (BorderPane) backButton.getScene().getRoot();
         try {
-            form = FXMLLoader.load(Main.class.getResource("task/form/AddTaskForm.fxml"));
+            form = FXMLLoader.load(Main.class.getResource("task/form/add/AddTaskForm.fxml"));
             borderPane.setLeft(form);
         }
         catch (IOException e) {

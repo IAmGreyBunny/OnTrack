@@ -37,7 +37,7 @@ public class MainPageController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb){
         try{
-            form = FXMLLoader.load(Main.class.getResource("task/form/AddTaskForm.fxml"));
+            form = FXMLLoader.load(Main.class.getResource("task/form/add/AddTaskForm.fxml"));
             borderPane.setLeft(form);
             taskOverview = FXMLLoader.load(Main.class.getResource("overview/calendar/Calendar.fxml"));
             calendarTab.setContent(taskOverview);

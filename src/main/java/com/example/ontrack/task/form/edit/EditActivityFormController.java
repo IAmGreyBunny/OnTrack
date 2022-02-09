@@ -1,30 +1,25 @@
-package com.example.ontrack.task.form;
+package com.example.ontrack.task.form.edit;
 
 import com.example.ontrack.IBackButton;
 import com.example.ontrack.Main;
 import com.example.ontrack.task.Activity;
 import com.example.ontrack.task.form.validator.ActivityTaskFormValidator;
-import com.example.ontrack.task.Activity;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.ResourceBundle;
 
-public class AddActivityFormController implements IBackButton, Initializable {
+public class EditActivityFormController implements IBackButton, Initializable {
     @FXML
     Button backButton;
     @FXML
@@ -49,7 +44,7 @@ public class AddActivityFormController implements IBackButton, Initializable {
         Parent form;
         BorderPane borderPane = (BorderPane) backButton.getScene().getRoot();
         try {
-            form = FXMLLoader.load(Main.class.getResource("task/form/AddTaskForm.fxml"));
+            form = FXMLLoader.load(Main.class.getResource("task/form/add/AddTaskForm.fxml"));
             borderPane.setLeft(form);
         }
         catch (IOException e) {

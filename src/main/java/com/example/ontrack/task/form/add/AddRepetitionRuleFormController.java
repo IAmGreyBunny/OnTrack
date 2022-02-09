@@ -1,4 +1,4 @@
-package com.example.ontrack.task.form;
+package com.example.ontrack.task.form.add;
 
 import com.example.ontrack.repetition.RepetitionRuleFormValidator;
 import com.example.ontrack.repetition.RepetitionRule;

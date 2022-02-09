@@ -89,7 +89,7 @@ public class Revision extends RepeatableTask {
     }
 
     //Create subsequent lesson in database
-    public void createRevisionCycleInDb() throws SQLException {
+    public void createRevisionCycleInDb() {
         //Get rounds
         ObservableList<Round> rounds = this.repetitionRule.getRounds();
         int roundInterval=0;
