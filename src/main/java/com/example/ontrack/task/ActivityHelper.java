@@ -23,6 +23,7 @@ public class ActivityHelper {
         Connection connection = databaseManager.getConnection();
 
         String sql = String.format("SELECT * FROM activities WHERE (userId = '%s' AND activityDate='%s')",userId,date.toString());
+        System.out.println(sql);
         try{
             PreparedStatement statement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
             ResultSet resultSet = statement.executeQuery();

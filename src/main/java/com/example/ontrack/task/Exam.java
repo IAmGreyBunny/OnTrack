@@ -5,10 +5,7 @@ import com.example.ontrack.database.DatabaseHelper;
 import com.example.ontrack.database.DatabaseManager;
 import com.example.ontrack.repetition.RepetitionRule;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.LocalDate;
 
 public class Exam extends Task {
@@ -65,10 +62,16 @@ public class Exam extends Task {
         catch(Exception e)
         {
             e.printStackTrace();
+        }finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    public int getExamId() {
+    public int getExamId(){
         if(this.examId != 0)
         {
             return examId;
@@ -105,6 +108,13 @@ public class Exam extends Task {
                 e.printStackTrace();
                 return 0;
             }
+            finally {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -126,5 +136,13 @@ public class Exam extends Task {
 
     public void setVenue(String venue) {
         this.venue = venue;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 }

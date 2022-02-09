@@ -3,6 +3,9 @@ package com.example.ontrack.overview.calendar;
 import com.example.ontrack.Main;
 import com.example.ontrack.authentication.CurrentUser;
 import com.example.ontrack.task.*;
+import com.example.ontrack.task.info.ActivityInfoController;
+import com.example.ontrack.task.info.ExamInfoController;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -56,7 +59,21 @@ public class CalendarCellController {
                 taskItemCell.setOnMouseClicked(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent mouseEvent) {
-                        System.out.println(activity.getVenue());
+                        FXMLLoader activityInfoLoader = new FXMLLoader(Main.class.getResource("task/info/ActivityInfo.fxml"));
+                        Parent activityInfo;
+                        ActivityInfoController activityInfoController;
+                        try
+                        {
+                            BorderPane borderPane = (BorderPane) ((Parent)mouseEvent.getSource()).getScene().getRoot();
+                            activityInfo = activityInfoLoader.load();
+                            activityInfoController = activityInfoLoader.getController();
+                            activityInfoController.setActivity(activity);
+                            borderPane.setLeft(activityInfo);
+                        }
+                        catch (IOException e)
+                        {
+                            e.printStackTrace();
+                        }
                     }
                 });
                 taskListVbox.getChildren().add(taskItemCell);
@@ -79,7 +96,21 @@ public class CalendarCellController {
                 taskItemCell.setOnMouseClicked(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent mouseEvent) {
-                        System.out.println(exam.getVenue());
+                        FXMLLoader examInfoLoader = new FXMLLoader(Main.class.getResource("task/info/ExamInfo.fxml"));
+                        Parent examInfo;
+                        ExamInfoController examInfoController;
+                        try
+                        {
+                            BorderPane borderPane = (BorderPane) ((Parent)mouseEvent.getSource()).getScene().getRoot();
+                            examInfo = examInfoLoader.load();
+                            examInfoController = examInfoLoader.getController();
+                            examInfoController.setExam(exam);
+                            borderPane.setLeft(examInfo);
+                        }
+                        catch (IOException e)
+                        {
+                            e.printStackTrace();
+                        }
                     }
                 });
                 taskListVbox.getChildren().add(taskItemCell);
@@ -110,7 +141,6 @@ public class CalendarCellController {
                 e.printStackTrace();
             }
         }
-
         for(Revision revision:listOfRevisions)
         {
             //Create calendar cell for date

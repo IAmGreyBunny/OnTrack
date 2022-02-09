@@ -8,10 +8,7 @@ import com.example.ontrack.repetition.RepetitionRuleHelper;
 import com.example.ontrack.repetition.Round;
 import javafx.collections.ObservableList;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.LocalDate;
 
 public class Revision extends RepeatableTask {
@@ -57,8 +54,7 @@ public class Revision extends RepeatableTask {
     }
 
     //Create lesson in database
-    public void createRevisionInDb()
-    {
+    public void createRevisionInDb(){
         //Gets connection to database
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
@@ -83,11 +79,17 @@ public class Revision extends RepeatableTask {
         {
             e.printStackTrace();
         }
+        finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     //Create subsequent lesson in database
-    public void createRevisionCycleInDb()
-    {
+    public void createRevisionCycleInDb() throws SQLException {
         //Get rounds
         ObservableList<Round> rounds = this.repetitionRule.getRounds();
         int roundInterval=0;
@@ -123,6 +125,12 @@ public class Revision extends RepeatableTask {
         catch(Exception e)
         {
             e.printStackTrace();
+        }finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -162,6 +170,13 @@ public class Revision extends RepeatableTask {
             {
                 e.printStackTrace();
                 return 0;
+            }
+            finally {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

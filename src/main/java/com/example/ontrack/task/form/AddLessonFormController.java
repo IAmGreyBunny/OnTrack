@@ -19,6 +19,7 @@ import javafx.util.StringConverter;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
@@ -130,8 +131,7 @@ public class AddLessonFormController implements IBackButton, Initializable {
     }
 
     @FXML
-    public void onSaveTaskButtonClicked()
-    {
+    public void onSaveTaskButtonClicked() throws SQLException {
         //Gets user input
         String lessonName = lessonNameTextField.getText();
         String lessonDesc = lessonDescTextArea.getText();

@@ -19,6 +19,7 @@ import javafx.util.StringConverter;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
@@ -127,8 +128,7 @@ public class AddRevisionFormController implements IBackButton, Initializable {
     }
 
     @FXML
-    public void onSaveTaskButtonClicked()
-    {
+    public void onSaveTaskButtonClicked() throws SQLException {
         //Gets user input
         String revisionName = revisionNameTextField.getText();
         String revisionDesc = revisionDescTextArea.getText();

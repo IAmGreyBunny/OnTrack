@@ -8,10 +8,7 @@ import com.example.ontrack.repetition.RepetitionRuleHelper;
 import com.example.ontrack.repetition.Round;
 import javafx.collections.ObservableList;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.LocalDate;
 
 public class Lesson extends RepeatableTask {
@@ -61,8 +58,7 @@ public class Lesson extends RepeatableTask {
     }
 
     //Create lesson in database
-    public void createLessonInDb()
-    {
+    public void createLessonInDb() {
         //Gets connection to database
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
@@ -88,11 +84,17 @@ public class Lesson extends RepeatableTask {
         {
             e.printStackTrace();
         }
+        finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     //Create subsequent lesson in database
-    public void createLessonCycleInDb()
-    {
+    public void createLessonCycleInDb() throws SQLException {
         //Get rounds
         ObservableList<Round> rounds = this.repetitionRule.getRounds();
         int roundInterval=0;
