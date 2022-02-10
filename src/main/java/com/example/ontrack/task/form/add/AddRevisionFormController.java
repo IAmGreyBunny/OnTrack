@@ -2,7 +2,9 @@ package com.example.ontrack.task.form.add;
 
 import com.example.ontrack.IBackButton;
 import com.example.ontrack.Main;
+import com.example.ontrack.authentication.CurrentUser;
 import com.example.ontrack.task.Revision;
+import com.example.ontrack.task.RevisionHelper;
 import com.example.ontrack.task.form.validator.RevisionTaskFormValidator;
 import com.example.ontrack.repetition.RepetitionRule;
 import javafx.collections.ObservableList;
@@ -55,7 +57,7 @@ public class AddRevisionFormController implements IBackButton, Initializable {
         repetitionRuleDropDown.setOnShown(new EventHandler<Event>() {
             @Override
             public void handle(Event event) {
-                ObservableList<RepetitionRule> listOfRepetitionRules = RepetitionRule.getUserRepetitionRules();
+                ObservableList<RepetitionRule> listOfRepetitionRules = CurrentUser.getInstance().getUserRepetitionRules();
                 StringConverter<RepetitionRule> converter = new StringConverter<RepetitionRule>() {
                     @Override
                     public String toString(RepetitionRule repetitionRule) {
@@ -148,6 +150,7 @@ public class AddRevisionFormController implements IBackButton, Initializable {
         String revisionDescError = "";
         String revisionSubjectError = "";
         String revisionRepetitionRuleError = "";
+        String revisionDateRuleError = "";
         String errorMessage = "";
 
         //Validate user input
@@ -155,6 +158,7 @@ public class AddRevisionFormController implements IBackButton, Initializable {
         revisionDescError = RevisionTaskFormValidator.validateTaskDesc(revisionDesc);
         revisionSubjectError = RevisionTaskFormValidator.validateSubject(revisionSubject);
         revisionRepetitionRuleError = RevisionTaskFormValidator.validateRepetitionRule(revisionRepetitionRule);
+        revisionDateRuleError = RevisionTaskFormValidator.validateDate(revisionStartDate);
 
         if(!revisionNameError.isEmpty())
         {
@@ -172,6 +176,10 @@ public class AddRevisionFormController implements IBackButton, Initializable {
         {
             errorMessage += revisionRepetitionRuleError + "\n";
         }
+        if(!revisionDateRuleError.isEmpty())
+        {
+            errorMessage += revisionDateRuleError + "\n";
+        }
 
         if(!errorMessage.isEmpty())
         {
@@ -180,10 +188,10 @@ public class AddRevisionFormController implements IBackButton, Initializable {
         }
         else
         {
-            Revision revision = new Revision(revisionName,revisionDesc,revisionSubject,revisionRepetitionRule,revisionStartDate);
-            revision.createRevisionInDb();
+            Revision revision = new Revision(revisionName,revisionDesc,revisionSubject,revisionStartDate,0,false);
+            RevisionHelper.createRevisionInDb(revision);
             revision.setRepetitionRule(revisionRepetitionRule);
-            revision.createRevisionCycleInDb();
+            RevisionHelper.createRevisionCycleInDb(revision,revisionRepetitionRule);
         }
 
     }

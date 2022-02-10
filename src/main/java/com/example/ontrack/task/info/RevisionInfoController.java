@@ -44,7 +44,7 @@ public class RevisionInfoController implements IBackButton {
         Parent form;
         BorderPane borderPane = (BorderPane) backButton.getScene().getRoot();
         try {
-            form = FXMLLoader.load(Main.class.getResource("task/form/AddTaskForm.fxml"));
+            form = FXMLLoader.load(Main.class.getResource("task/form/add/AddTaskForm.fxml"));
             borderPane.setLeft(form);
         }
         catch (IOException e) {

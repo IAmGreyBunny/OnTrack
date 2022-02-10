@@ -1,5 +1,6 @@
 package com.example.ontrack.task.form.add;
 
+import com.example.ontrack.authentication.CurrentUser;
 import com.example.ontrack.repetition.RepetitionRuleFormValidator;
 import com.example.ontrack.repetition.RepetitionRule;
 import com.example.ontrack.repetition.Round;
@@ -148,6 +149,7 @@ public class AddRepetitionRuleFormController implements Initializable {
         {
             RepetitionRule repetitionRule = new RepetitionRule(ruleName,repeatType,listOfRounds);
             repetitionRule.createRepetitionRuleInDb(repetitionRule);
+            CurrentUser.getInstance().reloadUser();
         }
 
     }

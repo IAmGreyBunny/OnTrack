@@ -60,6 +60,7 @@ public class User {
                 User user = new User(resultSet.getString("username"),resultSet.getString("email"),resultSet.getString("password"));
                 user.getUserId();
                 CurrentUser.getInstance().setUser(user);
+                CurrentUser.getInstance().loadUserRepetitionRules();
                 return user;
             }
             else

@@ -144,6 +144,7 @@ public class CalendarCellController {
                             lessonInfo = lessonInfoLoader.load();
                             lessonInfoController = lessonInfoLoader.getController();
                             lessonInfoController.setLesson(lesson);
+
                             borderPane.setLeft(lessonInfo);
                         }
                         catch (IOException e)

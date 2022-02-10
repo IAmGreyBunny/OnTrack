@@ -18,7 +18,7 @@ public class RepetitionRule {
     private String repeatType;
     private ObservableList<Round> rounds;
 
-    public RepetitionRule(String ruleName,String repeatType,ObservableList<Round> rounds)
+    public RepetitionRule(String ruleName,String repeatType,ObservableList<Round>rounds)
     {
         this.ruleName = ruleName;
         this.repeatType = repeatType;
@@ -75,41 +75,6 @@ public class RepetitionRule {
         }
 
         return success;
-    }
-
-    //Get all of user repetition rules
-    public static ObservableList<RepetitionRule> getUserRepetitionRules()
-    {
-        ObservableList<RepetitionRule> userRepetitionRule = FXCollections.observableArrayList();
-
-        //Database Connection
-        DatabaseManager databaseManager = new DatabaseManager();
-        Connection connection = databaseManager.getConnection();
-
-        String sql = String.format("SELECT * FROM repetitionRules WHERE (userId = %s)",CurrentUser.getInstance().getUser().getUserId());
-        try{
-            PreparedStatement statement = connection.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
-            ResultSet resultSet = statement.executeQuery();
-
-
-            if (DatabaseHelper.getResultSetSize(resultSet)>=1)
-            {
-                resultSet.beforeFirst();
-                while(resultSet.next())
-                {
-                    int ruleId = resultSet.getInt("ruleId");
-                    String ruleName = resultSet.getString("ruleName");
-                    String repeatType = resultSet.getString("repeatType");
-                    RepetitionRule repetitionRule = new RepetitionRule(ruleId,ruleName,repeatType);
-                    userRepetitionRule.add(repetitionRule);
-                }
-            }
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-        }
-        return userRepetitionRule;
     }
 
     public int getRuleId()

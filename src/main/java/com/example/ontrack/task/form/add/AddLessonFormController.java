@@ -2,7 +2,9 @@ package com.example.ontrack.task.form.add;
 
 import com.example.ontrack.IBackButton;
 import com.example.ontrack.Main;
+import com.example.ontrack.authentication.CurrentUser;
 import com.example.ontrack.task.Lesson;
+import com.example.ontrack.task.LessonHelper;
 import com.example.ontrack.task.form.validator.LessonTaskFormValidator;
 import com.example.ontrack.repetition.RepetitionRule;
 import javafx.collections.ObservableList;
@@ -58,7 +60,7 @@ public class AddLessonFormController implements IBackButton, Initializable {
         repetitionRuleDropDown.setOnShown(new EventHandler<Event>() {
             @Override
             public void handle(Event event) {
-                ObservableList<RepetitionRule> listOfRepetitionRules = RepetitionRule.getUserRepetitionRules();
+                ObservableList<RepetitionRule> listOfRepetitionRules = CurrentUser.getInstance().getUserRepetitionRules();
                 StringConverter<RepetitionRule> converter = new StringConverter<RepetitionRule>() {
                     @Override
                     public String toString(RepetitionRule repetitionRule) {
@@ -153,6 +155,7 @@ public class AddLessonFormController implements IBackButton, Initializable {
         String lessonSubjectError = "";
         String lessonVenueError = "";
         String lessonRepetitionRuleError = "";
+        String lessonDateRuleError = "";
         String errorMessage = "";
 
         //Validate user input
@@ -161,6 +164,7 @@ public class AddLessonFormController implements IBackButton, Initializable {
         lessonSubjectError = LessonTaskFormValidator.validateSubject(lessonSubject);
         lessonVenueError = LessonTaskFormValidator.validateVenue(lessonVenue);
         lessonRepetitionRuleError = LessonTaskFormValidator.validateRepetitionRule(lessonRepetitionRule);
+        lessonDateRuleError = LessonTaskFormValidator.validateDate(lessonStartDate);
 
         if(!lessonNameError.isEmpty())
         {
@@ -182,6 +186,11 @@ public class AddLessonFormController implements IBackButton, Initializable {
         {
             errorMessage += lessonRepetitionRuleError + "\n";
         }
+        if(!lessonDateRuleError.isEmpty())
+        {
+            errorMessage += lessonDateRuleError + "\n";
+        }
+
 
         if(!errorMessage.isEmpty())
         {
@@ -190,10 +199,10 @@ public class AddLessonFormController implements IBackButton, Initializable {
         }
         else
         {
-            Lesson lesson = new Lesson(lessonName,lessonDesc,lessonSubject,lessonVenue,lessonRepetitionRule,lessonStartDate);
-            lesson.createLessonInDb();
+            Lesson lesson = new Lesson(lessonName,lessonDesc,lessonSubject,lessonVenue,lessonStartDate,1,false);
+            LessonHelper.createLessonInDb(lesson);
             lesson.setRepetitionRule(lessonRepetitionRule);
-            lesson.createLessonCycleInDb();
+            LessonHelper.createLessonCycleInDb(lesson,lessonRepetitionRule);
         }
 
     }

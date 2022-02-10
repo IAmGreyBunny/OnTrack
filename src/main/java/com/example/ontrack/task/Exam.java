@@ -33,6 +33,7 @@ public class Exam extends Task {
         this.subject=subject;
         this.venue=venue;
         this.date = date;
+        this.status = status;
     }
 
     //Create lesson in database

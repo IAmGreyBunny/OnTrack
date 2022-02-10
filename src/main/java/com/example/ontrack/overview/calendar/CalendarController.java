@@ -51,9 +51,8 @@ public class CalendarController implements Initializable {
         currentDisplayDate = currentDisplayDate.minusMonths(1);
         clearCalendarCells();
         loadCalendar(currentDisplayDate.getMonth().getValue(), currentDisplayDate.getYear());
-
-
     }
+
     public void loadCalendar(int month, int year) {
         LocalDate localDate = LocalDate.of(year, month, 1); //LocalDate object of 1st day of month
         currentDisplayDate=localDate;

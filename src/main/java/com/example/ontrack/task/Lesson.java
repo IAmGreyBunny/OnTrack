@@ -17,99 +17,30 @@ public class Lesson extends RepeatableTask {
     private String venue;
     private LocalDate date;
 
-    //Constructor for first Lesson in a cycle, used as a starting point
-    //Assumes current round = 1
-    public Lesson(String name, String subject,String desc, String venue, RepetitionRule repetitionRule,LocalDate date)
+    //Constructor for when repetition rule id is not known
+    public Lesson(String name,String desc,String subject, String venue,LocalDate date,int currentRound,Boolean status)
     {
         this.taskName=name;
         this.description = desc;
         this.subject=subject;
         this.venue=venue;
-        this.repetitionRule = repetitionRule;
         this.date=date;
-        this.currentRound=1;
+        this.currentRound=currentRound;
+        this.status = status;
     }
 
-    //Constructor for creating subsequent lesson where round number is known
-    //current round number have to be given
-    public Lesson(String name, String subject,String desc, String venue, RepetitionRule repetitionRule,LocalDate date,int currentRound)
+    //Constructor for when ruleId is known
+    public Lesson(String name,String desc,String subject, String venue, int repetitionRuleId,LocalDate date,int currentRound,Boolean status)
     {
         this.taskName=name;
         this.description = desc;
         this.subject=subject;
         this.venue=venue;
-        this.repetitionRule = repetitionRule;
+        this.ruleId = repetitionRuleId;
         this.date=date;
         this.currentRound=currentRound;
+        this.status = status;
     }
-
-    //Constructor with full info
-    //Use this to Lesson objects from db
-    public Lesson(int lessonId,String name,String desc, String venue, int repetitionRuleId,LocalDate date,int currentRound,Boolean status)
-    {
-        this.lessonId=lessonId;
-        this.taskName=name;
-        this.description=desc;
-        this.venue=venue;
-        this.repetitionRule = RepetitionRuleHelper.getRepetitionRuleFromId(repetitionRuleId);
-        this.date=date;
-        this.currentRound=currentRound;
-        this.status=status;
-    }
-
-    //Create lesson in database
-    public void createLessonInDb() {
-        //Gets connection to database
-        DatabaseManager databaseManager = new DatabaseManager();
-        Connection connection = databaseManager.getConnection();
-        String sql = "";
-
-        //Gets current user id
-        int currentUid = CurrentUser.getInstance().getUser().getUserId();
-
-        //Add repetition rule into database
-        sql = String.format("INSERT INTO lessons(userId,name,description,venue,status,round,lessonDate) VALUES (%s,'%s','%s','%s',%s,%s,'%s')",
-                currentUid,
-                this.taskName,
-                this.description,
-                this.venue,
-                0,
-                this.currentRound,
-                this.date.toString());
-        try{
-            Statement statement = connection.createStatement();
-            statement.executeUpdate(sql);
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-        }
-        finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    //Create subsequent lesson in database
-    public void createLessonCycleInDb() throws SQLException {
-        //Get rounds
-        ObservableList<Round> rounds = this.repetitionRule.getRounds();
-        int roundInterval=0;
-        for(Round round : rounds)
-        {
-            int roundNumber = round.getRoundNumber()+1;
-            roundInterval += round.getRoundInterval();
-
-            Lesson lesson = new Lesson(this.taskName, this.subject, this.description,this.venue, this.repetitionRule, this.date.plusDays(roundInterval), roundNumber);
-            lesson.createLessonInDb();
-            lesson.setRepetitionRule(this.repetitionRule);
-        }
-    }
-
-
 
     @Override
     public void setRepetitionRule(RepetitionRule repetitionRule) {
@@ -203,18 +134,11 @@ public class Lesson extends RepeatableTask {
         this.date = date;
     }
 
-    @Override
-    public Task getPreviousTask(Task currentTask) {
-        return null;
+    public int getRuleId() {
+        return ruleId;
     }
 
-    @Override
-    public Task getNextTask(Task currentTask) {
-        return null;
-    }
-
-    @Override
-    public Task createNextTask(Task currentTask) {
-        return null;
+    public void setRuleId(int ruleId) {
+        this.ruleId = ruleId;
     }
 }

@@ -5,6 +5,7 @@ import com.example.ontrack.repetition.RepetitionRule;
 public abstract class RepeatableTask extends Task {
     protected int currentRound;
     protected RepetitionRule repetitionRule;
+    protected int ruleId;
 
     public int getCurrentRound() {
         return currentRound;
@@ -22,8 +23,11 @@ public abstract class RepeatableTask extends Task {
         this.repetitionRule = repetitionRule;
     }
 
-    public abstract Task getPreviousTask(Task currentTask);
-    public abstract Task getNextTask(Task currentTask);
-    public abstract Task createNextTask(Task currentTask);
+    public int getRuleId() {
+        return ruleId;
+    }
 
+    public void setRuleId(int ruleId) {
+        this.ruleId = ruleId;
+    }
 }
