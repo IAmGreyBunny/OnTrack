@@ -1,6 +1,6 @@
 package com.example.ontrack.task;
 
-import com.example.ontrack.repetition.RepetitionRule;
+import com.example.ontrack.task.repetition.RepetitionRule;
 
 public abstract class RepeatableTask extends Task {
     protected int currentRound;

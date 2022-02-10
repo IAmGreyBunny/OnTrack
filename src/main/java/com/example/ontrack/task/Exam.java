@@ -3,7 +3,6 @@ package com.example.ontrack.task;
 import com.example.ontrack.authentication.CurrentUser;
 import com.example.ontrack.database.DatabaseHelper;
 import com.example.ontrack.database.DatabaseManager;
-import com.example.ontrack.repetition.RepetitionRule;
 
 import java.sql.*;
 import java.time.LocalDate;

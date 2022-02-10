@@ -1,4 +1,4 @@
-package com.example.ontrack.repetition;
+package com.example.ontrack.task.repetition;
 
 import com.example.ontrack.authentication.CurrentUser;
 import com.example.ontrack.database.DatabaseHelper;

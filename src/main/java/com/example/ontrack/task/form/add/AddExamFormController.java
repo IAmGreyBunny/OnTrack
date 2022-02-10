@@ -2,30 +2,22 @@ package com.example.ontrack.task.form.add;
 
 import com.example.ontrack.IBackButton;
 import com.example.ontrack.Main;
-import com.example.ontrack.repetition.RepetitionRule;
 import com.example.ontrack.task.Exam;
 import com.example.ontrack.task.ExamHelper;
-import com.example.ontrack.task.Revision;
-import com.example.ontrack.task.form.validator.ExamTaskFormValidator;
-import com.example.ontrack.task.form.validator.RevisionTaskFormValidator;
-import javafx.collections.ObservableList;
+import com.example.ontrack.task.form.validator.IExamForm;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.util.StringConverter;
 
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
-public class AddExamFormController implements IBackButton, Initializable {
+public class AddExamFormController implements IBackButton, IExamForm, Initializable {
     @FXML
     Button backButton;
     @FXML
@@ -47,22 +39,19 @@ public class AddExamFormController implements IBackButton, Initializable {
     }
 
     @FXML
-    public void onBackButtonClicked()
-    {
+    public void onBackButtonClicked() {
         Parent form;
         BorderPane borderPane = (BorderPane) backButton.getScene().getRoot();
         try {
             form = FXMLLoader.load(Main.class.getResource("task/form/add/AddTaskForm.fxml"));
             borderPane.setLeft(form);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     @FXML
-    public void onSaveTaskButtonClicked()
-    {
+    public void onSaveTaskButtonClicked() {
         //Gets user input
         String examName = examNameTextField.getText();
         String examDesc = examDescTextArea.getText();
@@ -70,46 +59,52 @@ public class AddExamFormController implements IBackButton, Initializable {
         String examVenue = examVenueTextField.getText();
         LocalDate examDate = examDatePicker.getValue();
 
-        //Create error messages
-        String examNameError = "";
-        String examDescError = "";
-        String examSubjectError = "";
-        String examVenueError = "";
-        String errorMessage = "";
-
         //Validate user input
-        examNameError = ExamTaskFormValidator.validateTaskName(examName);
-        examDescError = ExamTaskFormValidator.validateTaskDesc(examDesc);
-        examSubjectError = ExamTaskFormValidator.validateSubject(examSubject);
-        examVenueError = ExamTaskFormValidator.validateVenue(examVenue);
+        String errorMessage = validateTaskName(examName) +
+                validateTaskDesc(examDesc) +
+                validateTaskDate(examDate) +
+                validateSubject(examSubject) +
+                validateVenue(examVenue);
 
-        if(!examNameError.isEmpty())
-        {
-            errorMessage += examNameError + "\n";
-        }
-        if(!examDescError.isEmpty())
-        {
-            errorMessage += examDescError + "\n";
-        }
-        if(!examSubjectError.isEmpty())
-        {
-            errorMessage += examSubjectError + "\n";
-        }
-        if(!examVenueError.isEmpty())
-        {
-            errorMessage += examVenueError + "\n";
-        }
-        if(!errorMessage.isEmpty())
-        {
+
+        if (!errorMessage.isEmpty()) {
             //TO DO: ERROR MESSAGE BOX TO BE IMPLEMENTED LATER
             System.out.println(errorMessage);
-        }
-        else
-        {
-            Exam exam = new Exam(examName,examDesc,examSubject,examVenue,examDate,false);
+        } else {
+            Exam exam = new Exam(examName, examDesc, examSubject, examVenue, examDate, false);
             ExamHelper.createExamInDb(exam);
         }
 
     }
 
+    @Override
+    public String validateVenue(String subject) {
+        return "";
+    }
+
+    @Override
+    public String validateSubject(String subject) {
+        return "";
+    }
+
+    @Override
+    public String validateTaskName(String taskName) {
+        if (taskName.isEmpty()) {
+            return "Name is required";
+        }
+        return "";
+    }
+
+    @Override
+    public String validateTaskDesc(String taskDesc) {
+        return "";
+    }
+
+    @Override
+    public String validateTaskDate(LocalDate date) {
+        if (date == null) {
+            return "date is required";
+        }
+        return "";
+    }
 }

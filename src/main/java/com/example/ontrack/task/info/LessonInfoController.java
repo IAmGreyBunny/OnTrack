@@ -2,12 +2,10 @@ package com.example.ontrack.task.info;
 
 import com.example.ontrack.IBackButton;
 import com.example.ontrack.Main;
-import com.example.ontrack.repetition.RepetitionRuleHelper;
-import com.example.ontrack.task.Exam;
+import com.example.ontrack.task.repetition.RepetitionRuleHelper;
 import com.example.ontrack.task.Lesson;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;

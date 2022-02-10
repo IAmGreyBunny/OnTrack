@@ -1,7 +1,7 @@
 package com.example.ontrack.authentication;
 
-import com.example.ontrack.repetition.RepetitionRule;
-import com.example.ontrack.repetition.RepetitionRuleHelper;
+import com.example.ontrack.task.repetition.RepetitionRule;
+import com.example.ontrack.task.repetition.RepetitionRuleHelper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 

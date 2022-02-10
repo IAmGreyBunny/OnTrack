@@ -1,9 +1,9 @@
 package com.example.ontrack.task.form.add;
 
 import com.example.ontrack.authentication.CurrentUser;
-import com.example.ontrack.repetition.RepetitionRuleFormValidator;
-import com.example.ontrack.repetition.RepetitionRule;
-import com.example.ontrack.repetition.Round;
+import com.example.ontrack.task.form.validator.IRepetitionRuleForm;
+import com.example.ontrack.task.repetition.RepetitionRule;
+import com.example.ontrack.task.repetition.Round;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -14,7 +14,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class AddRepetitionRuleFormController implements Initializable {
+public class AddRepetitionRuleFormController implements IRepetitionRuleForm, Initializable {
     @FXML
     Button addApplyButton;
     @FXML
@@ -118,34 +118,18 @@ public class AddRepetitionRuleFormController implements Initializable {
         roundTableView.getSortOrder().add(roundNumberColumn);
 
         //Form validation
-        Boolean hasError = false;
         String ruleName = ruleNameTextField.getText();
         String repeatType = repeatTypeDropDown.getValue();
-        String ruleNameErrorMessage = RepetitionRuleFormValidator.validateName(ruleName);
-        String repeatTypeErrorMessage = RepetitionRuleFormValidator.validateRepeatType(repeatType);
-        String roundConsistencyErrorMessage = RepetitionRuleFormValidator.validateRoundConsistency(listOfRounds);
-
-        //Check for form validation errors
-        if (!roundConsistencyErrorMessage.isEmpty())
-        {
-            System.out.println(roundConsistencyErrorMessage);
-            hasError = true;
-        }
-
-        if (!ruleNameErrorMessage.isEmpty())
-        {
-            System.out.println(ruleNameErrorMessage);
-            hasError = true;
-        }
-
-        if (!repeatTypeErrorMessage.isEmpty())
-        {
-            System.out.println(repeatTypeErrorMessage);
-            hasError = true;
-        }
+        String errorMessage =  validateName(ruleName)
+                +validateRepeatType(repeatType)
+                +validateRoundConsistency(listOfRounds);
 
         //If form validation is successful
-        if(!hasError)
+        if(!errorMessage.isEmpty())
+        {
+            System.out.println(errorMessage);
+        }
+        else
         {
             RepetitionRule repetitionRule = new RepetitionRule(ruleName,repeatType,listOfRounds);
             repetitionRule.createRepetitionRuleInDb(repetitionRule);
@@ -159,5 +143,51 @@ public class AddRepetitionRuleFormController implements Initializable {
     private void onDeleteButtonClick()
     {
         roundTableView.getItems().removeAll(roundTableView.getSelectionModel().getSelectedItems());
+    }
+
+    @Override
+    public String validateName(String name) {
+        String errorMessage = "";
+        if(name.isEmpty())
+        {
+            errorMessage = "Rule name is required";
+        }
+        return errorMessage;
+    }
+
+    @Override
+    public String validateRepeatType(String repeatType) {
+        String errorMessage = "";
+        if(repeatType == null || repeatType.isEmpty())
+        {
+            errorMessage = "Repeat type is required";
+        }
+        return errorMessage;
+    }
+
+    @Override
+    public String validateRoundConsistency(ObservableList<Round> listOfRounds) {
+        String errorMessage = "";
+
+        Round previousRound = null;
+        int missingRound = 0;
+        for(Round currentRound:listOfRounds)
+        {
+            if (previousRound != null)
+            {
+                missingRound = currentRound.getRoundNumber() - previousRound.getRoundNumber() - 1;
+                if (missingRound > 0)
+                {
+                    for(int i=1;i<=missingRound;i++)
+                    {
+                        errorMessage += ("Missing round " + (previousRound.getRoundNumber()+i +"\n"));
+                    }
+
+                }
+            }
+            previousRound = currentRound;
+        }
+
+        return errorMessage;
     }
 }

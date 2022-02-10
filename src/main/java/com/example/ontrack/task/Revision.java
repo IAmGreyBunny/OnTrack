@@ -3,10 +3,8 @@ package com.example.ontrack.task;
 import com.example.ontrack.authentication.CurrentUser;
 import com.example.ontrack.database.DatabaseHelper;
 import com.example.ontrack.database.DatabaseManager;
-import com.example.ontrack.repetition.RepetitionRule;
-import com.example.ontrack.repetition.RepetitionRuleHelper;
-import com.example.ontrack.repetition.Round;
-import javafx.collections.ObservableList;
+import com.example.ontrack.task.repetition.RepetitionRule;
+import com.example.ontrack.task.repetition.RepetitionRuleHelper;
 
 import java.sql.*;
 import java.time.LocalDate;

@@ -73,7 +73,6 @@ public class MainPageController implements Initializable {
                 Scene scene = new Scene(fxmlLoader.load());
                 stage.setScene(scene);
                 stage.setResizable(false);
-                //stage.setFullScreen(true); //Do Not Use Fullscreen
                 stage.show();
 
             } catch (IOException e) {

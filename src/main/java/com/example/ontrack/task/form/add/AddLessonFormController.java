@@ -5,8 +5,8 @@ import com.example.ontrack.Main;
 import com.example.ontrack.authentication.CurrentUser;
 import com.example.ontrack.task.Lesson;
 import com.example.ontrack.task.LessonHelper;
-import com.example.ontrack.task.form.validator.LessonTaskFormValidator;
-import com.example.ontrack.repetition.RepetitionRule;
+import com.example.ontrack.task.form.validator.ILessonForm;
+import com.example.ontrack.task.repetition.RepetitionRule;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -27,7 +27,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
-public class AddLessonFormController implements IBackButton, Initializable {
+public class AddLessonFormController implements IBackButton, ILessonForm, Initializable {
     @FXML
     Button backButton;
     @FXML
@@ -150,47 +150,12 @@ public class AddLessonFormController implements IBackButton, Initializable {
         LocalDate lessonStartDate = lessonStartDatePicker.getValue();
 
         //Create error messages
-        String lessonNameError = "";
-        String lessonDescError = "";
-        String lessonSubjectError = "";
-        String lessonVenueError = "";
-        String lessonRepetitionRuleError = "";
-        String lessonDateRuleError = "";
-        String errorMessage = "";
-
-        //Validate user input
-        lessonNameError = LessonTaskFormValidator.validateTaskName(lessonName);
-        lessonDescError = LessonTaskFormValidator.validateTaskDesc(lessonDesc);
-        lessonSubjectError = LessonTaskFormValidator.validateSubject(lessonSubject);
-        lessonVenueError = LessonTaskFormValidator.validateVenue(lessonVenue);
-        lessonRepetitionRuleError = LessonTaskFormValidator.validateRepetitionRule(lessonRepetitionRule);
-        lessonDateRuleError = LessonTaskFormValidator.validateDate(lessonStartDate);
-
-        if(!lessonNameError.isEmpty())
-        {
-            errorMessage += lessonNameError + "\n";
-        }
-        if(!lessonDescError.isEmpty())
-        {
-            errorMessage += lessonDescError + "\n";
-        }
-        if(!lessonSubjectError.isEmpty())
-        {
-            errorMessage += lessonSubjectError + "\n";
-        }
-        if(!lessonVenueError.isEmpty())
-        {
-            errorMessage += lessonVenueError + "\n";
-        }
-        if(!lessonRepetitionRuleError.isEmpty())
-        {
-            errorMessage += lessonRepetitionRuleError + "\n";
-        }
-        if(!lessonDateRuleError.isEmpty())
-        {
-            errorMessage += lessonDateRuleError + "\n";
-        }
-
+        String errorMessage = validateTaskName(lessonName)
+                +validateTaskDesc(lessonDesc)
+                +validateSubject(lessonSubject)
+                +validateVenue(lessonVenue)
+                +validateRepetitionRule(lessonRepetitionRule)
+                +validateTaskDate(lessonStartDate);
 
         if(!errorMessage.isEmpty())
         {
@@ -207,4 +172,46 @@ public class AddLessonFormController implements IBackButton, Initializable {
 
     }
 
+    @Override
+    public String validateTaskName(String taskName) {
+        if (taskName.isEmpty()) {
+            return "Name is required";
+        }
+        return "";
+    }
+
+    @Override
+    public String validateTaskDesc(String taskDesc) {
+        return "";
+    }
+
+    @Override
+    public String validateTaskDate(LocalDate date) {
+        if (date == null) {
+            return "date is required";
+        }
+        return "";
+    }
+
+    @Override
+    public String validateSubject(String subject) {
+        return "";
+    }
+
+    @Override
+    public String validateVenue(String subject) {
+        return "";
+    }
+
+    @Override
+    public String validateRepetitionRule(RepetitionRule repetitionRule) {
+        if(repetitionRule == null)
+        {
+            return "Repetition rule must be set";
+        }
+        else
+        {
+            return "";
+        }
+    }
 }

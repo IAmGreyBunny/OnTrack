@@ -4,10 +4,9 @@ import com.example.ontrack.IBackButton;
 import com.example.ontrack.Main;
 import com.example.ontrack.task.Exam;
 import com.example.ontrack.task.ExamHelper;
-import com.example.ontrack.task.form.validator.ExamTaskFormValidator;
+import com.example.ontrack.task.form.validator.IExamForm;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
@@ -16,11 +15,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 
 import java.io.IOException;
-import java.net.URL;
 import java.time.LocalDate;
-import java.util.ResourceBundle;
 
-public class EditExamFormController implements IBackButton {
+public class EditExamFormController implements IExamForm, IBackButton {
     @FXML
     Button backButton;
     @FXML
@@ -73,35 +70,13 @@ public class EditExamFormController implements IBackButton {
         String examVenue = examVenueTextField.getText();
         LocalDate examDate = examDatePicker.getValue();
 
-        //Create error messages
-        String examNameError = "";
-        String examDescError = "";
-        String examSubjectError = "";
-        String examVenueError = "";
-        String errorMessage = "";
-
         //Validate user input
-        examNameError = ExamTaskFormValidator.validateTaskName(examName);
-        examDescError = ExamTaskFormValidator.validateTaskDesc(examDesc);
-        examSubjectError = ExamTaskFormValidator.validateSubject(examSubject);
-        examVenueError = ExamTaskFormValidator.validateVenue(examVenue);
+        String errorMessage = validateTaskName(examName) +
+                validateTaskDesc(examDesc) +
+                validateTaskDate(examDate) +
+                validateSubject(examSubject) +
+                validateVenue(examVenue);
 
-        if(!examNameError.isEmpty())
-        {
-            errorMessage += examNameError + "\n";
-        }
-        if(!examDescError.isEmpty())
-        {
-            errorMessage += examDescError + "\n";
-        }
-        if(!examSubjectError.isEmpty())
-        {
-            errorMessage += examSubjectError + "\n";
-        }
-        if(!examVenueError.isEmpty())
-        {
-            errorMessage += examVenueError + "\n";
-        }
         if(!errorMessage.isEmpty())
         {
             //TO DO: ERROR MESSAGE BOX TO BE IMPLEMENTED LATER
@@ -113,6 +88,37 @@ public class EditExamFormController implements IBackButton {
             ExamHelper.updateExamInDb(oldExam,newExam);
         }
 
+
     }
 
+    @Override
+    public String validateVenue(String subject) {
+        return "";
+    }
+
+    @Override
+    public String validateSubject(String subject) {
+        return "";
+    }
+
+    @Override
+    public String validateTaskName(String taskName) {
+        if (taskName.isEmpty()) {
+            return "Name is required";
+        }
+        return "";
+    }
+
+    @Override
+    public String validateTaskDesc(String taskDesc) {
+        return "";
+    }
+
+    @Override
+    public String validateTaskDate(LocalDate date) {
+        if (date == null) {
+            return "date is required";
+        }
+        return "";
+    }
 }

@@ -5,8 +5,8 @@ import com.example.ontrack.Main;
 import com.example.ontrack.authentication.CurrentUser;
 import com.example.ontrack.task.Revision;
 import com.example.ontrack.task.RevisionHelper;
-import com.example.ontrack.task.form.validator.RevisionTaskFormValidator;
-import com.example.ontrack.repetition.RepetitionRule;
+import com.example.ontrack.task.form.validator.IRevisionForm;
+import com.example.ontrack.task.repetition.RepetitionRule;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -27,7 +27,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
-public class AddRevisionFormController implements IBackButton, Initializable {
+public class AddRevisionFormController implements IBackButton, IRevisionForm, Initializable {
     @FXML
     Button backButton;
     @FXML
@@ -146,40 +146,11 @@ public class AddRevisionFormController implements IBackButton, Initializable {
         LocalDate revisionStartDate = revisionStartDatePicker.getValue();
 
         //Create error messages
-        String revisionNameError = "";
-        String revisionDescError = "";
-        String revisionSubjectError = "";
-        String revisionRepetitionRuleError = "";
-        String revisionDateRuleError = "";
-        String errorMessage = "";
-
-        //Validate user input
-        revisionNameError = RevisionTaskFormValidator.validateTaskName(revisionName);
-        revisionDescError = RevisionTaskFormValidator.validateTaskDesc(revisionDesc);
-        revisionSubjectError = RevisionTaskFormValidator.validateSubject(revisionSubject);
-        revisionRepetitionRuleError = RevisionTaskFormValidator.validateRepetitionRule(revisionRepetitionRule);
-        revisionDateRuleError = RevisionTaskFormValidator.validateDate(revisionStartDate);
-
-        if(!revisionNameError.isEmpty())
-        {
-            errorMessage += revisionNameError + "\n";
-        }
-        if(!revisionDescError.isEmpty())
-        {
-            errorMessage += revisionDescError + "\n";
-        }
-        if(!revisionSubjectError.isEmpty())
-        {
-            errorMessage += revisionSubjectError + "\n";
-        }
-        if(!revisionRepetitionRuleError.isEmpty())
-        {
-            errorMessage += revisionRepetitionRuleError + "\n";
-        }
-        if(!revisionDateRuleError.isEmpty())
-        {
-            errorMessage += revisionDateRuleError + "\n";
-        }
+        String errorMessage = validateTaskName(revisionName)+
+                validateTaskDesc(revisionDesc)
+                +validateSubject(revisionSubject)
+                +validateRepetitionRule(revisionRepetitionRule)
+                +validateTaskDate(revisionStartDate);
 
         if(!errorMessage.isEmpty())
         {
@@ -196,4 +167,41 @@ public class AddRevisionFormController implements IBackButton, Initializable {
 
     }
 
+    @Override
+    public String validateTaskName(String taskName) {
+        if (taskName.isEmpty()) {
+            return "Name is required";
+        }
+        return "";
+    }
+
+    @Override
+    public String validateTaskDesc(String taskDesc) {
+        return "";
+    }
+
+    @Override
+    public String validateTaskDate(LocalDate date) {
+        if (date == null) {
+            return "date is required";
+        }
+        return "";
+    }
+
+    @Override
+    public String validateRepetitionRule(RepetitionRule repetitionRule) {
+        if(repetitionRule == null)
+        {
+            return "Repetition rule must be set";
+        }
+        else
+        {
+            return "";
+        }
+    }
+
+    @Override
+    public String validateSubject(String subject) {
+        return "";
+    }
 }

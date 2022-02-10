@@ -4,11 +4,9 @@ import com.example.ontrack.IBackButton;
 import com.example.ontrack.Main;
 import com.example.ontrack.task.Activity;
 import com.example.ontrack.task.ActivityHelper;
-import com.example.ontrack.task.Exam;
-import com.example.ontrack.task.form.validator.ActivityTaskFormValidator;
+import com.example.ontrack.task.form.validator.IActivityForm;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
@@ -17,11 +15,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 
 import java.io.IOException;
-import java.net.URL;
 import java.time.LocalDate;
-import java.util.ResourceBundle;
 
-public class EditActivityFormController implements IBackButton {
+public class EditActivityFormController implements IActivityForm,IBackButton {
     @FXML
     Button backButton;
     @FXML
@@ -72,28 +68,12 @@ public class EditActivityFormController implements IBackButton {
         LocalDate activityDate = activityDatePicker.getValue();
 
         //Create error messages
-        String activityNameError = "";
-        String activityDescError = "";
-        String activityVenueError = "";
         String errorMessage = "";
+        errorMessage = validateTaskName(activityName)+
+                validateTaskDesc(activityDesc)+
+                validateVenue(activityVenue)+
+                validateTaskDate(activityDate);
 
-        //Validate user input
-        activityNameError = ActivityTaskFormValidator.validateTaskName(activityName);
-        activityDescError = ActivityTaskFormValidator.validateTaskDesc(activityDesc);
-        activityVenueError = ActivityTaskFormValidator.validateVenue(activityVenue);
-
-        if(!activityNameError.isEmpty())
-        {
-            errorMessage += activityNameError + "\n";
-        }
-        if(!activityDescError.isEmpty())
-        {
-            errorMessage += activityDescError + "\n";
-        }
-        if(!activityVenueError.isEmpty())
-        {
-            errorMessage += activityVenueError + "\n";
-        }
         if(!errorMessage.isEmpty())
         {
             //TO DO: ERROR MESSAGE BOX TO BE IMPLEMENTED LATER
@@ -107,4 +87,31 @@ public class EditActivityFormController implements IBackButton {
 
     }
 
+    @Override
+    public String validateVenue(String subject) {
+        return "";
+    }
+
+    @Override
+    public String validateTaskName(String taskName) {
+        if(taskName.isEmpty()) {
+            return "Name is required";
+        }
+        return "";
+    }
+
+    @Override
+    public String validateTaskDesc(String taskDesc) {
+        return "";
+    }
+
+    @Override
+    public String validateTaskDate(LocalDate date)
+    {
+        if(date == null)
+        {
+            return "date is required";
+        }
+        return "";
+    }
 }
