@@ -67,7 +67,7 @@ public class ExamInfoController implements IBackButton {
 
     public void onEditButtonClicked()
     {
-        //Create calendar cell for date
+        //Load Edit Form
         FXMLLoader editExamFormLoader = new FXMLLoader(Main.class.getResource("task/form/edit/EditExamForm.fxml"));
         EditExamFormController editExamFormController;
         Parent examForm;

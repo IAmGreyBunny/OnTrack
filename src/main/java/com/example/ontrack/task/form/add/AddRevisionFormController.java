@@ -5,6 +5,7 @@ import com.example.ontrack.Main;
 import com.example.ontrack.authentication.CurrentUser;
 import com.example.ontrack.task.Revision;
 import com.example.ontrack.task.RevisionHelper;
+import com.example.ontrack.task.form.edit.EditRepetitionRuleFormController;
 import com.example.ontrack.task.form.validator.IRevisionForm;
 import com.example.ontrack.task.repetition.RepetitionRule;
 import javafx.collections.ObservableList;
@@ -109,7 +110,24 @@ public class AddRevisionFormController implements IBackButton, IRevisionForm, In
     @FXML
     public void loadEditRepetitionRuleForm()
     {
+        //Load Edit Form
+        FXMLLoader editRepetitionRuleFormLoader = new FXMLLoader(Main.class.getResource("task/form/edit/EditRepetitionRuleForm.fxml"));
+        EditRepetitionRuleFormController editRepetitionRuleFormController;
+        Parent editRepetitionRuleForm;
+        try {
+            editRepetitionRuleForm = editRepetitionRuleFormLoader.load();
+            editRepetitionRuleFormController = editRepetitionRuleFormLoader.getController();
+            editRepetitionRuleFormController.setRepetitionRule(repetitionRuleDropDown.getValue()); //Load calendar cell content based on date given
 
+            //Display new window
+            Stage stage = new Stage();
+            Scene scene = new Scene(editRepetitionRuleForm);
+            stage.setScene(scene);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML

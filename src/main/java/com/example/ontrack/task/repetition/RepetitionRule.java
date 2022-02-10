@@ -34,49 +34,6 @@ public class RepetitionRule {
         this.rounds = getRounds();
     }
 
-
-    //Create repetition rule in database
-    public boolean createRepetitionRuleInDb(RepetitionRule repetitionRule)
-    {
-        boolean success = true;
-        //Gets connection to database
-        DatabaseManager databaseManager = new DatabaseManager();
-        Connection connection = databaseManager.getConnection();
-        String sql = "";
-
-        //Gets current user id
-        int currentUid = CurrentUser.getInstance().getUser().getUserId();
-
-        //Add repetition rule into database
-        sql = String.format("INSERT INTO repetitionRules(ruleName,repeatType,userid) VALUES ('%s','%s',%s)",this.ruleName,this.repeatType, currentUid);
-        try{
-            Statement statement = connection.createStatement();
-            statement.executeUpdate(sql);
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-            success=false;
-        }
-
-        //Add round info of repetition rule into database
-        for(Round round: repetitionRule.rounds)
-        {
-            sql = String.format("INSERT INTO Rounds(ruleId,roundNumber,roundInterval) VALUES (%s,%s,%s)",this.getRuleId(),round.getRoundNumber(), round.getRoundInterval());
-            try{
-                Statement statement = connection.createStatement();
-                statement.executeUpdate(sql);
-            }
-            catch(Exception e)
-            {
-                e.printStackTrace();
-                success=false;
-            }
-        }
-
-        return success;
-    }
-
     public int getRuleId()
     {
         // If ruleid exist,ruleid can never be null,only 0,

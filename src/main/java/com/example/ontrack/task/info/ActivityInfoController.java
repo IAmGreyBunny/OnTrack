@@ -54,7 +54,7 @@ public class ActivityInfoController implements IBackButton {
 
     public void onEditButtonClicked()
     {
-        //Create calendar cell for date
+        //Load Edit Form
         FXMLLoader editActivityFormLoader = new FXMLLoader(Main.class.getResource("task/form/edit/EditActivityForm.fxml"));
         EditActivityFormController editActivityFormController;
         Parent activityForm;

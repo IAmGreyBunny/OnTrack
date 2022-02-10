@@ -1,4 +1,4 @@
-package com.example.ontrack.main;
+package com.example.ontrack;
 
 import com.example.ontrack.Main;
 import com.example.ontrack.authentication.CurrentUser;

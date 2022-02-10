@@ -1,4 +1,4 @@
-package com.example.ontrack.task.form.add;
+package com.example.ontrack.task.form.edit;
 
 import com.example.ontrack.authentication.CurrentUser;
 import com.example.ontrack.task.form.validator.IRepetitionRuleForm;
@@ -7,6 +7,8 @@ import com.example.ontrack.task.repetition.RepetitionRuleHelper;
 import com.example.ontrack.task.repetition.Round;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -15,7 +17,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class AddRepetitionRuleFormController implements IRepetitionRuleForm, Initializable {
+public class EditRepetitionRuleFormController implements IRepetitionRuleForm, Initializable {
     @FXML
     Button addApplyButton;
     @FXML
@@ -40,41 +42,14 @@ public class AddRepetitionRuleFormController implements IRepetitionRuleForm, Ini
     @FXML
     private TableColumn<Round,Integer> roundIntervalColumn;
 
+    RepetitionRule oldRepetitionRule;
 
-    //Initialise default values for the table as example for user
-    ObservableList<Round> listOfRounds = FXCollections.observableArrayList(
-            new Round(1,1),
-            new Round(2,3),
-            new Round(3,7)
-    );
+    //Temporary holder for list of round to be edited by user so that it does not interfere when user don't save
+    ObservableList<Round> placeholderListOfRounds = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //Tie attributes of Round class to table columns
-        roundNumberColumn.setCellValueFactory(new PropertyValueFactory<>("roundNumber"));
-        roundIntervalColumn.setCellValueFactory(new PropertyValueFactory<>("roundInterval"));
-        roundIntervalColumn.setSortable(false);
-
-        //Set default values
-        roundTableView.setItems(listOfRounds);
-
-        //Adds listener row, activates when row is selected
-        //Sets fields to Round of selected row
-        roundTableView.getSelectionModel().selectedItemProperty().addListener((obs,oldSelection,newSelection)->{
-            if(newSelection!=null)
-            {
-                roundNumberTextField.setText(String.valueOf(newSelection.getRoundNumber()));
-                roundIntervalTextField.setText(String.valueOf(newSelection.getRoundInterval()));
-            }
-        });
-
-        //Set up combobox repetition types
-        repeatTypeDropDown.getItems().addAll(
-                "Repeat Last",
-                "Start Over",
-                "Singular Cycle",
-                "Do not repeat"
-        );
+        CurrentUser.getInstance().reloadUser();
     }
 
     @FXML
@@ -93,7 +68,7 @@ public class AddRepetitionRuleFormController implements IRepetitionRuleForm, Ini
         if(roundNumber>0 && roundInterval>0)
         {
             //If round number exist, change its round interval
-            for(Round round:listOfRounds)
+            for(Round round:placeholderListOfRounds)
             {
                 if(round.getRoundNumber()==roundNumber)
                 {
@@ -105,7 +80,7 @@ public class AddRepetitionRuleFormController implements IRepetitionRuleForm, Ini
             }
 
             //If round does not exist,create a new one
-            listOfRounds.add(new Round(roundNumber,roundInterval));
+            placeholderListOfRounds.add(new Round(roundNumber,roundInterval));
             roundTableView.refresh();
             roundTableView.getSortOrder().add(roundNumberColumn);
         }
@@ -123,7 +98,7 @@ public class AddRepetitionRuleFormController implements IRepetitionRuleForm, Ini
         String repeatType = repeatTypeDropDown.getValue();
         String errorMessage =  validateName(ruleName)
                 +validateRepeatType(repeatType)
-                +validateRoundConsistency(listOfRounds);
+                +validateRoundConsistency(placeholderListOfRounds);
 
         //If form validation is successful
         if(!errorMessage.isEmpty())
@@ -132,8 +107,8 @@ public class AddRepetitionRuleFormController implements IRepetitionRuleForm, Ini
         }
         else
         {
-            RepetitionRule repetitionRule = new RepetitionRule(ruleName,repeatType,listOfRounds);
-            RepetitionRuleHelper.createRepetitionRuleInDb(repetitionRule);
+            RepetitionRule newRepetitionRule = new RepetitionRule(ruleName,repeatType,placeholderListOfRounds);
+            RepetitionRuleHelper.updateRepetitionRule(oldRepetitionRule,newRepetitionRule);
             CurrentUser.getInstance().reloadUser();
         }
 
@@ -144,6 +119,41 @@ public class AddRepetitionRuleFormController implements IRepetitionRuleForm, Ini
     private void onDeleteButtonClick()
     {
         roundTableView.getItems().removeAll(roundTableView.getSelectionModel().getSelectedItems());
+    }
+
+    public void setRepetitionRule(RepetitionRule repetitionRule)
+    {
+
+        oldRepetitionRule = repetitionRule;
+
+        //Tie attributes of Round class to table columns
+        roundNumberColumn.setCellValueFactory(new PropertyValueFactory<>("roundNumber"));
+        roundIntervalColumn.setCellValueFactory(new PropertyValueFactory<>("roundInterval"));
+        roundIntervalColumn.setSortable(false);
+
+        //Set values to old repetition rules
+        placeholderListOfRounds= FXCollections.observableArrayList(oldRepetitionRule.getRounds());
+        roundTableView.setItems(placeholderListOfRounds);
+        ruleNameTextField.setText(oldRepetitionRule.getRuleName());
+        repeatTypeDropDown.setValue(oldRepetitionRule.getRepeatType());
+
+        //Adds listener row, activates when row is selected
+        //Sets fields to Round of selected row
+        roundTableView.getSelectionModel().selectedItemProperty().addListener((obs,oldSelection,newSelection)->{
+            if(newSelection!=null)
+            {
+                roundNumberTextField.setText(String.valueOf(newSelection.getRoundNumber()));
+                roundIntervalTextField.setText(String.valueOf(newSelection.getRoundInterval()));
+            }
+        });
+
+        //Set up combobox repetition types
+        repeatTypeDropDown.getItems().addAll(
+                "Repeat Last",
+                "Start Over",
+                "Singular Cycle",
+                "Do not repeat"
+        );
     }
 
     @Override
