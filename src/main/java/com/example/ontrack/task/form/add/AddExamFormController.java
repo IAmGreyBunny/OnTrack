@@ -4,6 +4,7 @@ import com.example.ontrack.IBackButton;
 import com.example.ontrack.Main;
 import com.example.ontrack.repetition.RepetitionRule;
 import com.example.ontrack.task.Exam;
+import com.example.ontrack.task.ExamHelper;
 import com.example.ontrack.task.Revision;
 import com.example.ontrack.task.form.validator.ExamTaskFormValidator;
 import com.example.ontrack.task.form.validator.RevisionTaskFormValidator;
@@ -105,8 +106,8 @@ public class AddExamFormController implements IBackButton, Initializable {
         }
         else
         {
-            Exam exam = new Exam(examName,examDesc,examSubject,examVenue,examDate);
-            exam.createExamInDb();
+            Exam exam = new Exam(examName,examDesc,examSubject,examVenue,examDate,false);
+            ExamHelper.createExamInDb(exam);
         }
 
     }

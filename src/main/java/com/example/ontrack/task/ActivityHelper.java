@@ -7,10 +7,7 @@ import com.example.ontrack.database.DatabaseManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.LocalDate;
 
 public class ActivityHelper {
@@ -33,8 +30,9 @@ public class ActivityHelper {
                             resultSet.getString("name"),
                             resultSet.getString("description"),
                             resultSet.getString("venue"),
-                            resultSet.getBoolean("status"),
-                            resultSet.getObject("activityDate",LocalDate.class));
+                            resultSet.getObject("activityDate",LocalDate.class),
+                            resultSet.getBoolean("status")
+                    );
                     listOfActivity.add(activity);
                 }
                 while(resultSet.next());
@@ -47,5 +45,41 @@ public class ActivityHelper {
         }
 
         return listOfActivity;
+    }
+
+    //Create lesson in database
+    public static void createActivityInDb(Activity activity)
+    {
+        //Gets connection to database
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+        String sql = "";
+
+        //Gets current user id
+        int currentUid = CurrentUser.getInstance().getUser().getUserId();
+
+        //Add repetition rule into database
+        sql = String.format("INSERT INTO Activities(userId,name,description,venue,status,activityDate) VALUES (%s,'%s','%s','%s',%s,'%s')",
+                currentUid,
+                activity.getTaskName(),
+                activity.getDescription(),
+                activity.getVenue(),
+                0,
+                activity.getDate().toString());
+        try{
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(sql);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 }

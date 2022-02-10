@@ -1,13 +1,12 @@
 package com.example.ontrack.task;
 
+import com.example.ontrack.authentication.CurrentUser;
 import com.example.ontrack.database.DatabaseHelper;
 import com.example.ontrack.database.DatabaseManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.time.LocalDate;
 
 public class ExamHelper {
@@ -31,8 +30,8 @@ public class ExamHelper {
                             resultSet.getString("description"),
                             resultSet.getString("subject"),
                             resultSet.getString("venue"),
-                            resultSet.getBoolean("status"),
-                            resultSet.getObject("examDate",LocalDate.class));
+                            resultSet.getObject("examDate",LocalDate.class),
+                            resultSet.getBoolean("status"));
                     listOfExams.add(exam);
                 }
                 while(resultSet.next());
@@ -45,5 +44,41 @@ public class ExamHelper {
         }
 
         return listOfExams;
+    }
+
+    //Create lesson in database
+    public static void createExamInDb(Exam exam)
+    {
+        //Gets connection to database
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+        String sql = "";
+
+        //Gets current user id
+        int currentUid = CurrentUser.getInstance().getUser().getUserId();
+
+        //Add repetition rule into database
+        sql = String.format("INSERT INTO Exams(userId,name,description,venue,subject,status,examDate) VALUES (%s,'%s','%s','%s','%s',%s,'%s')",
+                currentUid,
+                exam.getTaskName(),
+                exam.getDescription(),
+                exam.getVenue(),
+                exam.getSubject(),
+                0,
+                exam.getDate().toString());
+        try{
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(sql);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

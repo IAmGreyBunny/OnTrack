@@ -15,17 +15,18 @@ public class Exam extends Task {
     private LocalDate date;
 
     //Constructor with partial info for exam, useful for creation of db entry
-    public Exam(String name, String desc, String venue, String subject,LocalDate date)
+    public Exam(String name, String desc, String venue, String subject,LocalDate date,Boolean status)
     {
         this.taskName=name;
         this.description = desc;
         this.subject=subject;
         this.venue=venue;
         this.date = date;
+        this.status=status;
     }
 
     //Constructor with full info for exam, useful for retrieval of db entry
-    public Exam(int examId,String name, String desc, String subject,String venue,Boolean status,LocalDate date)
+    public Exam(int examId,String name, String desc, String subject,String venue,LocalDate date,Boolean status)
     {
         this.examId = examId;
         this.taskName=name;
@@ -36,41 +37,7 @@ public class Exam extends Task {
         this.status = status;
     }
 
-    //Create lesson in database
-    public void createExamInDb()
-    {
-        //Gets connection to database
-        DatabaseManager databaseManager = new DatabaseManager();
-        Connection connection = databaseManager.getConnection();
-        String sql = "";
 
-        //Gets current user id
-        int currentUid = CurrentUser.getInstance().getUser().getUserId();
-
-        //Add repetition rule into database
-        sql = String.format("INSERT INTO Exams(userId,name,description,venue,subject,status,examDate) VALUES (%s,'%s','%s','%s','%s',%s,'%s')",
-                currentUid,
-                this.taskName,
-                this.description,
-                this.venue,
-                this.subject,
-                0,
-                this.date.toString());
-        try{
-            Statement statement = connection.createStatement();
-            statement.executeUpdate(sql);
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-        }finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
     public int getExamId(){
         if(this.examId != 0)

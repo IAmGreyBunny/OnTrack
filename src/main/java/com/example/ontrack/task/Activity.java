@@ -13,16 +13,17 @@ public class Activity extends Task {
     private LocalDate date;
 
     //Constructor with partial info for activity, useful for creation of db entry
-    public Activity(String name, String desc, String venue, LocalDate date)
+    public Activity(String name, String desc, String venue , boolean status,LocalDate date)
     {
         this.taskName=name;
         this.description = desc;
         this.venue=venue;
         this.date = date;
+        this.status=status;
     }
 
     //Constructor with full info for activity, useful for retrieval of db entry
-    public Activity(int activityId,String name, String desc, String venue,Boolean status,LocalDate date)
+    public Activity(int activityId,String name, String desc, String venue,LocalDate date,Boolean status)
     {
         this.activityId = activityId;
         this.taskName=name;
@@ -30,42 +31,6 @@ public class Activity extends Task {
         this.venue=venue;
         this.date = date;
         this.status = status;
-    }
-
-    //Create lesson in database
-    public void createActivityInDb()
-    {
-        //Gets connection to database
-        DatabaseManager databaseManager = new DatabaseManager();
-        Connection connection = databaseManager.getConnection();
-        String sql = "";
-
-        //Gets current user id
-        int currentUid = CurrentUser.getInstance().getUser().getUserId();
-
-        //Add repetition rule into database
-        sql = String.format("INSERT INTO Activities(userId,name,description,venue,status,activityDate) VALUES (%s,'%s','%s','%s',%s,'%s')",
-                currentUid,
-                this.taskName,
-                this.description,
-                this.venue,
-                0,
-                this.date.toString());
-        try{
-            Statement statement = connection.createStatement();
-            statement.executeUpdate(sql);
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-        }finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-
     }
 
     public int getActivityId() throws SQLException {
