@@ -3,6 +3,8 @@ package com.example.ontrack.task.info;
 import com.example.ontrack.IBackButton;
 import com.example.ontrack.Main;
 import com.example.ontrack.task.Activity;
+import com.example.ontrack.task.form.edit.EditActivityFormController;
+import com.example.ontrack.task.form.edit.EditExamFormController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -23,6 +25,10 @@ public class ActivityInfoController implements IBackButton {
     private Label activityDate;
     @FXML
     private Button backButton;
+    @FXML
+    private Button editButton;
+
+    Activity displayedActivity;
 
     public void setActivity(Activity activity)
     {
@@ -30,6 +36,7 @@ public class ActivityInfoController implements IBackButton {
         activityDesc.setText(activity.getDescription());
         activityVenue.setText(activity.getVenue());
         activityDate.setText(activity.getDate().toString());
+        displayedActivity=activity;
     }
 
     @Override
@@ -41,6 +48,22 @@ public class ActivityInfoController implements IBackButton {
             borderPane.setLeft(form);
         }
         catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void onEditButtonClicked()
+    {
+        //Create calendar cell for date
+        FXMLLoader editActivityFormLoader = new FXMLLoader(Main.class.getResource("task/form/edit/EditActivityForm.fxml"));
+        EditActivityFormController editActivityFormController;
+        Parent activityForm;
+        try {
+            activityForm = editActivityFormLoader.load();
+            editActivityFormController = editActivityFormLoader.getController();
+            editActivityFormController.setActivity(displayedActivity); //Load calendar cell content based on date given
+            ((BorderPane) editButton.getScene().getRoot()).setLeft(activityForm);
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

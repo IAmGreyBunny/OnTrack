@@ -14,13 +14,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="400.0" style="-fx-background-color: #87cefa;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ontrack.task.form.edit.EditExamFormController">
+<AnchorPane prefHeight="600.0" prefWidth="400.0" style="-fx-background-color: #87cefa;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ontrack.task.form.edit.EditActivityFormController">
    <children>
       <VBox alignment="TOP_CENTER" prefHeight="600.0" prefWidth="400.0">
          <children>
             <HBox alignment="TOP_CENTER" prefWidth="200.0">
                <children>
-                  <Label text="Edit Exam">
+                  <Label text="Edit Activity">
                      <font>
                         <Font size="30.0" />
                      </font>
@@ -37,16 +37,15 @@
                 <RowConstraints valignment="TOP" vgrow="SOMETIMES" />
                 <RowConstraints valignment="TOP" vgrow="SOMETIMES" />
                   <RowConstraints valignment="TOP" vgrow="SOMETIMES" />
-                  <RowConstraints valignment="TOP" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" valignment="TOP" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <TextField fx:id="examNameTextField" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <TextField fx:id="activityNameTextField" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <GridPane.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </GridPane.margin>
                   </TextField>
-                  <TextField fx:id="examVenueTextField" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                  <TextField fx:id="activityVenueTextField" GridPane.columnIndex="1" GridPane.rowIndex="3">
                      <GridPane.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </GridPane.margin>
@@ -61,36 +60,26 @@
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label text="Venue:" GridPane.rowIndex="4">
+                  <Label text="Venue:" GridPane.rowIndex="3">
                      <GridPane.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextArea fx:id="examDescTextArea" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <TextArea fx:id="activityDescTextArea" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <GridPane.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </GridPane.margin>
                   </TextArea>
-                  <Label text="Date" GridPane.rowIndex="5">
+                  <Label text="Date" GridPane.rowIndex="4">
                      <GridPane.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <DatePicker fx:id="examDatePicker" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                  <DatePicker fx:id="activityDatePicker" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="4">
                      <GridPane.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </GridPane.margin>
                   </DatePicker>
-                  <Label text="Subject:" GridPane.rowIndex="3">
-                     <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </padding>
-                  </Label>
-                  <TextField fx:id="examSubjectTextField" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                     <GridPane.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </GridPane.margin>
-                  </TextField>
                </children>
             </GridPane>
             <Button fx:id="saveTaskButton" alignment="CENTER" mnemonicParsing="false" onAction="#onSaveTaskButtonClicked" text="Save Task">

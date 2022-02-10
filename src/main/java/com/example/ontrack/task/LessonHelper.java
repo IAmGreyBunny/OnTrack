@@ -48,6 +48,43 @@ public class LessonHelper {
         return listOfLessons;
     }
 
+    public static ObservableList<Lesson> getAllLessonsFromDate(LocalDate date)
+    {
+        ObservableList<Lesson> listOfLessons = FXCollections.observableArrayList();
+
+        //Database Connection
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+
+        //Gets current user id
+        int currentUid = CurrentUser.getInstance().getUser().getUserId();
+
+        String sql = String.format("SELECT * FROM lessons WHERE (userId = '%s' AND lessonDate='%s')",currentUid,date.toString());
+        try{
+            PreparedStatement statement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
+            ResultSet resultSet = statement.executeQuery();
+            if (DatabaseHelper.getResultSetSize(resultSet) >=1)
+            {
+                Lesson lesson = new Lesson(
+                        resultSet.getString("name"),
+                        resultSet.getString("description"),
+                        resultSet.getString("subject"),
+                        resultSet.getString("venue"),
+                        resultSet.getInt("repetitionRuleId"),
+                        resultSet.getObject("lessonDate",LocalDate.class),
+                        resultSet.getInt("round"),
+                        resultSet.getBoolean("status"));
+                listOfLessons.add(lesson);
+            }
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return listOfLessons;
+    }
+
     //Create lesson in database
     public static void createLessonInDb(Lesson lesson) {
         //Gets connection to database

@@ -3,6 +3,8 @@ package com.example.ontrack.task.form.edit;
 import com.example.ontrack.IBackButton;
 import com.example.ontrack.Main;
 import com.example.ontrack.task.Activity;
+import com.example.ontrack.task.ActivityHelper;
+import com.example.ontrack.task.Exam;
 import com.example.ontrack.task.form.validator.ActivityTaskFormValidator;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,7 +21,7 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
-public class EditActivityFormController implements IBackButton, Initializable {
+public class EditActivityFormController implements IBackButton {
     @FXML
     Button backButton;
     @FXML
@@ -34,8 +36,16 @@ public class EditActivityFormController implements IBackButton, Initializable {
     @FXML
     DatePicker activityDatePicker;
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    Activity oldActivity;
+
+
+    public void setActivity(Activity activity)
+    {
+        oldActivity = activity;
+        activityNameTextField.setText(activity.getTaskName());
+        activityDescTextArea.setText(activity.getDescription());
+        activityVenueTextField.setText(activity.getVenue());
+        activityDatePicker.setValue(activity.getDate());
     }
 
     @FXML
@@ -92,7 +102,7 @@ public class EditActivityFormController implements IBackButton, Initializable {
         else
         {
             Activity newActivity = new Activity(activityName,activityDesc,activityVenue,false,activityDate);
-            //activity.createActivityInDb();
+            ActivityHelper.updateActivityInDb(oldActivity,newActivity);
         }
 
     }

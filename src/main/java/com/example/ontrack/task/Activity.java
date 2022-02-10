@@ -33,7 +33,7 @@ public class Activity extends Task {
         this.status = status;
     }
 
-    public int getActivityId() throws SQLException {
+    public int getActivityId(){
         if(this.activityId != 0)
         {
             return activityId;

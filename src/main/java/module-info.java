@@ -22,4 +22,5 @@ module com.example.OnTrack {
     opens com.example.ontrack.repetition to javafx.fxml, javafx.base;
     opens com.example.ontrack.task to javafx.base, javafx.fxml;
     opens com.example.ontrack.task.form.add to javafx.fxml;
+    opens com.example.ontrack.task.form.edit to javafx.fxml;
 }

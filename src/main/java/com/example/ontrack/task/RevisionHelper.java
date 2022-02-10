@@ -44,6 +44,41 @@ public class RevisionHelper {
         return listOfRevisions;
     }
 
+    public static ObservableList<Revision> getAllLessonsFromDate(LocalDate date)
+    {
+        ObservableList<Revision> listOfRevisions = FXCollections.observableArrayList();
+
+        //Database Connection
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+
+        //Gets current user id
+        int currentUid = CurrentUser.getInstance().getUser().getUserId();
+
+        String sql = String.format("SELECT * FROM revisions WHERE (userId = '%s' AND revisionDate='%s')",currentUid,date.toString());
+        try{
+            PreparedStatement statement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
+            ResultSet resultSet = statement.executeQuery();
+            if (DatabaseHelper.getResultSetSize(resultSet) >=1)
+            {
+                Revision revision = new Revision(resultSet.getInt("revisionId"),
+                        resultSet.getString("name"),
+                        resultSet.getString("description"),
+                        resultSet.getInt("repetitionRuleId"),
+                        resultSet.getObject("revisionDate",LocalDate.class),
+                        resultSet.getInt("round"),
+                        resultSet.getBoolean("status"));
+                listOfRevisions.add(revision);
+            }
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return listOfRevisions;
+    }
+
     //Create lesson in database
     public static void createRevisionInDb(Revision revision){
         //Gets connection to database

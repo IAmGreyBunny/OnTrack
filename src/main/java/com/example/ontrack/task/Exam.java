@@ -37,8 +37,6 @@ public class Exam extends Task {
         this.status = status;
     }
 
-
-
     public int getExamId(){
         if(this.examId != 0)
         {

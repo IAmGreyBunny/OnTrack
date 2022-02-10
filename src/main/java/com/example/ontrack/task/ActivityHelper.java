@@ -47,7 +47,46 @@ public class ActivityHelper {
         return listOfActivity;
     }
 
-    //Create lesson in database
+    public static ObservableList<Activity> getAllActivtiesFromDate(LocalDate date)
+    {
+        ObservableList<Activity> listOfActivity = FXCollections.observableArrayList();
+
+        //Database Connection
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+
+        //Gets current user id
+        int currentUid = CurrentUser.getInstance().getUser().getUserId();
+
+        String sql = String.format("SELECT * FROM activities WHERE (userId = '%s' AND activityDate='%s')",currentUid,date.toString());
+        try{
+            PreparedStatement statement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
+            ResultSet resultSet = statement.executeQuery();
+            if (DatabaseHelper.getResultSetSize(resultSet) >=1)
+            {
+                do {
+                    Activity activity = new Activity(resultSet.getInt("activityId"),
+                            resultSet.getString("name"),
+                            resultSet.getString("description"),
+                            resultSet.getString("venue"),
+                            resultSet.getObject("activityDate",LocalDate.class),
+                            resultSet.getBoolean("status")
+                    );
+                    listOfActivity.add(activity);
+                }
+                while(resultSet.next());
+
+            }
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return listOfActivity;
+    }
+
+    //Create Activity in database
     public static void createActivityInDb(Activity activity)
     {
         //Gets connection to database
@@ -64,7 +103,7 @@ public class ActivityHelper {
                 activity.getTaskName(),
                 activity.getDescription(),
                 activity.getVenue(),
-                0,
+                activity.getStatus(),
                 activity.getDate().toString());
         try{
             Statement statement = connection.createStatement();
@@ -81,5 +120,41 @@ public class ActivityHelper {
             }
         }
 
+    }
+
+    //Update Activity in database
+    public static void updateActivityInDb(Activity oldActivity,Activity newActivity)
+    {
+        //Gets connection to database
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+        String sql = "";
+
+        //Gets current user id
+        int currentUid = CurrentUser.getInstance().getUser().getUserId();
+
+        //Edit exam entry in database
+        sql = String.format("UPDATE activities SET userId=%s,name='%s',description='%s',venue='%s',status=%s,activityDate='%s' WHERE (activityId = '%s')",
+                currentUid,
+                newActivity.getTaskName(),
+                newActivity.getDescription(),
+                newActivity.getVenue(),
+                oldActivity.getStatus(),
+                newActivity.getDate().toString(),
+                oldActivity.getActivityId());
+        try{
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(sql);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
