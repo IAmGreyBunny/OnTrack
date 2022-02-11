@@ -29,6 +29,8 @@ public class CalendarController implements Initializable {
     Button nextMonthButton;
     @FXML
     Button previousMonthButton;
+    @FXML
+    Button refreshButton;
 
     LocalDate currentDisplayDate;
 
@@ -116,5 +118,12 @@ public class CalendarController implements Initializable {
         for (Node node : nodesToRemove) {
             calendarGridPane.getChildren().remove(node);
         }
+    }
+
+    @FXML
+    public void refreshCalendar()
+    {
+        clearCalendarCells();
+        loadCalendar(currentDisplayDate.getMonth().getValue(), currentDisplayDate.getYear());
     }
 }

@@ -139,7 +139,7 @@ public class ExamHelper {
                 newExam.getDescription(),
                 newExam.getVenue(),
                 newExam.getSubject(),
-                oldExam.getStatus(),
+                newExam.getStatus(),
                 newExam.getDate().toString(),
                 oldExam.getExamId());
         try{

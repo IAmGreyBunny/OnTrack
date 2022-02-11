@@ -12,6 +12,16 @@ public class Activity extends Task {
     private String venue;
     private LocalDate date;
 
+    //Constructor for cloning object
+    public Activity(Activity another) {
+        this.activityId = another.activityId;
+        this.taskName=another.taskName;
+        this.description = another.description;
+        this.venue=another.venue;
+        this.date = another.date;
+        this.status = another.status;
+    }
+
     //Constructor with partial info for activity, useful for creation of db entry
     public Activity(String name, String desc, String venue , boolean status,LocalDate date)
     {

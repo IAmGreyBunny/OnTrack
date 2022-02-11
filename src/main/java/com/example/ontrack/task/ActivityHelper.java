@@ -133,15 +133,16 @@ public class ActivityHelper {
         //Gets current user id
         int currentUid = CurrentUser.getInstance().getUser().getUserId();
 
-        //Edit exam entry in database
+        //Edit activity entry in database
         sql = String.format("UPDATE activities SET userId=%s,name='%s',description='%s',venue='%s',status=%s,activityDate='%s' WHERE (activityId = '%s')",
                 currentUid,
                 newActivity.getTaskName(),
                 newActivity.getDescription(),
                 newActivity.getVenue(),
-                oldActivity.getStatus(),
+                newActivity.getStatus(),
                 newActivity.getDate().toString(),
                 oldActivity.getActivityId());
+        System.out.println(sql);
         try{
             Statement statement = connection.createStatement();
             statement.executeUpdate(sql);

@@ -1,9 +1,11 @@
 package com.example.ontrack.task.info;
 
 import com.example.ontrack.IBackButton;
+import com.example.ontrack.ICompleteTaskInput;
 import com.example.ontrack.Main;
 import com.example.ontrack.overview.calendar.TaskItemCellController;
 import com.example.ontrack.task.Activity;
+import com.example.ontrack.task.ActivityHelper;
 import com.example.ontrack.task.Exam;
 import com.example.ontrack.task.ExamHelper;
 import com.example.ontrack.task.form.edit.EditExamFormController;
@@ -14,6 +16,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -24,7 +27,7 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
-public class ExamInfoController implements IBackButton {
+public class ExamInfoController implements IBackButton, ICompleteTaskInput {
     @FXML
     private Label examNameLabel;
     @FXML
@@ -39,6 +42,8 @@ public class ExamInfoController implements IBackButton {
     private Button backButton;
     @FXML
     private Button editButton;
+    @FXML
+    private CheckBox completeTaskCheckBox;
 
     Exam displayedExam;
 
@@ -79,5 +84,14 @@ public class ExamInfoController implements IBackButton {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onCompleteTask() {
+        Exam newExam = new Exam(displayedExam);
+        newExam.setStatus(completeTaskCheckBox.isSelected());
+        ExamHelper.updateExamInDb(displayedExam,newExam);
+        System.out.println("Setting status to:" + newExam.getStatus());
+        setExam(newExam);
     }
 }

@@ -13,6 +13,17 @@ public class Exam extends Task {
     private String venue;
     private LocalDate date;
 
+    //Constructor for cloning object
+    public Exam(Exam another) {
+        this.examId = another.examId;
+        this.taskName=another.taskName;
+        this.description = another.description;
+        this.venue=another.venue;
+        this.date = another.date;
+        this.subject = another.subject;
+        this.status = another.status;
+    }
+
     //Constructor with partial info for exam, useful for creation of db entry
     public Exam(String name, String desc, String venue, String subject,LocalDate date,Boolean status)
     {

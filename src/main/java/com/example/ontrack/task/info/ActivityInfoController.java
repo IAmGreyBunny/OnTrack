@@ -1,20 +1,23 @@
 package com.example.ontrack.task.info;
 
 import com.example.ontrack.IBackButton;
+import com.example.ontrack.ICompleteTaskInput;
 import com.example.ontrack.Main;
 import com.example.ontrack.task.Activity;
+import com.example.ontrack.task.ActivityHelper;
 import com.example.ontrack.task.form.edit.EditActivityFormController;
 import com.example.ontrack.task.form.edit.EditExamFormController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 
 import java.io.IOException;
 
-public class ActivityInfoController implements IBackButton {
+public class ActivityInfoController implements IBackButton, ICompleteTaskInput {
     @FXML
     private Label activityName;
     @FXML
@@ -27,9 +30,12 @@ public class ActivityInfoController implements IBackButton {
     private Button backButton;
     @FXML
     private Button editButton;
+    @FXML
+    private CheckBox completeTaskCheckBox;
 
     Activity displayedActivity;
 
+    //refreshes page as well
     public void setActivity(Activity activity)
     {
         activityName.setText(activity.getTaskName());
@@ -52,6 +58,7 @@ public class ActivityInfoController implements IBackButton {
         }
     }
 
+    @FXML
     public void onEditButtonClicked()
     {
         //Load Edit Form
@@ -66,5 +73,14 @@ public class ActivityInfoController implements IBackButton {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onCompleteTask() {
+        Activity newActivity = new Activity(displayedActivity);
+        newActivity.setStatus(completeTaskCheckBox.isSelected());
+        ActivityHelper.updateActivityInDb(displayedActivity,newActivity);
+        System.out.println("Setting status to:" + newActivity.getStatus());
+        setActivity(newActivity);
     }
 }
