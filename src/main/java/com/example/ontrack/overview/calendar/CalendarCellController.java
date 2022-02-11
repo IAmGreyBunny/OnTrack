@@ -56,8 +56,8 @@ public class CalendarCellController {
                 taskItemCell = taskItemCellLoader.load();
                 taskItemCellController = taskItemCellLoader.getController();
                 taskItemCellController.setTaskToCell(activity); //Load calendar cell content based on date given
-                taskItemCell.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null , null)));
-                taskItemCell.setBackground(new Background(new BackgroundFill(Color.LIGHTGREEN, CornerRadii.EMPTY, Insets.EMPTY)));
+                taskItemCell.setBorder(new Border(new BorderStroke(Color.YELLOW, BorderStrokeStyle.SOLID, null , null)));
+                taskItemCell.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
                 taskItemCell.setOnMouseClicked(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent mouseEvent) {
@@ -130,6 +130,7 @@ public class CalendarCellController {
                 taskItemCell = taskItemCellLoader.load();
                 taskItemCellController = taskItemCellLoader.getController();
                 taskItemCellController.setTaskToCell(lesson); //Load calendar cell content based on date given
+                System.out.println("Lesson: " + lesson.getTaskName() + "Date:" + lesson.getDate().toString());
                 taskItemCell.setBorder(new Border(new BorderStroke(Color.BLUE, BorderStrokeStyle.SOLID, null , null)));
                 taskItemCell.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
                 taskItemCell.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -168,7 +169,7 @@ public class CalendarCellController {
                 taskItemCell = taskItemCellLoader.load();
                 taskItemCellController = taskItemCellLoader.getController();
                 taskItemCellController.setTaskToCell(revision); //Load calendar cell content based on date given
-                taskItemCell.setBorder(new Border(new BorderStroke(Color.YELLOW, BorderStrokeStyle.SOLID, null , null)));
+                taskItemCell.setBorder(new Border(new BorderStroke(Color.GREEN, BorderStrokeStyle.SOLID, null , null)));
                 taskItemCell.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
                 taskItemCell.setOnMouseClicked(new EventHandler<MouseEvent>() {
                     @Override

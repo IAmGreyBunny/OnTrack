@@ -42,6 +42,7 @@ public class ActivityInfoController implements IBackButton, ICompleteTaskInput {
         activityDesc.setText(activity.getDescription());
         activityVenue.setText(activity.getVenue());
         activityDate.setText(activity.getDate().toString());
+        completeTaskCheckBox.setSelected(activity.getStatus());
         displayedActivity=activity;
     }
 
@@ -80,7 +81,6 @@ public class ActivityInfoController implements IBackButton, ICompleteTaskInput {
         Activity newActivity = new Activity(displayedActivity);
         newActivity.setStatus(completeTaskCheckBox.isSelected());
         ActivityHelper.updateActivityInDb(displayedActivity,newActivity);
-        System.out.println("Setting status to:" + newActivity.getStatus());
         setActivity(newActivity);
     }
 }

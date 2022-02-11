@@ -26,14 +26,17 @@ public class RevisionHelper {
             ResultSet resultSet = statement.executeQuery();
             if (DatabaseHelper.getResultSetSize(resultSet) >=1)
             {
-                Revision revision = new Revision(resultSet.getInt("revisionId"),
-                        resultSet.getString("name"),
-                        resultSet.getString("description"),
-                        resultSet.getInt("repetitionRuleId"),
-                        resultSet.getObject("revisionDate",LocalDate.class),
-                        resultSet.getInt("round"),
-                        resultSet.getBoolean("status"));
-                listOfRevisions.add(revision);
+                do{
+                    Revision revision = new Revision(resultSet.getInt("revisionId"),
+                            resultSet.getString("name"),
+                            resultSet.getString("description"),
+                            resultSet.getInt("repetitionRuleId"),
+                            resultSet.getObject("revisionDate",LocalDate.class),
+                            resultSet.getInt("round"),
+                            resultSet.getBoolean("status"));
+                    listOfRevisions.add(revision);
+                }while(resultSet.next());
+
             }
         }
         catch(Exception e)

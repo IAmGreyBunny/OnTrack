@@ -28,16 +28,19 @@ public class LessonHelper {
             ResultSet resultSet = statement.executeQuery();
             if (DatabaseHelper.getResultSetSize(resultSet) >=1)
             {
-                Lesson lesson = new Lesson(
-                        resultSet.getString("name"),
-                        resultSet.getString("description"),
-                        resultSet.getString("subject"),
-                        resultSet.getString("venue"),
-                        resultSet.getInt("repetitionRuleId"),
-                        resultSet.getObject("lessonDate",LocalDate.class),
-                        resultSet.getInt("round"),
-                        resultSet.getBoolean("status"));
-                listOfLessons.add(lesson);
+                do{
+                    Lesson lesson = new Lesson(
+                            resultSet.getString("name"),
+                            resultSet.getString("description"),
+                            resultSet.getString("subject"),
+                            resultSet.getString("venue"),
+                            resultSet.getInt("repetitionRuleId"),
+                            resultSet.getObject("lessonDate",LocalDate.class),
+                            resultSet.getInt("round"),
+                            resultSet.getBoolean("status"));
+                    listOfLessons.add(lesson);
+                }while(resultSet.next());
+
             }
         }
         catch(Exception e)

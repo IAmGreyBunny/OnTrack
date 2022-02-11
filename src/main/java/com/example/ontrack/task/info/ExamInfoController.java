@@ -54,6 +54,7 @@ public class ExamInfoController implements IBackButton, ICompleteTaskInput {
         examVenueLabel.setText(exam.getVenue());
         examSubjectLabel.setText(exam.getSubject());
         examDateLabel.setText(exam.getDate().toString());
+        completeTaskCheckBox.setSelected(exam.getStatus());
         displayedExam = exam;
     }
 
@@ -91,7 +92,6 @@ public class ExamInfoController implements IBackButton, ICompleteTaskInput {
         Exam newExam = new Exam(displayedExam);
         newExam.setStatus(completeTaskCheckBox.isSelected());
         ExamHelper.updateExamInDb(displayedExam,newExam);
-        System.out.println("Setting status to:" + newExam.getStatus());
         setExam(newExam);
     }
 }
