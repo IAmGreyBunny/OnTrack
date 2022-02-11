@@ -102,6 +102,7 @@ public class RevisionHelper {
                 0,
                 revision.getCurrentRound(),
                 revision.getDate().toString());
+        System.out.println(sql);
         try{
             Statement statement = connection.createStatement();
             statement.executeUpdate(sql);
@@ -119,7 +120,7 @@ public class RevisionHelper {
         }
     }
 
-    //Create subsequent lesson in database
+    //Create subsequent revision in database
     public static void createRevisionCycleInDb(Revision firstRevisionInCycle, RepetitionRule repetitionRule) {
         //Get rounds
         ObservableList<Round> rounds = firstRevisionInCycle.getRepetitionRule().getRounds();

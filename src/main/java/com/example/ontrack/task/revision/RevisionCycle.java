@@ -43,8 +43,9 @@ public class RevisionCycle {
         }
     }
 
-    public void createAhead()
+    public Revision getFirstRevisionInCycle()
     {
+        return revisionsInCycle.get(0);
     }
 
     //Get all user revision with name
