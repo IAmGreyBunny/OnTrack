@@ -80,7 +80,7 @@ public class RevisionInfoController implements IBackButton, ICompleteTaskInput, 
         setRevision(newRevision);
         RevisionCycle revisionCycle = new RevisionCycle(displayedRevision.getTaskName());
         int numberOfRoundLeft = revisionCycle.getLastRevisionInCycle().getCurrentRound()-newRevision.getCurrentRound();
-        if(revisionCycle.getCompletionRateOfRevisionCycle()==100)
+        if(revisionCycle.getCompletionRateOfRevisionCycle()==100&&newRevision.getRepetitionRule().getRepeatType().equals("Start Over"))
         {
             System.out.println(revisionCycle.getCompletionRateOfRevisionCycle());
             System.out.println("Restart Cycle");
