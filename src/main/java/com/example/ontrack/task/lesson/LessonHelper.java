@@ -4,6 +4,7 @@ import com.example.ontrack.authentication.CurrentUser;
 import com.example.ontrack.database.DatabaseHelper;
 import com.example.ontrack.database.DatabaseManager;
 import com.example.ontrack.task.repetition.RepetitionRule;
+import com.example.ontrack.task.repetition.RepetitionRuleHelper;
 import com.example.ontrack.task.repetition.Round;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -89,7 +90,7 @@ public class LessonHelper {
     }
 
     //Create lesson in database
-    public static void createLessonInDb(Lesson lesson) {
+    public static void createLessonInDb(Lesson lesson, RepetitionRule repetitionRule) {
         //Gets connection to database
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
@@ -98,15 +99,17 @@ public class LessonHelper {
         //Gets current user id
         int currentUid = CurrentUser.getInstance().getUser().getUserId();
 
-        sql = String.format("INSERT INTO lessons(userId,name,description,subject,venue,status,round,lessonDate) VALUES (%s,'%s','%s','%s','%s',%s,%s,'%s')",
+        sql = String.format("INSERT INTO lessons(userId,name,description,subject,venue,repetitionRuleId,lessonDate,round,status) " +
+                        "VALUES (%s,'%s','%s','%s','%s',%s,'%s',%s,%s)",
                 currentUid,
                 lesson.getTaskName(),
                 lesson.getDescription(),
                 lesson.getSubject(),
                 lesson.getVenue(),
-                0,
+                repetitionRule.getRuleId(),
+                lesson.getDate().toString(),
                 lesson.getCurrentRound(),
-                lesson.getDate().toString());
+                lesson.getStatus());
         try{
             Statement statement = connection.createStatement();
             statement.executeUpdate(sql);
@@ -122,6 +125,7 @@ public class LessonHelper {
                 e.printStackTrace();
             }
         }
+        lesson.setRepetitionRule(repetitionRule);
     }
 
     //Create subsequent lesson in database
@@ -141,7 +145,7 @@ public class LessonHelper {
                     firstLessonInCycle.getDate().plusDays(roundInterval),
                     roundNumber,
                     false);
-            createLessonInDb(lesson);
+            createLessonInDb(lesson,repetitionRule);
             lesson.setRepetitionRule(repetitionRule);
         }
     }

@@ -84,8 +84,8 @@ public class RevisionHelper {
         return listOfRevisions;
     }
 
-    //Create lesson in database
-    public static void createRevisionInDb(Revision revision){
+    //Create revision in database
+    public static void createRevisionInDb(Revision revision,RepetitionRule repetitionRule){
         //Gets connection to database
         DatabaseManager databaseManager = new DatabaseManager();
         Connection connection = databaseManager.getConnection();
@@ -95,14 +95,16 @@ public class RevisionHelper {
         int currentUid = CurrentUser.getInstance().getUser().getUserId();
 
         //Add repetition rule into database
-        sql = String.format("INSERT INTO revisions(userId,name,description,subject,status,round,revisionDate) VALUES (%s,'%s','%s','%s',%s,%s,'%s')",
+        sql = String.format("INSERT INTO revisions(userId,name,description,subject,repetitionRuleId,revisionDate,round,status) " +
+                        "VALUES (%s,'%s','%s','%s',%s,'%s',%s,%s)",
                 currentUid,
                 revision.getTaskName(),
                 revision.getDescription(),
                 revision.getSubject(),
-                0,
+                repetitionRule.getRuleId(),
+                revision.getDate().toString(),
                 revision.getCurrentRound(),
-                revision.getDate().toString());
+                revision.getStatus());
         try{
             Statement statement = connection.createStatement();
             statement.executeUpdate(sql);
@@ -133,11 +135,47 @@ public class RevisionHelper {
             Revision revision = new Revision(firstRevisionInCycle.getTaskName(),
                     firstRevisionInCycle.getDescription(),
                     firstRevisionInCycle.getSubject(),
+                    repetitionRule.getRuleId(),
                     firstRevisionInCycle.getDate().plusDays(roundInterval),
                     roundNumber,
                     false);
-            RevisionHelper.createRevisionInDb(revision);
+            RevisionHelper.createRevisionInDb(revision,repetitionRule);
             revision.setRepetitionRule(repetitionRule);
+        }
+    }
+
+    public static void updateRevisionInDb(Revision oldRevision, Revision newRevision) {
+        //Gets connection to database
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+        String sql = "";
+
+        //Gets current user id
+        int currentUid = CurrentUser.getInstance().getUser().getUserId();
+
+        sql = String.format("UPDATE revisions SET name='%s',description='%s',subject='%s',status=%s,round=%s,revisionDate='%s' WHERE revisionId=%s",
+                newRevision.getTaskName(),
+                newRevision.getDescription(),
+                newRevision.getSubject(),
+                newRevision.getStatus(),
+                newRevision.getCurrentRound(),
+                newRevision.getDate().toString(),
+                oldRevision.getRevisionId());
+        try{
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(sql);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        finally
+        {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

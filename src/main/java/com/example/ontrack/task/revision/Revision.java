@@ -15,16 +15,14 @@ public class Revision extends RepeatableTask {
     private String subject;
     private LocalDate date;
 
-
-
-    //Constructor for when repetition rule id is not known
-    public Revision(String name, String desc,String subject,  LocalDate date, int currentRound,Boolean status)
+    public Revision(String name,String desc,String subject, int repetitionRuleId,LocalDate date,int currentRound,Boolean status)
     {
         this.taskName=name;
-        this.description = desc;
+        this.description=desc;
+        this.ruleId=repetitionRuleId;
         this.subject=subject;
+        this.date=date;
         this.currentRound=currentRound;
-        this.date = date;
         this.status=status;
     }
 
@@ -35,11 +33,22 @@ public class Revision extends RepeatableTask {
         this.revisionId=revisionId;
         this.taskName=name;
         this.description=desc;
-        this.repetitionRule = RepetitionRuleHelper.getRepetitionRuleFromId(repetitionRuleId);
+        this.ruleId=repetitionRuleId;
         this.subject=subject;
         this.date=date;
         this.currentRound=currentRound;
         this.status=status;
+    }
+
+    public Revision(Revision another) {
+        this.revisionId=another.getRevisionId();
+        this.taskName=another.getTaskName();
+        this.description=another.getDescription();
+        this.ruleId=another.getRepetitionRule().getRuleId();
+        this.subject=another.getSubject();
+        this.date=another.getDate();
+        this.currentRound=another.getCurrentRound();
+        this.status=another.getStatus();
     }
 
     @Override
@@ -70,6 +79,12 @@ public class Revision extends RepeatableTask {
                 e.printStackTrace();
             }
         }
+    }
+
+    @Override
+    public RepetitionRule getRepetitionRule()
+    {
+        return RepetitionRuleHelper.getRepetitionRuleFromId(this.getRuleId());
     }
 
     public int getRevisionId() {

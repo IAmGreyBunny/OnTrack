@@ -93,7 +93,7 @@
                   </Label>
                </children>
             </GridPane>
-            <CheckBox mnemonicParsing="false" text="Complete Task">
+            <CheckBox fx:id="completeTaskCheckBox" mnemonicParsing="false" onAction="#onCompleteTask" text="Complete Task">
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin></CheckBox>

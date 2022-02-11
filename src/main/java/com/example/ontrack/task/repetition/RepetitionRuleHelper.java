@@ -24,13 +24,13 @@ public class RepetitionRuleHelper {
         try{
             PreparedStatement statement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
             ResultSet resultSet = statement.executeQuery();
-
-
             if (DatabaseHelper.getResultSetSize(resultSet)>=1)
             {
                 do
                 {
-                    repetitionRule = new RepetitionRule(ruleId,resultSet.getString(2),resultSet.getString(3));
+                    repetitionRule = new RepetitionRule(resultSet.getInt("ruleId"),
+                            resultSet.getString("ruleName"),
+                            resultSet.getString("repeatType"));
                 }while(resultSet.next());
             }
         }

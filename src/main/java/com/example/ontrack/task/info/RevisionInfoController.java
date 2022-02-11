@@ -1,20 +1,23 @@
 package com.example.ontrack.task.info;
 
 import com.example.ontrack.IBackButton;
+import com.example.ontrack.ICompleteTaskInput;
 import com.example.ontrack.IDeleteTask;
 import com.example.ontrack.Main;
+import com.example.ontrack.task.revision.RevisionHelper;
 import com.example.ontrack.task.revision.Revision;
 import com.example.ontrack.task.revision.RevisionCycle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 
 import java.io.IOException;
 
-public class RevisionInfoController implements IBackButton, IDeleteTask {
+public class RevisionInfoController implements IBackButton, ICompleteTaskInput, IDeleteTask {
     @FXML
     private Label revisionNameLabel;
     @FXML
@@ -31,6 +34,8 @@ public class RevisionInfoController implements IBackButton, IDeleteTask {
     private Button backButton;
     @FXML
     private Button deleteRevisionButton;
+    @FXML
+    private CheckBox completeTaskCheckBox;
 
     Revision displayedRevision;
 
@@ -64,5 +69,20 @@ public class RevisionInfoController implements IBackButton, IDeleteTask {
     public void onDeleteTask() {
         RevisionCycle revisionCycle = new RevisionCycle(displayedRevision.getTaskName());
         revisionCycle.deleteRevisionCycle();
+    }
+
+    @Override
+    public void onCompleteTask() {
+        Revision newRevision = new Revision(displayedRevision);
+        newRevision.setStatus(completeTaskCheckBox.isSelected());
+        RevisionHelper.updateRevisionInDb(displayedRevision,newRevision);
+        setRevision(newRevision);
+        RevisionCycle revisionCycle = new RevisionCycle(displayedRevision.getTaskName());
+        if(revisionCycle.getCompletionRateOfRevisionCycle()==100)
+        {
+            System.out.println(revisionCycle.getCompletionRateOfRevisionCycle());
+            System.out.println("Restart Cycle");
+            revisionCycle.restartCycle(displayedRevision.getRepetitionRule());
+        }
     }
 }

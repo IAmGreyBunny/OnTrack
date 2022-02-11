@@ -4,14 +4,12 @@ import com.example.ontrack.authentication.CurrentUser;
 import com.example.ontrack.database.DatabaseHelper;
 import com.example.ontrack.database.DatabaseManager;
 import com.example.ontrack.task.repetition.RepetitionRule;
+import com.example.ontrack.task.repetition.RepetitionRuleHelper;
 import com.example.ontrack.task.revision.Revision;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.LocalDate;
 
 public class LessonCycle {
@@ -24,6 +22,7 @@ public class LessonCycle {
         lessonsInCycle = getUserLessonCycleWithName(lessonCycleName);
     }
 
+    //Delete all lessons in cycle from database
     public void deleteLessonCycle() {
         for (Lesson lesson : lessonsInCycle)
         {
@@ -45,8 +44,24 @@ public class LessonCycle {
         }
     }
 
-    public void createAhead()
+    //Get First Lesson in cycle
+    public Lesson getFirstLessonInCycle()
     {
+        return lessonsInCycle.get(0);
+    }
+
+    //Get Last completed lesson in cycle
+    public Lesson getLastCompletedLessonInCycle()
+    {
+        Lesson lastCompletedLesson =  getFirstLessonInCycle();
+        for(Lesson lesson:lessonsInCycle)
+        {
+            if(lesson.getStatus())
+            {
+                lastCompletedLesson=lesson;
+            }
+        }
+        return lastCompletedLesson;
     }
 
     //Get all user lesson with name
@@ -89,11 +104,6 @@ public class LessonCycle {
         return listOfLessons;
     }
 
-    public Lesson getFirstLessonInCycle()
-    {
-        return lessonsInCycle.get(0);
-    }
-
     //Get a percentage of user completion rate for a cycle
     public double getCompletionRateOfLessonCycle()
     {
@@ -105,6 +115,26 @@ public class LessonCycle {
                 completed++;
             }
         }
-        return (completed/lessonsInCycle.size())*100;
+        System.out.println(completed +"/"+ lessonsInCycle.size());
+        return (completed/lessonsInCycle.size())*100.0;
+    }
+
+    //For start over repeat type
+    public void restartCycle(RepetitionRule repetitionRule)
+    {
+        Lesson lastCompletedLesson = new Lesson(getLastCompletedLessonInCycle());
+        Lesson newLastCompletedLesson = new Lesson(lastCompletedLesson);
+        newLastCompletedLesson.setCurrentRound(1);//Restart
+        newLastCompletedLesson.setStatus(false);
+        LessonHelper.updateLessonInDb(lastCompletedLesson,newLastCompletedLesson);
+        LessonHelper.createLessonInDb(newLastCompletedLesson,repetitionRule);
+        lastCompletedLesson.setRepetitionRule(repetitionRule);
+        deleteLessonCycle();//This deletes current cycle from db to make new ones
+        try {
+            LessonHelper.createLessonCycleInDb(lastCompletedLesson,repetitionRule);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        getUserLessonCycleWithName(lastCompletedLesson.getTaskName());
     }
 }

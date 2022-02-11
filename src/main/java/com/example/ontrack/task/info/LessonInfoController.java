@@ -52,7 +52,7 @@ public class LessonInfoController implements IBackButton, IDeleteTask, IComplete
         lessonSubjectLabel.setText(lesson.getSubject());
         lessonDateLabel.setText(lesson.getDate().toString());
         lessonCurrentRoundLabel.setText(String.valueOf(lesson.getCurrentRound()));
-        lessonRepeatTypeLabel.setText(RepetitionRuleHelper.getRepetitionRuleFromId(lesson.getRuleId()).getRepeatType());
+        lessonRepeatTypeLabel.setText(lesson.getRepetitionRule().getRepeatType());
         LessonCycle lessonCycle = new LessonCycle(lesson.getTaskName());
         lessonCycle.getCompletionRateOfLessonCycle();
         displayedLesson=lesson;
@@ -84,5 +84,13 @@ public class LessonInfoController implements IBackButton, IDeleteTask, IComplete
         newLesson.setStatus(completeTaskCheckBox.isSelected());
         LessonHelper.updateLessonInDb(displayedLesson,newLesson);
         setLesson(newLesson);
+        LessonCycle lessonCycle = new LessonCycle(displayedLesson.getTaskName());
+        if(lessonCycle.getCompletionRateOfLessonCycle()==100)
+        {
+            System.out.println(lessonCycle.getCompletionRateOfLessonCycle());
+            System.out.println("Restart Cycle");
+            lessonCycle.restartCycle(displayedLesson.getRepetitionRule());
+        }
+
     }
 }

@@ -183,7 +183,7 @@ public class AddLessonFormController implements IBackButton, ILessonForm, Initia
         else
         {
             Lesson lesson = new Lesson(lessonName,lessonDesc,lessonSubject,lessonVenue,lessonStartDate,1,false);
-            LessonHelper.createLessonInDb(lesson);
+            LessonHelper.createLessonInDb(lesson,lessonRepetitionRule);
             lesson.setRepetitionRule(lessonRepetitionRule);
             LessonHelper.createLessonCycleInDb(lesson,lessonRepetitionRule);
         }

@@ -3,13 +3,11 @@ package com.example.ontrack.task.revision;
 import com.example.ontrack.authentication.CurrentUser;
 import com.example.ontrack.database.DatabaseHelper;
 import com.example.ontrack.database.DatabaseManager;
+import com.example.ontrack.task.repetition.RepetitionRule;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.LocalDate;
 
 public class RevisionCycle {
@@ -48,6 +46,20 @@ public class RevisionCycle {
         return revisionsInCycle.get(0);
     }
 
+    //Get Last completed revision in cycle
+    public Revision getLastCompletedRevisionInCycle()
+    {
+        Revision lastCompletedrevision =  getFirstRevisionInCycle();
+        for(Revision revision:revisionsInCycle)
+        {
+            if(revision.getStatus())
+            {
+                lastCompletedrevision=revision;
+            }
+        }
+        return lastCompletedrevision;
+    }
+
     //Get all user revision with name
     public ObservableList<Revision> getUserRevisionCycleWithName(String name)
     {
@@ -67,7 +79,6 @@ public class RevisionCycle {
             {
                 do{
                     Revision revision = new Revision(
-                            resultSet.getInt("revisionId"),
                             resultSet.getString("name"),
                             resultSet.getString("description"),
                             resultSet.getString("subject"),
@@ -99,6 +110,22 @@ public class RevisionCycle {
                 completed++;
             }
         }
+        System.out.println(completed +"/"+ revisionsInCycle.size());
         return (completed/revisionsInCycle.size())*100;
+    }
+
+    //For start over repeat type
+    public void restartCycle(RepetitionRule repetitionRule)
+    {
+        Revision lastCompletedRevision = new Revision(getLastCompletedRevisionInCycle());
+        Revision newLastCompletedrevision = new Revision(lastCompletedRevision);
+        newLastCompletedrevision.setCurrentRound(1);//Restart
+        newLastCompletedrevision.setStatus(false);
+        RevisionHelper.updateRevisionInDb(lastCompletedRevision,newLastCompletedrevision);
+        RevisionHelper.createRevisionInDb(newLastCompletedrevision,repetitionRule);
+        lastCompletedRevision.setRepetitionRule(repetitionRule);
+        deleteRevisionCycle();//This deletes current cycle from db to make new ones
+        RevisionHelper.createRevisionCycleInDb(lastCompletedRevision,repetitionRule);
+        getUserRevisionCycleWithName(lastCompletedRevision.getTaskName());
     }
 }

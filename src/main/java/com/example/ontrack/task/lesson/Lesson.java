@@ -5,6 +5,7 @@ import com.example.ontrack.database.DatabaseHelper;
 import com.example.ontrack.database.DatabaseManager;
 import com.example.ontrack.task.RepeatableTask;
 import com.example.ontrack.task.repetition.RepetitionRule;
+import com.example.ontrack.task.repetition.RepetitionRuleHelper;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -75,6 +76,12 @@ public class Lesson extends RepeatableTask {
         {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public RepetitionRule getRepetitionRule()
+    {
+        return RepetitionRuleHelper.getRepetitionRuleFromId(this.getRuleId());
     }
 
     public int getLessonId() {

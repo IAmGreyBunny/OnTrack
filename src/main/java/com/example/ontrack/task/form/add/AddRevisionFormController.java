@@ -177,10 +177,10 @@ public class AddRevisionFormController implements IBackButton, IRevisionForm, In
         }
         else
         {
-            Revision revision = new Revision(revisionName,revisionDesc,revisionSubject,revisionStartDate,1,false);
-            RevisionHelper.createRevisionInDb(revision);
+            Revision revision = new Revision(revisionName,revisionDesc,revisionSubject,repetitionRuleDropDown.getValue().getRuleId(),revisionStartDate,1,false);
+            RevisionHelper.createRevisionInDb(revision,repetitionRuleDropDown.getValue());
             revision.setRepetitionRule(revisionRepetitionRule);
-            RevisionHelper.createRevisionCycleInDb(revision,revisionRepetitionRule);
+            RevisionHelper.createRevisionCycleInDb(revision,repetitionRuleDropDown.getValue());
         }
 
     }
