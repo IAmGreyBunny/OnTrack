@@ -6,7 +6,7 @@
 
 <HBox fx:id="encompassingHbox" alignment="CENTER_LEFT" focusTraversable="true" minHeight="20.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ontrack.overview.calendar.TaskItemCellController">
    <children>
-      <Label fx:id="taskNameLabel" text="Task Name">
+      <Label fx:id="taskNameLabel" text="Task Name" HBox.hgrow="NEVER">
          <HBox.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </HBox.margin>

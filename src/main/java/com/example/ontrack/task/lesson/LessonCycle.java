@@ -5,6 +5,7 @@ import com.example.ontrack.database.DatabaseHelper;
 import com.example.ontrack.database.DatabaseManager;
 import com.example.ontrack.task.repetition.RepetitionRule;
 import com.example.ontrack.task.repetition.RepetitionRuleHelper;
+import com.example.ontrack.task.repetition.Round;
 import com.example.ontrack.task.revision.Revision;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -48,6 +49,12 @@ public class LessonCycle {
     public Lesson getFirstLessonInCycle()
     {
         return lessonsInCycle.get(0);
+    }
+
+    //Get Last Lesson in cycle
+    public Lesson getLastLessonInCycle()
+    {
+        return lessonsInCycle.get(lessonsInCycle.size()-1);
     }
 
     //Get Last completed lesson in cycle
@@ -115,7 +122,6 @@ public class LessonCycle {
                 completed++;
             }
         }
-        System.out.println(completed +"/"+ lessonsInCycle.size());
         return (completed/lessonsInCycle.size())*100.0;
     }
 
@@ -136,5 +142,29 @@ public class LessonCycle {
             e.printStackTrace();
         }
         getUserLessonCycleWithName(lastCompletedLesson.getTaskName());
+    }
+
+    //For expansion of cycle
+    public void extendCycle(Lesson lastLessonInCycle, RepetitionRule repetitionRule,int numberOfTimes)
+    {
+        //Get round
+        ObservableList<Round> rounds = repetitionRule.getRounds();
+        Round lastRound = rounds.get(rounds.size()-1);
+        int roundNumber = lastLessonInCycle.getCurrentRound()+1;
+        int roundInterval=0;
+        for(int i = roundNumber;i<roundNumber+numberOfTimes;i++)
+        {
+            roundInterval += lastRound.getRoundInterval();
+            Lesson lesson = new Lesson(lastLessonInCycle.getTaskName(),
+                    lastLessonInCycle.getDescription(),
+                    lastLessonInCycle.getSubject(),
+                    lastLessonInCycle.getVenue(),
+                    lastLessonInCycle.getRuleId(),
+                    lastLessonInCycle.getDate().plusDays(roundInterval),
+                    i,
+                    false);
+            LessonHelper.createLessonInDb(lesson,repetitionRule);
+            lesson.setRepetitionRule(repetitionRule);
+        }
     }
 }

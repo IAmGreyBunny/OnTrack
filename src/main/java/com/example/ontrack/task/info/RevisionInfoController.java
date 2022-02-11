@@ -47,6 +47,7 @@ public class RevisionInfoController implements IBackButton, ICompleteTaskInput, 
         revisionDateLabel.setText(revision.getDate().toString());
         revisionCurrentRoundLabel.setText(String.valueOf(revision.getCurrentRound()));
         revisionRepeatTypeLabel.setText(revision.getRepetitionRule().getRepeatType());
+        completeTaskCheckBox.setSelected(revision.getStatus());
         RevisionCycle revisionCycle = new RevisionCycle(revision.getTaskName());
         revisionCycle.getCompletionRateOfRevisionCycle();
         displayedRevision=revision;
@@ -78,11 +79,16 @@ public class RevisionInfoController implements IBackButton, ICompleteTaskInput, 
         RevisionHelper.updateRevisionInDb(displayedRevision,newRevision);
         setRevision(newRevision);
         RevisionCycle revisionCycle = new RevisionCycle(displayedRevision.getTaskName());
+        int numberOfRoundLeft = revisionCycle.getLastRevisionInCycle().getCurrentRound()-newRevision.getCurrentRound();
         if(revisionCycle.getCompletionRateOfRevisionCycle()==100)
         {
             System.out.println(revisionCycle.getCompletionRateOfRevisionCycle());
             System.out.println("Restart Cycle");
             revisionCycle.restartCycle(displayedRevision.getRepetitionRule());
+        }
+        else if(newRevision.getRepetitionRule().getRepeatType().equals("Repeat Last") && numberOfRoundLeft<3)
+        {
+            revisionCycle.extendCycle(revisionCycle.getLastRevisionInCycle(),newRevision.getRepetitionRule(),5);
         }
     }
 }

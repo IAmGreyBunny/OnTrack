@@ -53,6 +53,7 @@ public class LessonInfoController implements IBackButton, IDeleteTask, IComplete
         lessonDateLabel.setText(lesson.getDate().toString());
         lessonCurrentRoundLabel.setText(String.valueOf(lesson.getCurrentRound()));
         lessonRepeatTypeLabel.setText(lesson.getRepetitionRule().getRepeatType());
+        completeTaskCheckBox.setSelected(lesson.getStatus());
         LessonCycle lessonCycle = new LessonCycle(lesson.getTaskName());
         lessonCycle.getCompletionRateOfLessonCycle();
         displayedLesson=lesson;
@@ -85,11 +86,16 @@ public class LessonInfoController implements IBackButton, IDeleteTask, IComplete
         LessonHelper.updateLessonInDb(displayedLesson,newLesson);
         setLesson(newLesson);
         LessonCycle lessonCycle = new LessonCycle(displayedLesson.getTaskName());
-        if(lessonCycle.getCompletionRateOfLessonCycle()==100)
+        int numberOfRoundLeft = lessonCycle.getLastLessonInCycle().getCurrentRound()-newLesson.getCurrentRound();
+        if(lessonCycle.getCompletionRateOfLessonCycle()==100 && newLesson.getRepetitionRule().getRepeatType().equals("Start Over"))
         {
             System.out.println(lessonCycle.getCompletionRateOfLessonCycle());
             System.out.println("Restart Cycle");
             lessonCycle.restartCycle(displayedLesson.getRepetitionRule());
+        }
+        else if(newLesson.getRepetitionRule().getRepeatType().equals("Repeat Last") && numberOfRoundLeft<3)
+        {
+            lessonCycle.extendCycle(lessonCycle.getLastLessonInCycle(),newLesson.getRepetitionRule(),5);
         }
 
     }
