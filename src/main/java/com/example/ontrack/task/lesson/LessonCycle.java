@@ -167,4 +167,36 @@ public class LessonCycle {
             lesson.setRepetitionRule(repetitionRule);
         }
     }
+
+    //For updating revision cycle
+    public static void updateLessonsInCycle(Lesson oldLesson,Lesson newLesson,RepetitionRule oldRepetitionRule,RepetitionRule newRepetitionRule)
+    {
+        //Update everything else with oldRepetitionRule first
+        LessonCycle lessonCycle = new LessonCycle(oldLesson.getTaskName());
+
+        for(Lesson lesson:lessonCycle.lessonsInCycle)
+        {
+            //Use new lesson as a template and make modification
+            newLesson.setCurrentRound(lesson.getCurrentRound());
+            newLesson.setDate(lesson.getDate());
+            newLesson.setStatus(lesson.getStatus());
+
+            //Update
+            LessonHelper.updateLessonInDb(lesson,newLesson);
+        }
+
+        //Update repetition rule
+        //Check if repeat type is same
+        if(!oldRepetitionRule.getRepeatType().equals(newRepetitionRule.getRepeatType()))
+        {
+            //Start from scratch
+        }
+        else
+        {
+            if(newRepetitionRule.getRepeatType().equals("repeatLast"))
+            {
+                //Get last completed in current cycle and start from there
+            }
+        }
+    }
 }

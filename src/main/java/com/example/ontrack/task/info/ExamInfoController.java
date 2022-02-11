@@ -69,6 +69,7 @@ public class ExamInfoController implements IBackButton, ICompleteTaskInput, IDel
     public void onEditButtonClicked()
     {
         //Load Edit Form
+        System.out.println(Main.class.getResource("task/form/edit/EditExamForm.fxml"));
         FXMLLoader editExamFormLoader = new FXMLLoader(Main.class.getResource("task/form/edit/EditExamForm.fxml"));
         EditExamFormController editExamFormController;
         Parent examForm;
