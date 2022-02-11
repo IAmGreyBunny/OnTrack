@@ -3,6 +3,8 @@ package com.example.ontrack.task.lesson;
 import com.example.ontrack.authentication.CurrentUser;
 import com.example.ontrack.database.DatabaseHelper;
 import com.example.ontrack.database.DatabaseManager;
+import com.example.ontrack.task.repetition.RepetitionRule;
+import com.example.ontrack.task.revision.Revision;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -48,7 +50,7 @@ public class LessonCycle {
     }
 
     //Get all user lesson with name
-    public static ObservableList<Lesson> getUserLessonCycleWithName(String name)
+    public ObservableList<Lesson> getUserLessonCycleWithName(String name)
     {
         ObservableList<Lesson> listOfLessons = FXCollections.observableArrayList();
 
@@ -85,5 +87,24 @@ public class LessonCycle {
         }
 
         return listOfLessons;
+    }
+
+    public Lesson getFirstLessonInCycle()
+    {
+        return lessonsInCycle.get(0);
+    }
+
+    //Get a percentage of user completion rate for a cycle
+    public double getCompletionRateOfLessonCycle()
+    {
+        double completed=0;
+        for(Lesson lesson:lessonsInCycle)
+        {
+            if(lesson.getStatus())
+            {
+                completed++;
+            }
+        }
+        return (completed/lessonsInCycle.size())*100;
     }
 }

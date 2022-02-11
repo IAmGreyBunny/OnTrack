@@ -49,7 +49,7 @@ public class RevisionCycle {
     }
 
     //Get all user revision with name
-    public static ObservableList<Revision> getUserRevisionCycleWithName(String name)
+    public ObservableList<Revision> getUserRevisionCycleWithName(String name)
     {
         ObservableList<Revision> listOfRevisions = FXCollections.observableArrayList();
 
@@ -86,5 +86,19 @@ public class RevisionCycle {
         }
 
         return listOfRevisions;
+    }
+
+    //Get a percentage of user completion rate for a cycle
+    public double getCompletionRateOfRevisionCycle()
+    {
+        double completed=0;
+        for(Revision revision:revisionsInCycle)
+        {
+            if(revision.getStatus())
+            {
+                completed++;
+            }
+        }
+        return (completed/revisionsInCycle.size())*100;
     }
 }

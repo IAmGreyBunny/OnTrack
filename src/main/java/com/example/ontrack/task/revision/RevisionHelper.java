@@ -95,14 +95,14 @@ public class RevisionHelper {
         int currentUid = CurrentUser.getInstance().getUser().getUserId();
 
         //Add repetition rule into database
-        sql = String.format("INSERT INTO revisions(userId,name,description,status,round,revisionDate) VALUES (%s,'%s','%s',%s,%s,'%s')",
+        sql = String.format("INSERT INTO revisions(userId,name,description,subject,status,round,revisionDate) VALUES (%s,'%s','%s','%s',%s,%s,'%s')",
                 currentUid,
                 revision.getTaskName(),
                 revision.getDescription(),
+                revision.getSubject(),
                 0,
                 revision.getCurrentRound(),
                 revision.getDate().toString());
-        System.out.println(sql);
         try{
             Statement statement = connection.createStatement();
             statement.executeUpdate(sql);
@@ -131,8 +131,8 @@ public class RevisionHelper {
             roundInterval += round.getRoundInterval();
 
             Revision revision = new Revision(firstRevisionInCycle.getTaskName(),
-                    firstRevisionInCycle.getSubject(),
                     firstRevisionInCycle.getDescription(),
+                    firstRevisionInCycle.getSubject(),
                     firstRevisionInCycle.getDate().plusDays(roundInterval),
                     roundNumber,
                     false);

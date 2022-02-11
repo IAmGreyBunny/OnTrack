@@ -18,7 +18,7 @@ public class Revision extends RepeatableTask {
 
 
     //Constructor for when repetition rule id is not known
-    public Revision(String name, String subject, String desc, LocalDate date, int currentRound,Boolean status)
+    public Revision(String name, String desc,String subject,  LocalDate date, int currentRound,Boolean status)
     {
         this.taskName=name;
         this.description = desc;

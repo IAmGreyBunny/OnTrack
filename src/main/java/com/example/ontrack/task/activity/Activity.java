@@ -1,56 +1,53 @@
-package com.example.ontrack.task;
+package com.example.ontrack.task.activity;
 
 import com.example.ontrack.authentication.CurrentUser;
 import com.example.ontrack.database.DatabaseHelper;
 import com.example.ontrack.database.DatabaseManager;
+import com.example.ontrack.task.Task;
 
 import java.sql.*;
 import java.time.LocalDate;
 
-public class Exam extends Task {
-    private int examId;
-    private String subject;
+public class Activity extends Task {
+    private int activityId;
     private String venue;
     private LocalDate date;
 
     //Constructor for cloning object
-    public Exam(Exam another) {
-        this.examId = another.examId;
+    public Activity(Activity another) {
+        this.activityId = another.activityId;
         this.taskName=another.taskName;
         this.description = another.description;
         this.venue=another.venue;
         this.date = another.date;
-        this.subject = another.subject;
         this.status = another.status;
     }
 
-    //Constructor with partial info for exam, useful for creation of db entry
-    public Exam(String name, String desc, String venue, String subject,LocalDate date,Boolean status)
+    //Constructor with partial info for activity, useful for creation of db entry
+    public Activity(String name, String desc, String venue , boolean status,LocalDate date)
     {
         this.taskName=name;
         this.description = desc;
-        this.subject=subject;
         this.venue=venue;
         this.date = date;
         this.status=status;
     }
 
-    //Constructor with full info for exam, useful for retrieval of db entry
-    public Exam(int examId,String name, String desc, String subject,String venue,LocalDate date,Boolean status)
+    //Constructor with full info for activity, useful for retrieval of db entry
+    public Activity(int activityId,String name, String desc, String venue,LocalDate date,Boolean status)
     {
-        this.examId = examId;
+        this.activityId = activityId;
         this.taskName=name;
         this.description = desc;
-        this.subject=subject;
         this.venue=venue;
         this.date = date;
         this.status = status;
     }
 
-    public int getExamId(){
-        if(this.examId != 0)
+    public int getActivityId(){
+        if(this.activityId != 0)
         {
-            return examId;
+            return activityId;
         }
         else
         {
@@ -63,7 +60,7 @@ public class Exam extends Task {
             int currentUid = CurrentUser.getInstance().getUser().getUserId();
 
             //Look for rule name with the same user id as current user
-            sql = String.format("SELECT * FROM Exams WHERE (name = '%s' AND userId = '%s')",this.taskName,currentUid);
+            sql = String.format("SELECT * FROM Activities WHERE (name = '%s' AND userId = '%s')",this.taskName,currentUid);
             try{
                 PreparedStatement statement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
                 ResultSet resultSet = statement.executeQuery();
@@ -71,8 +68,8 @@ public class Exam extends Task {
                 //If rule exist, return ruleid
                 if (DatabaseHelper.getResultSetSize(resultSet)>=1)
                 {
-                    this.examId = resultSet.getInt("examId");
-                    return examId;
+                    this.activityId = resultSet.getInt("activityId");
+                    return activityId;
                 }
                 else
                 {
@@ -94,20 +91,12 @@ public class Exam extends Task {
         }
     }
 
-    public void setExamId(int examId) {
-        this.examId = examId;
-    }
-
-    public String getSubject() {
-        return subject;
-    }
-
-    public void setSubject(String subject) {
-        this.subject = subject;
+    public void setActivityId(int activityId) {
+        this.activityId = activityId;
     }
 
     public String getVenue() {
-        return venue;
+        return this.venue;
     }
 
     public void setVenue(String venue) {

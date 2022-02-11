@@ -98,10 +98,11 @@ public class LessonHelper {
         //Gets current user id
         int currentUid = CurrentUser.getInstance().getUser().getUserId();
 
-        sql = String.format("INSERT INTO lessons(userId,name,description,venue,status,round,lessonDate) VALUES (%s,'%s','%s','%s',%s,%s,'%s')",
+        sql = String.format("INSERT INTO lessons(userId,name,description,subject,venue,status,round,lessonDate) VALUES (%s,'%s','%s','%s','%s',%s,%s,'%s')",
                 currentUid,
                 lesson.getTaskName(),
                 lesson.getDescription(),
+                lesson.getSubject(),
                 lesson.getVenue(),
                 0,
                 lesson.getCurrentRound(),
@@ -134,8 +135,8 @@ public class LessonHelper {
             roundInterval += round.getRoundInterval();
             Lesson lesson = new Lesson(firstLessonInCycle.getTaskName(),
                     firstLessonInCycle.getDescription(),
-                    firstLessonInCycle.getVenue(),
                     firstLessonInCycle.getSubject(),
+                    firstLessonInCycle.getVenue(),
                     firstLessonInCycle.getRuleId(),
                     firstLessonInCycle.getDate().plusDays(roundInterval),
                     roundNumber,
@@ -143,6 +144,45 @@ public class LessonHelper {
             createLessonInDb(lesson);
             lesson.setRepetitionRule(repetitionRule);
         }
+    }
+
+    //Update lesson in database
+    public static void updateLessonInDb(Lesson oldLesson,Lesson newLesson)
+    {
+        //Gets connection to database
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+        String sql = "";
+
+        //Gets current user id
+        int currentUid = CurrentUser.getInstance().getUser().getUserId();
+
+        sql = String.format("UPDATE lessons SET name='%s',description='%s',subject='%s',venue='%s',status=%s,round=%s,lessonDate='%s' WHERE lessonId=%s",
+                newLesson.getTaskName(),
+                newLesson.getDescription(),
+                newLesson.getSubject(),
+                newLesson.getVenue(),
+                newLesson.getStatus(),
+                newLesson.getCurrentRound(),
+                newLesson.getDate().toString(),
+                oldLesson.getLessonId());
+        try{
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(sql);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        finally
+        {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
 }

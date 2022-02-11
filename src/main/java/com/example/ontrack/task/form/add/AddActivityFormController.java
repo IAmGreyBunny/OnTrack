@@ -2,8 +2,8 @@ package com.example.ontrack.task.form.add;
 
 import com.example.ontrack.IBackButton;
 import com.example.ontrack.Main;
-import com.example.ontrack.task.Activity;
-import com.example.ontrack.task.ActivityHelper;
+import com.example.ontrack.task.activity.Activity;
+import com.example.ontrack.task.activity.ActivityHelper;
 import com.example.ontrack.task.form.validator.IActivityForm;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

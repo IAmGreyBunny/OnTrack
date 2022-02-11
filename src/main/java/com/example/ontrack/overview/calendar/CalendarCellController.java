@@ -2,7 +2,10 @@ package com.example.ontrack.overview.calendar;
 
 import com.example.ontrack.Main;
 import com.example.ontrack.authentication.CurrentUser;
-import com.example.ontrack.task.*;
+import com.example.ontrack.task.activity.Activity;
+import com.example.ontrack.task.activity.ActivityHelper;
+import com.example.ontrack.task.exam.Exam;
+import com.example.ontrack.task.exam.ExamHelper;
 import com.example.ontrack.task.info.ActivityInfoController;
 import com.example.ontrack.task.info.ExamInfoController;
 import com.example.ontrack.task.info.LessonInfoController;

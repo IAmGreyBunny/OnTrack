@@ -16,7 +16,7 @@ public class Lesson extends RepeatableTask {
     private LocalDate date;
 
     //Constructor for when repetition rule id is not known
-    public Lesson(String name,String desc,String subject, String venue,LocalDate date,int currentRound,Boolean status)
+    public Lesson(String name,String desc, String subject,String venue,LocalDate date,int currentRound,Boolean status)
     {
         this.taskName=name;
         this.description = desc;
@@ -28,7 +28,7 @@ public class Lesson extends RepeatableTask {
     }
 
     //Constructor for when ruleId is known
-    public Lesson(String name,String desc,String subject, String venue, int repetitionRuleId,LocalDate date,int currentRound,Boolean status)
+    public Lesson(String name,String desc, String subject,String venue, int repetitionRuleId,LocalDate date,int currentRound,Boolean status)
     {
         this.taskName=name;
         this.description = desc;
@@ -38,6 +38,19 @@ public class Lesson extends RepeatableTask {
         this.date=date;
         this.currentRound=currentRound;
         this.status = status;
+    }
+
+    //Constructor for copying lessons
+    public Lesson(Lesson another)
+    {
+        this.taskName=another.getTaskName();
+        this.description = another.getDescription();
+        this.subject=another.getSubject();
+        this.venue=another.getVenue();
+        this.ruleId = another.getRuleId();
+        this.date=another.getDate();
+        this.currentRound=another.getCurrentRound();
+        this.status = another.getStatus();
     }
 
     @Override
