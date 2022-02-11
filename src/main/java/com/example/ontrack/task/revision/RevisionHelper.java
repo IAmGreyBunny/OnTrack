@@ -1,4 +1,4 @@
-package com.example.ontrack.task;
+package com.example.ontrack.task.revision;
 
 import com.example.ontrack.authentication.CurrentUser;
 import com.example.ontrack.database.DatabaseHelper;
@@ -12,7 +12,7 @@ import java.sql.*;
 import java.time.LocalDate;
 
 public class RevisionHelper {
-    public static ObservableList<Revision> getAllLessonsFromDate(int userId,LocalDate date)
+    public static ObservableList<Revision> getAllRevisionsFromDate(int userId,LocalDate date)
     {
         ObservableList<Revision> listOfRevisions = FXCollections.observableArrayList();
 
@@ -30,6 +30,7 @@ public class RevisionHelper {
                     Revision revision = new Revision(resultSet.getInt("revisionId"),
                             resultSet.getString("name"),
                             resultSet.getString("description"),
+                            resultSet.getString("subject"),
                             resultSet.getInt("repetitionRuleId"),
                             resultSet.getObject("revisionDate",LocalDate.class),
                             resultSet.getInt("round"),
@@ -47,7 +48,7 @@ public class RevisionHelper {
         return listOfRevisions;
     }
 
-    public static ObservableList<Revision> getAllLessonsFromDate(LocalDate date)
+    public static ObservableList<Revision> getAllRevisionsFromDate(LocalDate date)
     {
         ObservableList<Revision> listOfRevisions = FXCollections.observableArrayList();
 
@@ -67,6 +68,7 @@ public class RevisionHelper {
                 Revision revision = new Revision(resultSet.getInt("revisionId"),
                         resultSet.getString("name"),
                         resultSet.getString("description"),
+                        resultSet.getString("subject"),
                         resultSet.getInt("repetitionRuleId"),
                         resultSet.getObject("revisionDate",LocalDate.class),
                         resultSet.getInt("round"),
@@ -95,10 +97,10 @@ public class RevisionHelper {
         //Add repetition rule into database
         sql = String.format("INSERT INTO revisions(userId,name,description,status,round,revisionDate) VALUES (%s,'%s','%s',%s,%s,'%s')",
                 currentUid,
-                revision.taskName,
-                revision.description,
+                revision.getTaskName(),
+                revision.getDescription(),
                 0,
-                revision.currentRound,
+                revision.getCurrentRound(),
                 revision.getDate().toString());
         try{
             Statement statement = connection.createStatement();
@@ -120,7 +122,7 @@ public class RevisionHelper {
     //Create subsequent lesson in database
     public static void createRevisionCycleInDb(Revision firstRevisionInCycle, RepetitionRule repetitionRule) {
         //Get rounds
-        ObservableList<Round> rounds = firstRevisionInCycle.repetitionRule.getRounds();
+        ObservableList<Round> rounds = firstRevisionInCycle.getRepetitionRule().getRounds();
         int roundInterval=0;
         for(Round round : rounds)
         {

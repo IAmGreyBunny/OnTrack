@@ -26,7 +26,7 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="Add New...">
                   <items>
-                    <MenuItem mnemonicParsing="false" text="Task" />
+                    <MenuItem mnemonicParsing="false" onAction="#loadAddTaskForm" text="Task" />
                         <MenuItem mnemonicParsing="false" onAction="#loadAddRepetitionRuleForm" text="Repetition Rule" />
                   </items>
                 </Menu>

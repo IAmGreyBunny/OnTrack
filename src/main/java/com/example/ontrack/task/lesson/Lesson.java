@@ -1,43 +1,43 @@
-package com.example.ontrack.task;
+package com.example.ontrack.task.lesson;
 
 import com.example.ontrack.authentication.CurrentUser;
 import com.example.ontrack.database.DatabaseHelper;
 import com.example.ontrack.database.DatabaseManager;
+import com.example.ontrack.task.RepeatableTask;
 import com.example.ontrack.task.repetition.RepetitionRule;
-import com.example.ontrack.task.repetition.RepetitionRuleHelper;
 
 import java.sql.*;
 import java.time.LocalDate;
 
-public class Revision extends RepeatableTask {
-    private int revisionId;
+public class Lesson extends RepeatableTask {
+    private int lessonId;
     private String subject;
+    private String venue;
     private LocalDate date;
 
-
-
     //Constructor for when repetition rule id is not known
-    public Revision(String name, String subject, String desc, LocalDate date, int currentRound,Boolean status)
+    public Lesson(String name,String desc,String subject, String venue,LocalDate date,int currentRound,Boolean status)
     {
         this.taskName=name;
         this.description = desc;
         this.subject=subject;
-        this.currentRound=currentRound;
-        this.date = date;
-        this.status=status;
-    }
-
-    //Constructor to create revision with full info
-    //Used for getting revision object from database
-    public Revision(int revisionId,String name,String desc, int repetitionRuleId,LocalDate date,int currentRound,Boolean status)
-    {
-        this.revisionId=revisionId;
-        this.taskName=name;
-        this.description=desc;
-        this.repetitionRule = RepetitionRuleHelper.getRepetitionRuleFromId(repetitionRuleId);
+        this.venue=venue;
         this.date=date;
         this.currentRound=currentRound;
-        this.status=status;
+        this.status = status;
+    }
+
+    //Constructor for when ruleId is known
+    public Lesson(String name,String desc,String subject, String venue, int repetitionRuleId,LocalDate date,int currentRound,Boolean status)
+    {
+        this.taskName=name;
+        this.description = desc;
+        this.subject=subject;
+        this.venue=venue;
+        this.ruleId = repetitionRuleId;
+        this.date=date;
+        this.currentRound=currentRound;
+        this.status = status;
     }
 
     @Override
@@ -48,9 +48,9 @@ public class Revision extends RepeatableTask {
         String sql = "";
 
         //Add repetition rule into database
-        sql = String.format("UPDATE revisions SET repetitionRuleId = %s WHERE revisionId = %s",
+        sql = String.format("UPDATE lessons SET repetitionRuleId = %s WHERE lessonId = %s",
                 repetitionRule.getRuleId(),
-                this.getRevisionId()
+                this.getLessonId()
         );
         try{
             Statement statement = connection.createStatement();
@@ -61,19 +61,13 @@ public class Revision extends RepeatableTask {
         catch(Exception e)
         {
             e.printStackTrace();
-        }finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
     }
 
-    public int getRevisionId() {
-        if(this.revisionId != 0)
+    public int getLessonId() {
+        if(this.lessonId != 0)
         {
-            return revisionId;
+            return lessonId;
         }
         else
         {
@@ -86,7 +80,7 @@ public class Revision extends RepeatableTask {
             int currentUid = CurrentUser.getInstance().getUser().getUserId();
 
             //Look for rule name with the same user id as current user
-            sql = String.format("SELECT * FROM revisions WHERE (name = '%s' AND userId = '%s' AND  revisionDate = '%s')",this.taskName,currentUid,this.date);
+            sql = String.format("SELECT * FROM lessons WHERE (name = '%s' AND userId = '%s' AND lessonDate='%s')",this.taskName,currentUid,this.date.toString());
             try{
                 PreparedStatement statement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
                 ResultSet resultSet = statement.executeQuery();
@@ -94,8 +88,8 @@ public class Revision extends RepeatableTask {
                 //If rule exist, return ruleid
                 if (DatabaseHelper.getResultSetSize(resultSet)>=1)
                 {
-                    this.revisionId = resultSet.getInt("revisionId");
-                    return revisionId;
+                    this.lessonId = resultSet.getInt("lessonId");
+                    return lessonId;
                 }
                 else
                 {
@@ -107,14 +101,27 @@ public class Revision extends RepeatableTask {
                 e.printStackTrace();
                 return 0;
             }
-            finally {
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
         }
+    }
+
+    public void setLessonId(int lessonId) {
+        this.lessonId = lessonId;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public String getVenue() {
+        return venue;
+    }
+
+    public void setVenue(String venue) {
+        this.venue = venue;
     }
 
     public LocalDate getDate() {
@@ -125,15 +132,11 @@ public class Revision extends RepeatableTask {
         this.date = date;
     }
 
-    public void setRevisionId(int lessonId) {
-        this.revisionId = lessonId;
+    public int getRuleId() {
+        return ruleId;
     }
 
-    public String getSubject() {
-        return subject;
-    }
-
-    public void setSubject(String subject) {
-        this.subject = subject;
+    public void setRuleId(int ruleId) {
+        this.ruleId = ruleId;
     }
 }

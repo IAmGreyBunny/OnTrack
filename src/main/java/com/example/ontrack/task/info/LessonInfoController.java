@@ -1,9 +1,11 @@
 package com.example.ontrack.task.info;
 
 import com.example.ontrack.IBackButton;
+import com.example.ontrack.IDeleteTask;
 import com.example.ontrack.Main;
+import com.example.ontrack.task.lesson.LessonCycle;
 import com.example.ontrack.task.repetition.RepetitionRuleHelper;
-import com.example.ontrack.task.Lesson;
+import com.example.ontrack.task.lesson.Lesson;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,7 +15,7 @@ import javafx.scene.layout.BorderPane;
 
 import java.io.IOException;
 
-public class LessonInfoController implements IBackButton {
+public class LessonInfoController implements IBackButton, IDeleteTask {
     @FXML
     private Label lessonNameLabel;
     @FXML
@@ -30,6 +32,10 @@ public class LessonInfoController implements IBackButton {
     private Label lessonRepeatTypeLabel;
     @FXML
     private Button backButton;
+    @FXML
+    private Button deleteLessonButton;
+
+    Lesson displayedLesson;
 
     public void setLesson(Lesson lesson)
     {
@@ -40,6 +46,7 @@ public class LessonInfoController implements IBackButton {
         lessonDateLabel.setText(lesson.getDate().toString());
         lessonCurrentRoundLabel.setText(String.valueOf(lesson.getCurrentRound()));
         lessonRepeatTypeLabel.setText(RepetitionRuleHelper.getRepetitionRuleFromId(lesson.getRuleId()).getRepeatType());
+        displayedLesson=lesson;
     }
 
     @Override
@@ -53,5 +60,12 @@ public class LessonInfoController implements IBackButton {
         catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onDeleteTask()
+    {
+        LessonCycle lessonCycle = new LessonCycle(displayedLesson.getTaskName());
+        lessonCycle.deleteLessonCycle();
     }
 }

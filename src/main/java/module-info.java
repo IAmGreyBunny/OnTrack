@@ -24,4 +24,9 @@ module com.example.OnTrack {
     opens com.example.ontrack.task.form.add to javafx.fxml;
     opens com.example.ontrack.task.form.edit to javafx.fxml;
     opens com.example.ontrack.task.form.validator to javafx.base, javafx.fxml;
+    exports com.example.ontrack.task;
+    exports com.example.ontrack.task.lesson;
+    opens com.example.ontrack.task.lesson to javafx.base, javafx.fxml;
+    exports com.example.ontrack.task.revision;
+    opens com.example.ontrack.task.revision to javafx.base, javafx.fxml;
 }

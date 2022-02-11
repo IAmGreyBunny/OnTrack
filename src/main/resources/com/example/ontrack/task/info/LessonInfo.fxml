@@ -108,6 +108,11 @@
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin></CheckBox>
+            <Button fx:id="deleteLessonButton" mnemonicParsing="false" onAction="#onDeleteTask" text="Delete Task">
+               <VBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </VBox.margin>
+            </Button>
          </children>
       </VBox>
    </children>

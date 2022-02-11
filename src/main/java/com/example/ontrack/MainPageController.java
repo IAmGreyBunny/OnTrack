@@ -82,6 +82,16 @@ public class MainPageController implements Initializable {
     }
 
     @FXML
+    public void loadAddTaskForm() {
+        try {
+            form = FXMLLoader.load(Main.class.getResource("task/form/add/AddTaskForm.fxml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        borderPane.setLeft(form);
+    }
+
+    @FXML
     public void loadAddRepetitionRuleForm() throws IOException {
         Stage stage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("task/form/add/AddRepetitionRuleForm.fxml"));

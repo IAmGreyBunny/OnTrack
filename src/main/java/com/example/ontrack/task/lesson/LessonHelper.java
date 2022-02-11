@@ -1,4 +1,4 @@
-package com.example.ontrack.task;
+package com.example.ontrack.task.lesson;
 
 import com.example.ontrack.authentication.CurrentUser;
 import com.example.ontrack.database.DatabaseHelper;
@@ -104,7 +104,7 @@ public class LessonHelper {
                 lesson.getDescription(),
                 lesson.getVenue(),
                 0,
-                lesson.currentRound,
+                lesson.getCurrentRound(),
                 lesson.getDate().toString());
         try{
             Statement statement = connection.createStatement();
@@ -144,6 +144,5 @@ public class LessonHelper {
             lesson.setRepetitionRule(repetitionRule);
         }
     }
-
 
 }

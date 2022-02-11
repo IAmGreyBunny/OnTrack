@@ -7,12 +7,14 @@ import com.example.ontrack.task.info.ActivityInfoController;
 import com.example.ontrack.task.info.ExamInfoController;
 import com.example.ontrack.task.info.LessonInfoController;
 import com.example.ontrack.task.info.RevisionInfoController;
-import javafx.application.Platform;
+import com.example.ontrack.task.lesson.Lesson;
+import com.example.ontrack.task.lesson.LessonHelper;
+import com.example.ontrack.task.revision.Revision;
+import com.example.ontrack.task.revision.RevisionHelper;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
@@ -21,9 +23,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
 import java.io.IOException;
-import java.net.URL;
 import java.time.LocalDate;
-import java.util.ResourceBundle;
 
 public class CalendarCellController {
 
@@ -43,7 +43,7 @@ public class CalendarCellController {
         ObservableList<Activity> listOfActivities = ActivityHelper.getAllActivtiesFromDate(userId,localDate);
         ObservableList<Exam> lisOfExams = ExamHelper.getAllExamsFromDate(userId,localDate);
         ObservableList<Lesson> listOfLessons = LessonHelper.getAllLessonsFromDate(userId,localDate);
-        ObservableList<Revision> listOfRevisions = RevisionHelper.getAllLessonsFromDate(userId,localDate);
+        ObservableList<Revision> listOfRevisions = RevisionHelper.getAllRevisionsFromDate(userId,localDate);
 
         //Load calendar cell content (Item cells)
         for(Activity activity:listOfActivities)
@@ -130,7 +130,6 @@ public class CalendarCellController {
                 taskItemCell = taskItemCellLoader.load();
                 taskItemCellController = taskItemCellLoader.getController();
                 taskItemCellController.setTaskToCell(lesson); //Load calendar cell content based on date given
-                System.out.println("Lesson: " + lesson.getTaskName() + "Date:" + lesson.getDate().toString());
                 taskItemCell.setBorder(new Border(new BorderStroke(Color.BLUE, BorderStrokeStyle.SOLID, null , null)));
                 taskItemCell.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
                 taskItemCell.setOnMouseClicked(new EventHandler<MouseEvent>() {

@@ -1,9 +1,11 @@
 package com.example.ontrack.task.info;
 
 import com.example.ontrack.IBackButton;
+import com.example.ontrack.IDeleteTask;
 import com.example.ontrack.Main;
-import com.example.ontrack.task.Lesson;
-import com.example.ontrack.task.Revision;
+import com.example.ontrack.task.lesson.LessonCycle;
+import com.example.ontrack.task.revision.Revision;
+import com.example.ontrack.task.revision.RevisionCycle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,7 +15,7 @@ import javafx.scene.layout.BorderPane;
 
 import java.io.IOException;
 
-public class RevisionInfoController implements IBackButton {
+public class RevisionInfoController implements IBackButton, IDeleteTask {
     @FXML
     private Label revisionNameLabel;
     @FXML
@@ -28,15 +30,20 @@ public class RevisionInfoController implements IBackButton {
     private Label revisionRepeatTypeLabel;
     @FXML
     private Button backButton;
+    @FXML
+    private Button deleteRevisionButton;
+
+    Revision displayedRevision;
 
     public void setRevision(Revision revision)
     {
         revisionNameLabel.setText(revision.getTaskName());
         revisionDescLabel.setText(revision.getDescription());
-        revisionDateLabel.setText(revision.getSubject());
-        revisionSubjectLabel.setText(revision.getDate().toString());
+        revisionSubjectLabel.setText(revision.getSubject());
+        revisionDateLabel.setText(revision.getDate().toString());
         revisionCurrentRoundLabel.setText(String.valueOf(revision.getCurrentRound()));
         revisionRepeatTypeLabel.setText(revision.getRepetitionRule().getRepeatType());
+        displayedRevision=revision;
     }
 
     @Override
@@ -50,5 +57,11 @@ public class RevisionInfoController implements IBackButton {
         catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onDeleteTask() {
+        RevisionCycle revisionCycle = new RevisionCycle(displayedRevision.getTaskName());
+        revisionCycle.deleteRevisionCycle();
     }
 }

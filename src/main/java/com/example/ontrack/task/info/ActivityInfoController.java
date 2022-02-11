@@ -2,7 +2,9 @@ package com.example.ontrack.task.info;
 
 import com.example.ontrack.IBackButton;
 import com.example.ontrack.ICompleteTaskInput;
+import com.example.ontrack.IDeleteTask;
 import com.example.ontrack.Main;
+import com.example.ontrack.database.DatabaseManager;
 import com.example.ontrack.task.Activity;
 import com.example.ontrack.task.ActivityHelper;
 import com.example.ontrack.task.form.edit.EditActivityFormController;
@@ -16,8 +18,10 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.Statement;
 
-public class ActivityInfoController implements IBackButton, ICompleteTaskInput {
+public class ActivityInfoController implements IBackButton, ICompleteTaskInput, IDeleteTask {
     @FXML
     private Label activityName;
     @FXML
@@ -32,6 +36,8 @@ public class ActivityInfoController implements IBackButton, ICompleteTaskInput {
     private Button editButton;
     @FXML
     private CheckBox completeTaskCheckBox;
+    @FXML
+    private Button deleteActivityButton;
 
     Activity displayedActivity;
 
@@ -82,5 +88,24 @@ public class ActivityInfoController implements IBackButton, ICompleteTaskInput {
         newActivity.setStatus(completeTaskCheckBox.isSelected());
         ActivityHelper.updateActivityInDb(displayedActivity,newActivity);
         setActivity(newActivity);
+    }
+
+    @Override
+    public void onDeleteTask() {
+        //Gets connection to database
+        DatabaseManager databaseManager = new DatabaseManager();
+        Connection connection = databaseManager.getConnection();
+        String sql = "";
+
+        sql = String.format("DELETE FROM activities WHERE (activityId=%s)",
+                displayedActivity.getActivityId()); //+1 because sql is not zero-indexed
+        try{
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(sql);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 }
