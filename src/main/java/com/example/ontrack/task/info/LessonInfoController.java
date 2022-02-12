@@ -9,6 +9,7 @@ import com.example.ontrack.task.lesson.LessonCycle;
 import com.example.ontrack.task.lesson.LessonHelper;
 import com.example.ontrack.task.repetition.RepetitionRuleHelper;
 import com.example.ontrack.task.lesson.Lesson;
+import com.example.ontrack.task.revision.RevisionCycle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -82,9 +83,14 @@ public class LessonInfoController implements IBackButton, IDeleteTask, IComplete
     @Override
     public void onDeleteTask()
     {
-        LessonCycle lessonCycle = new LessonCycle(displayedLesson.getTaskName());
-        lessonCycle.deleteLessonCycle();
-        MainPageControllerHolder.getInstance().getMainPageController().refresh();
+        ConfirmationBox confirmationBox = new ConfirmationBox();
+        if(confirmationBox.display("Delete","Deleting this task will delete all task in chain\n Are you sure you want to do this?"))
+        {
+            LessonCycle lessonCycle = new LessonCycle(displayedLesson.getTaskName());
+            lessonCycle.deleteLessonCycle();
+            MainPageControllerHolder.getInstance().getMainPageController().refresh();
+            MainPageControllerHolder.getInstance().getMainPageController().loadAddTaskForm();
+        }
     }
 
     @Override

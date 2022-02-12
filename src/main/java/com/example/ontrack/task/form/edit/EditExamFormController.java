@@ -90,6 +90,7 @@ public class EditExamFormController implements IExamForm, IBackButton {
             NotificationBox notificationBox = new NotificationBox();
             notificationBox.display("Success","Task Edited");
             MainPageControllerHolder.getInstance().getMainPageController().refresh();
+            MainPageControllerHolder.getInstance().getMainPageController().loadAddTaskForm();
         }
 
 

@@ -105,5 +105,6 @@ public class ActivityInfoController implements IBackButton, ICompleteTaskInput, 
         }
 
         MainPageControllerHolder.getInstance().getMainPageController().refresh();
+        MainPageControllerHolder.getInstance().getMainPageController().loadAddTaskForm();
     }
 }

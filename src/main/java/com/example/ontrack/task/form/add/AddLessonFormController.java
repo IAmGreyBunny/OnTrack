@@ -195,6 +195,7 @@ public class AddLessonFormController implements IBackButton, ILessonForm, Initia
             NotificationBox notificationBox = new NotificationBox();
             notificationBox.display("Success","Task Created");
             MainPageControllerHolder.getInstance().getMainPageController().refresh();
+            MainPageControllerHolder.getInstance().getMainPageController().loadAddTaskForm();
         }
 
     }

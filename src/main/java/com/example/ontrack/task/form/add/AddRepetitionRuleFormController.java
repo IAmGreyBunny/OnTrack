@@ -145,6 +145,7 @@ public class AddRepetitionRuleFormController implements IRepetitionRuleForm, Ini
         NotificationBox notificationBox = new NotificationBox();
         notificationBox.display("Success","Rule Created");
         MainPageControllerHolder.getInstance().getMainPageController().refresh();
+        MainPageControllerHolder.getInstance().getMainPageController().loadAddTaskForm();
 
     }
 

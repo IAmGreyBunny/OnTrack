@@ -87,6 +87,7 @@ public class EditActivityFormController implements IActivityForm,IBackButton {
             NotificationBox notificationBox = new NotificationBox();
             notificationBox.display("Success","Task Edited");
             MainPageControllerHolder.getInstance().getMainPageController().refresh();
+            MainPageControllerHolder.getInstance().getMainPageController().loadAddTaskForm();
         }
 
     }

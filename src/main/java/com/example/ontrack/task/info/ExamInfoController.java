@@ -106,5 +106,6 @@ public class ExamInfoController implements IBackButton, ICompleteTaskInput, IDel
             e.printStackTrace();
         }
         MainPageControllerHolder.getInstance().getMainPageController().refresh();
+        MainPageControllerHolder.getInstance().getMainPageController().loadAddTaskForm();
     }
 }

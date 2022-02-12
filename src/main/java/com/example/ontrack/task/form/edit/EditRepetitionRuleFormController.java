@@ -110,6 +110,7 @@ public class EditRepetitionRuleFormController implements IRepetitionRuleForm, In
             NotificationBox notificationBox = new NotificationBox();
             notificationBox.display("Success","Rule Edited");
             MainPageControllerHolder.getInstance().getMainPageController().refresh();
+            MainPageControllerHolder.getInstance().getMainPageController().loadAddTaskForm();
         }
 
     }

@@ -1,9 +1,6 @@
 package com.example.ontrack.task.form.add;
 
-import com.example.ontrack.MainPageControllerHolder;
-import com.example.ontrack.NotificationBox;
-import com.example.ontrack.IBackButton;
-import com.example.ontrack.Main;
+import com.example.ontrack.*;
 import com.example.ontrack.task.activity.Activity;
 import com.example.ontrack.task.activity.ActivityHelper;
 import com.example.ontrack.task.form.validator.IActivityForm;
@@ -82,6 +79,7 @@ public class AddActivityFormController implements IActivityForm,IBackButton, Ini
             NotificationBox notificationBox = new NotificationBox();
             notificationBox.display("Success","Task Created");
             MainPageControllerHolder.getInstance().getMainPageController().refresh();
+            MainPageControllerHolder.getInstance().getMainPageController().loadAddTaskForm();
         }
 
     }

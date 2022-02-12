@@ -77,6 +77,7 @@ public class AddExamFormController implements IBackButton, IExamForm, Initializa
             NotificationBox notificationBox = new NotificationBox();
             notificationBox.display("Success","Task Created");
             MainPageControllerHolder.getInstance().getMainPageController().refresh();
+            MainPageControllerHolder.getInstance().getMainPageController().loadAddTaskForm();
         }
 
     }

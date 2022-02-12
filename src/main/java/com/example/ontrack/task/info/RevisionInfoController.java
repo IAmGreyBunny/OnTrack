@@ -74,9 +74,14 @@ public class RevisionInfoController implements IBackButton, ICompleteTaskInput, 
 
     @Override
     public void onDeleteTask() {
-        RevisionCycle revisionCycle = new RevisionCycle(displayedRevision.getTaskName());
-        revisionCycle.deleteRevisionCycle();
-        MainPageControllerHolder.getInstance().getMainPageController().refresh();
+        ConfirmationBox confirmationBox = new ConfirmationBox();
+        if(confirmationBox.display("Delete","Deleting this task will delete all task in chain\n Are you sure you want to do this?"))
+        {
+            RevisionCycle revisionCycle = new RevisionCycle(displayedRevision.getTaskName());
+            revisionCycle.deleteRevisionCycle();
+            MainPageControllerHolder.getInstance().getMainPageController().refresh();
+            MainPageControllerHolder.getInstance().getMainPageController().loadAddTaskForm();
+        }
     }
 
     @Override

@@ -86,6 +86,7 @@ public class EditRevisionFormController implements IBackButton, IRevisionForm{
             notificationBox.display("Success","Task Edited");
         }
         MainPageControllerHolder.getInstance().getMainPageController().refresh();
+        MainPageControllerHolder.getInstance().getMainPageController().loadAddTaskForm();
 
     }
 
