@@ -3,6 +3,8 @@ package com.example.ontrack.task.form.edit;
 import com.example.ontrack.IBackButton;
 import com.example.ontrack.Main;
 import com.example.ontrack.authentication.CurrentUser;
+import com.example.ontrack.database.DatabaseHelper;
+import com.example.ontrack.database.DatabaseManager;
 import com.example.ontrack.task.form.validator.ILessonForm;
 import com.example.ontrack.task.lesson.Lesson;
 import com.example.ontrack.task.lesson.LessonCycle;
@@ -24,6 +26,9 @@ import javafx.util.StringConverter;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
@@ -198,19 +203,39 @@ public class EditLessonFormController implements IBackButton, ILessonForm, Initi
         {
             Lesson newLesson = new Lesson(lessonName,lessonDesc,lessonSubject,lessonVenue,lessonStartDate,1,false);
             LessonCycle.updateLessonsInCycle(oldLesson,newLesson,oldLesson.getRepetitionRule(),repetitionRuleDropDown.getValue());
-//            LessonHelper.createLessonInDb(lesson,lessonRepetitionRule);
-//            lesson.setRepetitionRule(lessonRepetitionRule);
-//            LessonHelper.createLessonCycleInDb(lesson,lessonRepetitionRule);
         }
 
     }
 
     @Override
     public String validateTaskName(String taskName) {
+        String errorMessage = "";
         if (taskName.isEmpty()) {
-            return "Name is required";
+            errorMessage += "Name is required";
         }
-        return "";
+        //Check if user have any rule with same name
+        if(!taskName.isEmpty()) {
+            //Database Connection
+            DatabaseManager databaseManager = new DatabaseManager();
+            Connection connection = databaseManager.getConnection();
+
+            String sql = String.format("SELECT DISTINCT name FROM lessons WHERE (userId = %s)", CurrentUser.getInstance().getUser().getUserId());
+            try {
+                PreparedStatement statement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                ResultSet resultSet = statement.executeQuery();
+                if (DatabaseHelper.getResultSetSize(resultSet) >= 1) {
+                    do {
+                        if (resultSet.getString("name").equals(taskName)) {
+                            errorMessage += "Lesson with same name already exist";
+                            break;
+                        }
+                    } while (resultSet.next());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return errorMessage;
     }
 
     @Override

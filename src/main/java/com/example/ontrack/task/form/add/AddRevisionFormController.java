@@ -3,6 +3,8 @@ package com.example.ontrack.task.form.add;
 import com.example.ontrack.IBackButton;
 import com.example.ontrack.Main;
 import com.example.ontrack.authentication.CurrentUser;
+import com.example.ontrack.database.DatabaseHelper;
+import com.example.ontrack.database.DatabaseManager;
 import com.example.ontrack.task.revision.Revision;
 import com.example.ontrack.task.revision.RevisionHelper;
 import com.example.ontrack.task.form.edit.EditRepetitionRuleFormController;
@@ -24,6 +26,9 @@ import javafx.util.StringConverter;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
@@ -182,15 +187,42 @@ public class AddRevisionFormController implements IBackButton, IRevisionForm, In
             revision.setRepetitionRule(revisionRepetitionRule);
             RevisionHelper.createRevisionCycleInDb(revision,repetitionRuleDropDown.getValue());
         }
-
     }
 
     @Override
     public String validateTaskName(String taskName) {
+        String errorMessage="";
         if (taskName.isEmpty()) {
             return "Name is required";
         }
-        return "";
+        if(!taskName.isEmpty())
+        {
+            //Database Connection
+            DatabaseManager databaseManager = new DatabaseManager();
+            Connection connection = databaseManager.getConnection();
+
+            String sql = String.format("SELECT DISTINCT name FROM revisions WHERE (userId = %s)", CurrentUser.getInstance().getUser().getUserId());
+            try{
+                PreparedStatement statement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
+                ResultSet resultSet = statement.executeQuery();
+                if (DatabaseHelper.getResultSetSize(resultSet)>=1)
+                {
+                    do{
+                        if(resultSet.getString("name").equals(taskName))
+                        {
+                            errorMessage+="Revision with same name already exist";
+                            break;
+                        }
+                    }while(resultSet.next());
+                }
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+            }
+
+        }
+        return errorMessage;
     }
 
     @Override

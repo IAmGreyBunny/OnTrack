@@ -158,8 +158,6 @@ public class RepetitionRuleHelper {
                     e.printStackTrace();
                 }
             }
-
-
         }
 
 
@@ -194,7 +192,6 @@ public class RepetitionRuleHelper {
     {
         return repetitionRule.getRounds().size();
     }
-
     public static int lengthOfCycle(ObservableList<Round> rounds)
     {
         return rounds.size();

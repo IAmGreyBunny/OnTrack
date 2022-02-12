@@ -1,6 +1,8 @@
 package com.example.ontrack.task.form.add;
 
 import com.example.ontrack.authentication.CurrentUser;
+import com.example.ontrack.database.DatabaseHelper;
+import com.example.ontrack.database.DatabaseManager;
 import com.example.ontrack.task.form.validator.IRepetitionRuleForm;
 import com.example.ontrack.task.repetition.RepetitionRule;
 import com.example.ontrack.task.repetition.RepetitionRuleHelper;
@@ -13,6 +15,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ResourceBundle;
 
 public class AddRepetitionRuleFormController implements IRepetitionRuleForm, Initializable {
@@ -149,9 +154,39 @@ public class AddRepetitionRuleFormController implements IRepetitionRuleForm, Ini
     @Override
     public String validateName(String name) {
         String errorMessage = "";
+        //Check for empty field
         if(name.isEmpty())
         {
-            errorMessage = "Rule name is required";
+            errorMessage += "Rule name is required";
+        }
+        //Check if user have any rule with same name
+        if(!name.isEmpty())
+        {
+            //Database Connection
+            DatabaseManager databaseManager = new DatabaseManager();
+            Connection connection = databaseManager.getConnection();
+
+            String sql = String.format("SELECT DISTINCT ruleName FROM repetitionRules WHERE (userId = %s)", CurrentUser.getInstance().getUser().getUserId());
+            try{
+                PreparedStatement statement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
+                ResultSet resultSet = statement.executeQuery();
+                if (DatabaseHelper.getResultSetSize(resultSet)>=1)
+                {
+                    do{
+                        if(resultSet.getString("ruleName").equals(name))
+                        {
+                            errorMessage+="Repetition rule with duplicate name already exist";
+                            break;
+                        }
+                    }while(resultSet.next());
+
+                }
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+            }
+
         }
         return errorMessage;
     }

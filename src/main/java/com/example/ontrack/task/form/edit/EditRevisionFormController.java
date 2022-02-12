@@ -1,15 +1,14 @@
-package com.example.ontrack.task.form.add;
+package com.example.ontrack.task.form.edit;
 
 import com.example.ontrack.IBackButton;
 import com.example.ontrack.Main;
 import com.example.ontrack.authentication.CurrentUser;
 import com.example.ontrack.database.DatabaseHelper;
 import com.example.ontrack.database.DatabaseManager;
-import com.example.ontrack.task.lesson.Lesson;
-import com.example.ontrack.task.lesson.LessonHelper;
-import com.example.ontrack.task.form.edit.EditRepetitionRuleFormController;
-import com.example.ontrack.task.form.validator.ILessonForm;
+import com.example.ontrack.task.form.validator.IRevisionForm;
 import com.example.ontrack.task.repetition.RepetitionRule;
+import com.example.ontrack.task.revision.Revision;
+import com.example.ontrack.task.revision.RevisionCycle;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -33,7 +32,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
-public class AddLessonFormController implements IBackButton, ILessonForm, Initializable {
+public class EditRevisionFormController implements IBackButton, IRevisionForm, Initializable {
     @FXML
     Button backButton;
     @FXML
@@ -44,18 +43,20 @@ public class AddLessonFormController implements IBackButton, ILessonForm, Initia
     Button saveTaskButton;
 
     @FXML
-    TextField lessonNameTextField;
+    TextField revisionNameTextField;
     @FXML
-    TextArea lessonDescTextArea;
+    TextArea revisionDescTextArea;
     @FXML
-    TextField lessonSubjectTextField;
+    TextField revisionSubjectTextField;
     @FXML
-    TextField lessonVenueTextField;
+    TextField revisionVenueTextField;
     @FXML
-    DatePicker lessonStartDatePicker;
+    DatePicker revisionStartDatePicker;
 
     @FXML
     ComboBox<RepetitionRule> repetitionRuleDropDown;
+
+    Revision oldrevision;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
@@ -115,6 +116,17 @@ public class AddLessonFormController implements IBackButton, ILessonForm, Initia
         });
     }
 
+    public void setRevision(Revision revision)
+    {
+        oldrevision=revision;
+        RevisionCycle revisionCycle = new RevisionCycle(oldrevision.getTaskName());
+        oldrevision = revisionCycle.getFirstRevisionInCycle();
+        revisionNameTextField.setText(revision.getTaskName());
+        revisionDescTextArea.setText(revision.getDescription());
+        revisionSubjectTextField.setText(revision.getSubject());
+        revisionStartDatePicker.setValue(revision.getDate());
+    }
+
     @FXML
     public void loadEditRepetitionRuleForm()
     {
@@ -165,20 +177,19 @@ public class AddLessonFormController implements IBackButton, ILessonForm, Initia
     @FXML
     public void onSaveTaskButtonClicked() throws SQLException {
         //Gets user input
-        String lessonName = lessonNameTextField.getText();
-        String lessonDesc = lessonDescTextArea.getText();
-        String lessonSubject = lessonSubjectTextField.getText();
-        String lessonVenue = lessonVenueTextField.getText();
-        RepetitionRule lessonRepetitionRule = repetitionRuleDropDown.getValue();
-        LocalDate lessonStartDate = lessonStartDatePicker.getValue();
+        String revisionName = revisionNameTextField.getText();
+        String revisionDesc = revisionDescTextArea.getText();
+        String revisionSubject = revisionSubjectTextField.getText();
+        String revisionVenue = revisionVenueTextField.getText();
+        RepetitionRule revisionRepetitionRule = repetitionRuleDropDown.getValue();
+        LocalDate revisionStartDate = revisionStartDatePicker.getValue();
 
         //Create error messages
-        String errorMessage = validateTaskName(lessonName)
-                +validateTaskDesc(lessonDesc)
-                +validateSubject(lessonSubject)
-                +validateVenue(lessonVenue)
-                +validateRepetitionRule(lessonRepetitionRule)
-                +validateTaskDate(lessonStartDate);
+        String errorMessage = validateTaskName(revisionName)
+                +validateTaskDesc(revisionDesc)
+                +validateSubject(revisionSubject)
+                +validateRepetitionRule(revisionRepetitionRule)
+                +validateTaskDate(revisionStartDate);
 
         if(!errorMessage.isEmpty())
         {
@@ -187,47 +198,39 @@ public class AddLessonFormController implements IBackButton, ILessonForm, Initia
         }
         else
         {
-            Lesson lesson = new Lesson(lessonName,lessonDesc,lessonSubject,lessonVenue,lessonStartDate,1,false);
-            LessonHelper.createLessonInDb(lesson,lessonRepetitionRule);
-            lesson.setRepetitionRule(lessonRepetitionRule);
-            LessonHelper.createLessonCycleInDb(lesson,lessonRepetitionRule);
+            Revision newrevision = new Revision(revisionName,revisionDesc,revisionSubject,oldrevision.getRuleId(),revisionStartDate,1,false);
+            RevisionCycle.updateRevisionsInCycle(oldrevision,newrevision,oldrevision.getRepetitionRule(),repetitionRuleDropDown.getValue());
         }
 
     }
 
     @Override
     public String validateTaskName(String taskName) {
-        String errorMessage="";
+        String errorMessage = "";
         if (taskName.isEmpty()) {
             errorMessage += "Name is required";
         }
         //Check if user have any rule with same name
-        if(!taskName.isEmpty())
-        {
+        if(!taskName.isEmpty()) {
             //Database Connection
             DatabaseManager databaseManager = new DatabaseManager();
             Connection connection = databaseManager.getConnection();
 
-            String sql = String.format("SELECT DISTINCT name FROM lessons WHERE (userId = %s)", CurrentUser.getInstance().getUser().getUserId());
-            try{
-                PreparedStatement statement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
+            String sql = String.format("SELECT DISTINCT name FROM revisions WHERE (userId = %s)", CurrentUser.getInstance().getUser().getUserId());
+            try {
+                PreparedStatement statement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
                 ResultSet resultSet = statement.executeQuery();
-                if (DatabaseHelper.getResultSetSize(resultSet)>=1)
-                {
-                    do{
-                        if(resultSet.getString("name").equals(taskName))
-                        {
-                            errorMessage+="Lesson with same name already exist";
+                if (DatabaseHelper.getResultSetSize(resultSet) >= 1) {
+                    do {
+                        if (resultSet.getString("name").equals(taskName)) {
+                            errorMessage += "revision with same name already exist";
                             break;
                         }
-                    }while(resultSet.next());
+                    } while (resultSet.next());
                 }
-            }
-            catch(Exception e)
-            {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
-
         }
         return errorMessage;
     }
@@ -250,10 +253,6 @@ public class AddLessonFormController implements IBackButton, ILessonForm, Initia
         return "";
     }
 
-    @Override
-    public String validateVenue(String subject) {
-        return "";
-    }
 
     @Override
     public String validateRepetitionRule(RepetitionRule repetitionRule) {

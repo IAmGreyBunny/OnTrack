@@ -46,10 +46,4 @@ public class TaskItemCellController implements Initializable {
         this.task=task;
         taskNameLabel.setText(task.getTaskName());
     }
-
-    public void setTask(Task task) {
-        this.task = task;
-    }
-
-
 }

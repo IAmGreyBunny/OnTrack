@@ -155,4 +155,36 @@ public class RevisionCycle {
             revision.setRepetitionRule(repetitionRule);
         }
     }
+
+    //For updating revision cycle
+    public static void updateRevisionsInCycle(Revision oldrevision, Revision newRevision, RepetitionRule oldRepetitionRule, RepetitionRule newRepetitionRule)
+    {
+        //Update everything else with oldRepetitionRule first
+        RevisionCycle revisionCycle = new RevisionCycle(oldrevision.getTaskName());
+
+        for(Revision revision:revisionCycle.revisionsInCycle)
+        {
+            //Use new revision as a template and make modification
+            newRevision.setCurrentRound(revision.getCurrentRound());
+            newRevision.setDate(revision.getDate());
+            newRevision.setStatus(revision.getStatus());
+
+            //Update
+            RevisionHelper.updateRevisionInDb(revision,newRevision);
+        }
+
+        //Update repetition rule
+        //Check if repeat type is same
+        if(!oldRepetitionRule.getRepeatType().equals(newRepetitionRule.getRepeatType()))
+        {
+            //Start from scratch
+        }
+        else
+        {
+            if(newRepetitionRule.getRepeatType().equals("repeatLast"))
+            {
+                //Get last completed in current cycle and start from there
+            }
+        }
+    }
 }

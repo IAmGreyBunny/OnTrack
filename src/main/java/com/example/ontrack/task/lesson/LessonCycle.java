@@ -168,7 +168,7 @@ public class LessonCycle {
         }
     }
 
-    //For updating revision cycle
+    //For updating lesson cycle
     public static void updateLessonsInCycle(Lesson oldLesson,Lesson newLesson,RepetitionRule oldRepetitionRule,RepetitionRule newRepetitionRule)
     {
         //Update everything else with oldRepetitionRule first
