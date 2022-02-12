@@ -213,28 +213,6 @@ public class EditLessonFormController implements IBackButton, ILessonForm, Initi
         if (taskName.isEmpty()) {
             errorMessage += "Name is required";
         }
-        //Check if user have any rule with same name
-        if(!taskName.isEmpty()) {
-            //Database Connection
-            DatabaseManager databaseManager = new DatabaseManager();
-            Connection connection = databaseManager.getConnection();
-
-            String sql = String.format("SELECT DISTINCT name FROM lessons WHERE (userId = %s)", CurrentUser.getInstance().getUser().getUserId());
-            try {
-                PreparedStatement statement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-                ResultSet resultSet = statement.executeQuery();
-                if (DatabaseHelper.getResultSetSize(resultSet) >= 1) {
-                    do {
-                        if (resultSet.getString("name").equals(taskName)) {
-                            errorMessage += "Lesson with same name already exist";
-                            break;
-                        }
-                    } while (resultSet.next());
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
         return errorMessage;
     }
 

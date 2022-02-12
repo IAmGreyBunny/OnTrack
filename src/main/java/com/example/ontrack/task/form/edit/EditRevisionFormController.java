@@ -49,8 +49,6 @@ public class EditRevisionFormController implements IBackButton, IRevisionForm, I
     @FXML
     TextField revisionSubjectTextField;
     @FXML
-    TextField revisionVenueTextField;
-    @FXML
     DatePicker revisionStartDatePicker;
 
     @FXML
@@ -180,7 +178,6 @@ public class EditRevisionFormController implements IBackButton, IRevisionForm, I
         String revisionName = revisionNameTextField.getText();
         String revisionDesc = revisionDescTextArea.getText();
         String revisionSubject = revisionSubjectTextField.getText();
-        String revisionVenue = revisionVenueTextField.getText();
         RepetitionRule revisionRepetitionRule = repetitionRuleDropDown.getValue();
         LocalDate revisionStartDate = revisionStartDatePicker.getValue();
 
@@ -198,8 +195,8 @@ public class EditRevisionFormController implements IBackButton, IRevisionForm, I
         }
         else
         {
-            Revision newrevision = new Revision(revisionName,revisionDesc,revisionSubject,oldrevision.getRuleId(),revisionStartDate,1,false);
-            RevisionCycle.updateRevisionsInCycle(oldrevision,newrevision,oldrevision.getRepetitionRule(),repetitionRuleDropDown.getValue());
+            Revision newRevision = new Revision(revisionName,revisionDesc,revisionSubject,oldrevision.getRuleId(),revisionStartDate,1,false);
+            RevisionCycle.updateRevisionsInCycle(oldrevision,newRevision,oldrevision.getRepetitionRule(),repetitionRuleDropDown.getValue());
         }
 
     }
@@ -209,28 +206,6 @@ public class EditRevisionFormController implements IBackButton, IRevisionForm, I
         String errorMessage = "";
         if (taskName.isEmpty()) {
             errorMessage += "Name is required";
-        }
-        //Check if user have any rule with same name
-        if(!taskName.isEmpty()) {
-            //Database Connection
-            DatabaseManager databaseManager = new DatabaseManager();
-            Connection connection = databaseManager.getConnection();
-
-            String sql = String.format("SELECT DISTINCT name FROM revisions WHERE (userId = %s)", CurrentUser.getInstance().getUser().getUserId());
-            try {
-                PreparedStatement statement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-                ResultSet resultSet = statement.executeQuery();
-                if (DatabaseHelper.getResultSetSize(resultSet) >= 1) {
-                    do {
-                        if (resultSet.getString("name").equals(taskName)) {
-                            errorMessage += "revision with same name already exist";
-                            break;
-                        }
-                    } while (resultSet.next());
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
         return errorMessage;
     }

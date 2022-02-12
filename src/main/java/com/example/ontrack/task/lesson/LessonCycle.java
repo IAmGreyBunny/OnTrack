@@ -197,6 +197,10 @@ public class LessonCycle {
             {
                 //Get last completed in current cycle and start from there
             }
+            else if(newRepetitionRule.getRepeatType().equals("Start Over"))
+            {
+
+            }
         }
     }
 }

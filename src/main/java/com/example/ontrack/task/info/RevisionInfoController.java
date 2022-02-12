@@ -1,9 +1,7 @@
 package com.example.ontrack.task.info;
 
-import com.example.ontrack.IBackButton;
-import com.example.ontrack.ICompleteTaskInput;
-import com.example.ontrack.IDeleteTask;
-import com.example.ontrack.Main;
+import com.example.ontrack.*;
+import com.example.ontrack.task.form.edit.EditRevisionFormController;
 import com.example.ontrack.task.revision.RevisionHelper;
 import com.example.ontrack.task.revision.Revision;
 import com.example.ontrack.task.revision.RevisionCycle;
@@ -17,7 +15,7 @@ import javafx.scene.layout.BorderPane;
 
 import java.io.IOException;
 
-public class RevisionInfoController implements IBackButton, ICompleteTaskInput, IDeleteTask {
+public class RevisionInfoController implements IBackButton, ICompleteTaskInput, IDeleteTask, IEditTask {
     @FXML
     private Label revisionNameLabel;
     @FXML
@@ -34,6 +32,8 @@ public class RevisionInfoController implements IBackButton, ICompleteTaskInput, 
     private Button backButton;
     @FXML
     private Button deleteRevisionButton;
+    @FXML
+    private Button editButton;
     @FXML
     private CheckBox completeTaskCheckBox;
 
@@ -88,7 +88,23 @@ public class RevisionInfoController implements IBackButton, ICompleteTaskInput, 
         }
         else if(newRevision.getRepetitionRule().getRepeatType().equals("Repeat Last") && numberOfRoundLeft<3)
         {
-            revisionCycle.extendCycle(revisionCycle.getLastRevisionInCycle(),newRevision.getRepetitionRule(),5);
+            revisionCycle.repeatLast(revisionCycle.getLastRevisionInCycle(),newRevision.getRepetitionRule(),5);
+        }
+    }
+
+    @Override
+    public void onEditButtonClicked() {
+        //Load Edit Form
+        FXMLLoader editRevisionFormLoader = new FXMLLoader(Main.class.getResource("task/form/edit/EditRevisionForm.fxml"));
+        EditRevisionFormController editRevisionFormController;
+        Parent revisionForm;
+        try {
+            revisionForm = editRevisionFormLoader.load();
+            editRevisionFormController = editRevisionFormLoader.getController();
+            editRevisionFormController.setRevision(displayedRevision); //Load calendar cell content based on date given
+            ((BorderPane) editButton.getScene().getRoot()).setLeft(revisionForm);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

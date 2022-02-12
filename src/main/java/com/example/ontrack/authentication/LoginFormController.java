@@ -104,7 +104,6 @@ public class LoginFormController implements Initializable {
                     stage.setScene(scene);
                     stage.setResizable(false);
                     stage.setMaximized(true);
-                    //stage.setFullScreen(true); //Do Not Use Fullscreen
                     stage.show();
 
                 } catch (IOException e) {
