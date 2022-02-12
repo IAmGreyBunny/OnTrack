@@ -52,7 +52,12 @@ public class MainPageController implements Initializable {
     @FXML
     private void onExit()
     {
-        Platform.exit();
+        ConfirmationBox confirmationBox = new ConfirmationBox();
+        if(confirmationBox.display("Exit","Are you sure you want to quit?"))
+        {
+            Platform.exit();
+        }
+
     }
 
     @FXML

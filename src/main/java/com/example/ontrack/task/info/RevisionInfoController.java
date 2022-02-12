@@ -29,9 +29,11 @@ public class RevisionInfoController implements IBackButton, ICompleteTaskInput, 
     @FXML
     private Label revisionRepeatTypeLabel;
     @FXML
-    private Button backButton;
+    private Label revisionCompletionRateLabel;
     @FXML
-    private Button deleteRevisionButton;
+    private Label revisionRepetitionRuleLabel;
+    @FXML
+    private Button backButton;
     @FXML
     private Button editButton;
     @FXML
@@ -47,9 +49,13 @@ public class RevisionInfoController implements IBackButton, ICompleteTaskInput, 
         revisionDateLabel.setText(revision.getDate().toString());
         revisionCurrentRoundLabel.setText(String.valueOf(revision.getCurrentRound()));
         revisionRepeatTypeLabel.setText(revision.getRepetitionRule().getRepeatType());
+        revisionRepetitionRuleLabel.setText(revision.getRepetitionRule().getRuleName());
+        if(! revision.getRepetitionRule().getRepeatType().equals("Repeat Last"))
+        {
+            RevisionCycle revisionCycle = new RevisionCycle(revision.getTaskName());
+            revisionCompletionRateLabel.setText(String.format("%.2f",revisionCycle.getCompletionRateOfRevisionCycle()));
+        }
         completeTaskCheckBox.setSelected(revision.getStatus());
-        RevisionCycle revisionCycle = new RevisionCycle(revision.getTaskName());
-        revisionCycle.getCompletionRateOfRevisionCycle();
         displayedRevision=revision;
     }
 

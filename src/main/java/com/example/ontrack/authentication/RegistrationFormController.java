@@ -1,11 +1,9 @@
 package com.example.ontrack.authentication;
 
-import com.example.ontrack.database.DatabaseManager;
+import com.example.ontrack.NotificationBox;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-
-import java.sql.Connection;
 
 public class RegistrationFormController {
 
@@ -121,6 +119,8 @@ public class RegistrationFormController {
             if(registrationSuccess)
             {
               //TO DO: registration complete alert box
+                NotificationBox notificationBox = new NotificationBox();
+                notificationBox.display("Registration complete","Registration Successful");
             }
         }
     }

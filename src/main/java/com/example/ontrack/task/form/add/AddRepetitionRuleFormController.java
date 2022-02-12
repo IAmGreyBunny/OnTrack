@@ -1,5 +1,6 @@
 package com.example.ontrack.task.form.add;
 
+import com.example.ontrack.NotificationBox;
 import com.example.ontrack.authentication.CurrentUser;
 import com.example.ontrack.database.DatabaseHelper;
 import com.example.ontrack.database.DatabaseManager;
@@ -77,7 +78,6 @@ public class AddRepetitionRuleFormController implements IRepetitionRuleForm, Ini
         repeatTypeDropDown.getItems().addAll(
                 "Repeat Last",
                 "Start Over",
-                "Singular Cycle",
                 "Do not repeat"
         );
     }
@@ -133,7 +133,7 @@ public class AddRepetitionRuleFormController implements IRepetitionRuleForm, Ini
         //If form validation is successful
         if(!errorMessage.isEmpty())
         {
-            System.out.println(errorMessage);
+            NotificationBox.display("Error",errorMessage);
         }
         else
         {
@@ -141,6 +141,8 @@ public class AddRepetitionRuleFormController implements IRepetitionRuleForm, Ini
             RepetitionRuleHelper.createRepetitionRuleInDb(repetitionRule);
             CurrentUser.getInstance().reloadUser();
         }
+        NotificationBox notificationBox = new NotificationBox();
+        notificationBox.display("Success","Rule Created");
 
     }
 
@@ -157,7 +159,7 @@ public class AddRepetitionRuleFormController implements IRepetitionRuleForm, Ini
         //Check for empty field
         if(name.isEmpty())
         {
-            errorMessage += "Rule name is required";
+            errorMessage += "Rule name is required\n";
         }
         //Check if user have any rule with same name
         if(!name.isEmpty())
@@ -175,7 +177,7 @@ public class AddRepetitionRuleFormController implements IRepetitionRuleForm, Ini
                     do{
                         if(resultSet.getString("ruleName").equals(name))
                         {
-                            errorMessage+="Repetition rule with duplicate name already exist";
+                            errorMessage+="Repetition rule with duplicate name already exist\n";
                             break;
                         }
                     }while(resultSet.next());
@@ -186,7 +188,6 @@ public class AddRepetitionRuleFormController implements IRepetitionRuleForm, Ini
             {
                 e.printStackTrace();
             }
-
         }
         return errorMessage;
     }
@@ -196,7 +197,7 @@ public class AddRepetitionRuleFormController implements IRepetitionRuleForm, Ini
         String errorMessage = "";
         if(repeatType == null || repeatType.isEmpty())
         {
-            errorMessage = "Repeat type is required";
+            errorMessage = "Repeat type is required\n";
         }
         return errorMessage;
     }
@@ -214,6 +215,7 @@ public class AddRepetitionRuleFormController implements IRepetitionRuleForm, Ini
                 missingRound = currentRound.getRoundNumber() - previousRound.getRoundNumber() - 1;
                 if (missingRound > 0)
                 {
+                    errorMessage += "Inconsistent Rounds: \n";
                     for(int i=1;i<=missingRound;i++)
                     {
                         errorMessage += ("Missing round " + (previousRound.getRoundNumber()+i +"\n"));

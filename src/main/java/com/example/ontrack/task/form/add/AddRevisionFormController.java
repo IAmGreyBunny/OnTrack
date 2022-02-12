@@ -1,5 +1,6 @@
 package com.example.ontrack.task.form.add;
 
+import com.example.ontrack.NotificationBox;
 import com.example.ontrack.IBackButton;
 import com.example.ontrack.Main;
 import com.example.ontrack.authentication.CurrentUser;
@@ -177,8 +178,7 @@ public class AddRevisionFormController implements IBackButton, IRevisionForm, In
 
         if(!errorMessage.isEmpty())
         {
-            //TO DO: ERROR MESSAGE BOX TO BE IMPLEMENTED LATER
-            System.out.println(errorMessage);
+            NotificationBox.display("Error",errorMessage);
         }
         else
         {
@@ -186,6 +186,8 @@ public class AddRevisionFormController implements IBackButton, IRevisionForm, In
             RevisionHelper.createRevisionInDb(revision,repetitionRuleDropDown.getValue());
             revision.setRepetitionRule(revisionRepetitionRule);
             RevisionHelper.createRevisionCycleInDb(revision,repetitionRuleDropDown.getValue());
+            NotificationBox notificationBox = new NotificationBox();
+            notificationBox.display("Success","Task Created");
         }
     }
 
@@ -193,7 +195,7 @@ public class AddRevisionFormController implements IBackButton, IRevisionForm, In
     public String validateTaskName(String taskName) {
         String errorMessage="";
         if (taskName.isEmpty()) {
-            return "Name is required";
+            return "Name is required\n";
         }
         if(!taskName.isEmpty())
         {
@@ -210,7 +212,7 @@ public class AddRevisionFormController implements IBackButton, IRevisionForm, In
                     do{
                         if(resultSet.getString("name").equals(taskName))
                         {
-                            errorMessage+="Revision with same name already exist";
+                            errorMessage+="Revision with same name already exist\n";
                             break;
                         }
                     }while(resultSet.next());
@@ -233,7 +235,7 @@ public class AddRevisionFormController implements IBackButton, IRevisionForm, In
     @Override
     public String validateTaskDate(LocalDate date) {
         if (date == null) {
-            return "date is required";
+            return "Date is required\n";
         }
         return "";
     }
@@ -242,7 +244,7 @@ public class AddRevisionFormController implements IBackButton, IRevisionForm, In
     public String validateRepetitionRule(RepetitionRule repetitionRule) {
         if(repetitionRule == null)
         {
-            return "Repetition rule must be set";
+            return "Repetition rule must be set\n";
         }
         else
         {

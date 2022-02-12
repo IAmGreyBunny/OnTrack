@@ -1,5 +1,6 @@
 package com.example.ontrack.task.form.add;
 
+import com.example.ontrack.NotificationBox;
 import com.example.ontrack.IBackButton;
 import com.example.ontrack.Main;
 import com.example.ontrack.task.activity.Activity;
@@ -71,13 +72,14 @@ public class AddActivityFormController implements IActivityForm,IBackButton, Ini
 
         if(!errorMessage.isEmpty())
         {
-            //TO DO: ERROR MESSAGE BOX TO BE IMPLEMENTED LATER
-            System.out.println(errorMessage);
+            NotificationBox.display("Error",errorMessage);
         }
         else
         {
             Activity activity = new Activity(activityName,activityDesc,activityVenue,false,activityDate);
             ActivityHelper.createActivityInDb(activity);
+            NotificationBox notificationBox = new NotificationBox();
+            notificationBox.display("Success","Task Created");
         }
 
     }
@@ -90,7 +92,7 @@ public class AddActivityFormController implements IActivityForm,IBackButton, Ini
     @Override
     public String validateTaskName(String taskName) {
         if(taskName.isEmpty()) {
-            return "Name is required";
+            return "Name is required\n";
         }
         return "";
     }
@@ -105,7 +107,7 @@ public class AddActivityFormController implements IActivityForm,IBackButton, Ini
     {
         if(date == null)
         {
-            return "date is required";
+            return "Date is required\n";
         }
         return "";
     }

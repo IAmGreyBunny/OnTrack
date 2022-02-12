@@ -1,5 +1,6 @@
 package com.example.ontrack.task.form.add;
 
+import com.example.ontrack.NotificationBox;
 import com.example.ontrack.IBackButton;
 import com.example.ontrack.Main;
 import com.example.ontrack.authentication.CurrentUser;
@@ -182,8 +183,7 @@ public class AddLessonFormController implements IBackButton, ILessonForm, Initia
 
         if(!errorMessage.isEmpty())
         {
-            //TO DO: ERROR MESSAGE BOX TO BE IMPLEMENTED LATER
-            System.out.println(errorMessage);
+            NotificationBox.display("Error",errorMessage);
         }
         else
         {
@@ -191,6 +191,8 @@ public class AddLessonFormController implements IBackButton, ILessonForm, Initia
             LessonHelper.createLessonInDb(lesson,lessonRepetitionRule);
             lesson.setRepetitionRule(lessonRepetitionRule);
             LessonHelper.createLessonCycleInDb(lesson,lessonRepetitionRule);
+            NotificationBox notificationBox = new NotificationBox();
+            notificationBox.display("Success","Task Created");
         }
 
     }
@@ -199,9 +201,9 @@ public class AddLessonFormController implements IBackButton, ILessonForm, Initia
     public String validateTaskName(String taskName) {
         String errorMessage="";
         if (taskName.isEmpty()) {
-            errorMessage += "Name is required";
+            errorMessage += "Name is required\n";
         }
-        //Check if user have any rule with same name
+        //Check if user have any lesson with same name
         if(!taskName.isEmpty())
         {
             //Database Connection
@@ -217,7 +219,7 @@ public class AddLessonFormController implements IBackButton, ILessonForm, Initia
                     do{
                         if(resultSet.getString("name").equals(taskName))
                         {
-                            errorMessage+="Lesson with same name already exist";
+                            errorMessage+="Lesson with same name already exist\n";
                             break;
                         }
                     }while(resultSet.next());
@@ -240,7 +242,7 @@ public class AddLessonFormController implements IBackButton, ILessonForm, Initia
     @Override
     public String validateTaskDate(LocalDate date) {
         if (date == null) {
-            return "date is required";
+            return "Date is required\n";
         }
         return "";
     }
@@ -259,7 +261,7 @@ public class AddLessonFormController implements IBackButton, ILessonForm, Initia
     public String validateRepetitionRule(RepetitionRule repetitionRule) {
         if(repetitionRule == null)
         {
-            return "Repetition rule must be set";
+            return "Repetition rule must be set\n";
         }
         else
         {

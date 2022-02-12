@@ -1,5 +1,11 @@
 package com.example.ontrack.authentication;
 
+import com.example.ontrack.database.DatabaseHelper;
+import com.example.ontrack.database.DatabaseManager;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -34,6 +40,34 @@ public class FormValidator {
         if(!matcher.matches()){
             return "*Username must start with an alphabet and not contain special characters";
         }
+
+        //Check if username
+        if(!usernameInput.isEmpty())
+        {
+            //Database Connection
+            DatabaseManager databaseManager = new DatabaseManager();
+            Connection connection = databaseManager.getConnection();
+
+            String sql = String.format("SELECT DISTINCT user FROM lessons WHERE (userId = %s)", CurrentUser.getInstance().getUser().getUserId());
+            try{
+                PreparedStatement statement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
+                ResultSet resultSet = statement.executeQuery();
+                if (DatabaseHelper.getResultSetSize(resultSet)>=1)
+                {
+                    do{
+                        if(resultSet.getString("username").equals(usernameInput))
+                        {
+                            return "Username already exist";
+                        }
+                    }while(resultSet.next());
+                }
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+            }
+
+        }
         return "";
     }
 
@@ -48,6 +82,34 @@ public class FormValidator {
         matcher = emailRegex.matcher(emailInput);
         if(!matcher.matches()){
             return "*Email Format is Invalid";
+        }
+
+        //Check if email exist
+        if(!emailInput.isEmpty())
+        {
+            //Database Connection
+            DatabaseManager databaseManager = new DatabaseManager();
+            Connection connection = databaseManager.getConnection();
+
+            String sql = String.format("SELECT DISTINCT user FROM lessons WHERE (userId = %s)", CurrentUser.getInstance().getUser().getUserId());
+            try{
+                PreparedStatement statement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
+                ResultSet resultSet = statement.executeQuery();
+                if (DatabaseHelper.getResultSetSize(resultSet)>=1)
+                {
+                    do{
+                        if(resultSet.getString("email").equals(emailInput))
+                        {
+                            return "Email already exist";
+                        }
+                    }while(resultSet.next());
+                }
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+            }
+
         }
         return "";
     }

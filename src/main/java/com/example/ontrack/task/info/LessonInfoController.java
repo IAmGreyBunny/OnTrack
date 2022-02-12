@@ -35,6 +35,10 @@ public class LessonInfoController implements IBackButton, IDeleteTask, IComplete
     @FXML
     private Label lessonRepeatTypeLabel;
     @FXML
+    private Label lessonCompletionRateLabel;
+    @FXML
+    private Label lessonRepetitionRuleLabel;
+    @FXML
     private Button backButton;
     @FXML
     private Button editButton;
@@ -52,9 +56,13 @@ public class LessonInfoController implements IBackButton, IDeleteTask, IComplete
         lessonDateLabel.setText(lesson.getDate().toString());
         lessonCurrentRoundLabel.setText(String.valueOf(lesson.getCurrentRound()));
         lessonRepeatTypeLabel.setText(lesson.getRepetitionRule().getRepeatType());
+        lessonRepetitionRuleLabel.setText(lesson.getRepetitionRule().getRuleName());
+        if(! lesson.getRepetitionRule().getRepeatType().equals("Repeat Last"))
+        {
+            LessonCycle lessonCycle = new LessonCycle(lesson.getTaskName());
+            lessonCompletionRateLabel.setText(String.format("%.2f",lessonCycle.getCompletionRateOfLessonCycle()));
+        }
         completeTaskCheckBox.setSelected(lesson.getStatus());
-        LessonCycle lessonCycle = new LessonCycle(lesson.getTaskName());
-        lessonCycle.getCompletionRateOfLessonCycle();
         displayedLesson=lesson;
     }
 

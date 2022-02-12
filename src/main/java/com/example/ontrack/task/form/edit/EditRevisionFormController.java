@@ -1,44 +1,25 @@
 package com.example.ontrack.task.form.edit;
 
+import com.example.ontrack.NotificationBox;
 import com.example.ontrack.IBackButton;
 import com.example.ontrack.Main;
-import com.example.ontrack.authentication.CurrentUser;
-import com.example.ontrack.database.DatabaseHelper;
-import com.example.ontrack.database.DatabaseManager;
 import com.example.ontrack.task.form.validator.IRevisionForm;
 import com.example.ontrack.task.repetition.RepetitionRule;
 import com.example.ontrack.task.revision.Revision;
 import com.example.ontrack.task.revision.RevisionCycle;
-import javafx.collections.ObservableList;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.util.StringConverter;
 
 import java.io.IOException;
-import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.ResourceBundle;
 
-public class EditRevisionFormController implements IBackButton, IRevisionForm, Initializable {
+public class EditRevisionFormController implements IBackButton, IRevisionForm{
     @FXML
     Button backButton;
-    @FXML
-    Button editRepetitionRuleButton;
-    @FXML
-    Button addRepetitionRuleButton;
     @FXML
     Button saveTaskButton;
 
@@ -48,114 +29,18 @@ public class EditRevisionFormController implements IBackButton, IRevisionForm, I
     TextArea revisionDescTextArea;
     @FXML
     TextField revisionSubjectTextField;
-    @FXML
-    DatePicker revisionStartDatePicker;
 
-    @FXML
-    ComboBox<RepetitionRule> repetitionRuleDropDown;
+    Revision oldRevision;
 
-    Revision oldrevision;
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle)
-    {
-
-        //Setup repetitionRuleDropDown combobox with user listofrepetitionrules
-        //String converter required for displaying RepetitionRule object as string
-        repetitionRuleDropDown.setOnShown(new EventHandler<Event>() {
-            @Override
-            public void handle(Event event) {
-                ObservableList<RepetitionRule> listOfRepetitionRules = CurrentUser.getInstance().getUserRepetitionRules();
-                StringConverter<RepetitionRule> converter = new StringConverter<RepetitionRule>() {
-                    @Override
-                    public String toString(RepetitionRule repetitionRule) {
-                        if(repetitionRule != null)
-                        {
-                            return repetitionRule.getRuleName();
-                        }
-                        else
-                        {
-                            return "";
-                        }
-
-                    }
-
-                    @Override
-                    public RepetitionRule fromString(String s) {
-                        for(RepetitionRule repetitionRule:listOfRepetitionRules)
-                        {
-                            if (repetitionRule.getRuleName().equals(s))
-                            {
-                                return repetitionRule;
-                            }
-                        }
-                        return null;
-                    }
-                };
-                repetitionRuleDropDown.setConverter(converter);
-                repetitionRuleDropDown.setItems(listOfRepetitionRules);
-            }
-        });
-
-        //Setup repetitionRuleDropDown so to disable edit on empty fields
-        if(repetitionRuleDropDown.getValue()==null)
-        {
-            editRepetitionRuleButton.setDisable(true);
-        }
-        repetitionRuleDropDown.setOnAction(actionEvent -> {
-            if(repetitionRuleDropDown.getValue()==null)
-            {
-                editRepetitionRuleButton.setDisable(true);
-            }
-            else
-            {
-                editRepetitionRuleButton.setDisable(false);
-            }
-        });
-    }
 
     public void setRevision(Revision revision)
     {
-        oldrevision=revision;
-        RevisionCycle revisionCycle = new RevisionCycle(oldrevision.getTaskName());
-        oldrevision = revisionCycle.getFirstRevisionInCycle();
+        oldRevision=revision;
+        RevisionCycle revisionCycle = new RevisionCycle(oldRevision.getTaskName());
+        oldRevision = revisionCycle.getFirstRevisionInCycle();
         revisionNameTextField.setText(revision.getTaskName());
         revisionDescTextArea.setText(revision.getDescription());
         revisionSubjectTextField.setText(revision.getSubject());
-        revisionStartDatePicker.setValue(revision.getDate());
-    }
-
-    @FXML
-    public void loadEditRepetitionRuleForm()
-    {
-        //Load Edit Form
-        FXMLLoader editRepetitionRuleFormLoader = new FXMLLoader(Main.class.getResource("task/form/edit/EditRepetitionRuleForm.fxml"));
-        EditRepetitionRuleFormController editRepetitionRuleFormController;
-        Parent editRepetitionRuleForm;
-        try {
-            editRepetitionRuleForm = editRepetitionRuleFormLoader.load();
-            editRepetitionRuleFormController = editRepetitionRuleFormLoader.getController();
-            editRepetitionRuleFormController.setRepetitionRule(repetitionRuleDropDown.getValue()); //Load calendar cell content based on date given
-
-            //Display new window
-            Stage stage = new Stage();
-            Scene scene = new Scene(editRepetitionRuleForm);
-            stage.setScene(scene);
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    public void loadAddRepetitionRuleForm() throws IOException {
-        Stage stage = new Stage();
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("task/form/add/AddRepetitionRuleForm.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
-        stage.setScene(scene);
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.show();
     }
 
     @FXML
@@ -178,8 +63,8 @@ public class EditRevisionFormController implements IBackButton, IRevisionForm, I
         String revisionName = revisionNameTextField.getText();
         String revisionDesc = revisionDescTextArea.getText();
         String revisionSubject = revisionSubjectTextField.getText();
-        RepetitionRule revisionRepetitionRule = repetitionRuleDropDown.getValue();
-        LocalDate revisionStartDate = revisionStartDatePicker.getValue();
+        RepetitionRule revisionRepetitionRule = oldRevision.getRepetitionRule();
+        LocalDate revisionStartDate = oldRevision.getDate();
 
         //Create error messages
         String errorMessage = validateTaskName(revisionName)
@@ -190,13 +75,14 @@ public class EditRevisionFormController implements IBackButton, IRevisionForm, I
 
         if(!errorMessage.isEmpty())
         {
-            //TO DO: ERROR MESSAGE BOX TO BE IMPLEMENTED LATER
-            System.out.println(errorMessage);
+            NotificationBox.display("Error",errorMessage);
         }
         else
         {
-            Revision newRevision = new Revision(revisionName,revisionDesc,revisionSubject,oldrevision.getRuleId(),revisionStartDate,1,false);
-            RevisionCycle.updateRevisionsInCycle(oldrevision,newRevision,oldrevision.getRepetitionRule(),repetitionRuleDropDown.getValue());
+            Revision newRevision = new Revision(revisionName,revisionDesc,revisionSubject,oldRevision.getRuleId(),revisionStartDate,1,false);
+            RevisionCycle.updateRevisionsInCycle(oldRevision,newRevision,oldRevision.getRepetitionRule(),oldRevision.getRepetitionRule());
+            NotificationBox notificationBox = new NotificationBox();
+            notificationBox.display("Success","Task Edited");
         }
 
     }
@@ -205,7 +91,7 @@ public class EditRevisionFormController implements IBackButton, IRevisionForm, I
     public String validateTaskName(String taskName) {
         String errorMessage = "";
         if (taskName.isEmpty()) {
-            errorMessage += "Name is required";
+            errorMessage += "Name is required\n";
         }
         return errorMessage;
     }
@@ -218,7 +104,7 @@ public class EditRevisionFormController implements IBackButton, IRevisionForm, I
     @Override
     public String validateTaskDate(LocalDate date) {
         if (date == null) {
-            return "date is required";
+            return "Date is required\n";
         }
         return "";
     }
@@ -228,12 +114,11 @@ public class EditRevisionFormController implements IBackButton, IRevisionForm, I
         return "";
     }
 
-
     @Override
     public String validateRepetitionRule(RepetitionRule repetitionRule) {
         if(repetitionRule == null)
         {
-            return "Repetition rule must be set";
+            return "Repetition rule must be set\n";
         }
         else
         {

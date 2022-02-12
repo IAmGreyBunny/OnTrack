@@ -1,5 +1,6 @@
 package com.example.ontrack.task.form.edit;
 
+import com.example.ontrack.NotificationBox;
 import com.example.ontrack.IBackButton;
 import com.example.ontrack.Main;
 import com.example.ontrack.task.exam.Exam;
@@ -79,13 +80,14 @@ public class EditExamFormController implements IExamForm, IBackButton {
 
         if(!errorMessage.isEmpty())
         {
-            //TO DO: ERROR MESSAGE BOX TO BE IMPLEMENTED LATER
-            System.out.println(errorMessage);
+            NotificationBox.display("Error",errorMessage);
         }
         else
         {
             Exam newExam = new Exam(examName,examDesc,examSubject,examVenue,examDate,false);
             ExamHelper.updateExamInDb(oldExam,newExam);
+            NotificationBox notificationBox = new NotificationBox();
+            notificationBox.display("Success","Task Edited");
         }
 
 
@@ -104,7 +106,7 @@ public class EditExamFormController implements IExamForm, IBackButton {
     @Override
     public String validateTaskName(String taskName) {
         if (taskName.isEmpty()) {
-            return "Name is required";
+            return "Name is required\n";
         }
         return "";
     }
@@ -117,7 +119,7 @@ public class EditExamFormController implements IExamForm, IBackButton {
     @Override
     public String validateTaskDate(LocalDate date) {
         if (date == null) {
-            return "date is required";
+            return "Date is required\n";
         }
         return "";
     }
