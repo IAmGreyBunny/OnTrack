@@ -106,5 +106,15 @@ public class MainPageController implements Initializable {
         stage.show();
     }
 
+    public void refresh()
+    {
+        try {
+            taskOverview = FXMLLoader.load(Main.class.getResource("overview/calendar/Calendar.fxml"));
+            calendarTab.setContent(taskOverview);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }

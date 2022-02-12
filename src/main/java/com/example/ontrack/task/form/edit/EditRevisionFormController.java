@@ -1,5 +1,6 @@
 package com.example.ontrack.task.form.edit;
 
+import com.example.ontrack.MainPageControllerHolder;
 import com.example.ontrack.NotificationBox;
 import com.example.ontrack.IBackButton;
 import com.example.ontrack.Main;
@@ -84,6 +85,7 @@ public class EditRevisionFormController implements IBackButton, IRevisionForm{
             NotificationBox notificationBox = new NotificationBox();
             notificationBox.display("Success","Task Edited");
         }
+        MainPageControllerHolder.getInstance().getMainPageController().refresh();
 
     }
 

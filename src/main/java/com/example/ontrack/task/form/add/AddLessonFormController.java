@@ -1,5 +1,6 @@
 package com.example.ontrack.task.form.add;
 
+import com.example.ontrack.MainPageControllerHolder;
 import com.example.ontrack.NotificationBox;
 import com.example.ontrack.IBackButton;
 import com.example.ontrack.Main;
@@ -193,6 +194,7 @@ public class AddLessonFormController implements IBackButton, ILessonForm, Initia
             LessonHelper.createLessonCycleInDb(lesson,lessonRepetitionRule);
             NotificationBox notificationBox = new NotificationBox();
             notificationBox.display("Success","Task Created");
+            MainPageControllerHolder.getInstance().getMainPageController().refresh();
         }
 
     }

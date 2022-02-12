@@ -1,5 +1,6 @@
 package com.example.ontrack.task.form.add;
 
+import com.example.ontrack.MainPageControllerHolder;
 import com.example.ontrack.NotificationBox;
 import com.example.ontrack.IBackButton;
 import com.example.ontrack.Main;
@@ -75,6 +76,7 @@ public class AddExamFormController implements IBackButton, IExamForm, Initializa
             ExamHelper.createExamInDb(exam);
             NotificationBox notificationBox = new NotificationBox();
             notificationBox.display("Success","Task Created");
+            MainPageControllerHolder.getInstance().getMainPageController().refresh();
         }
 
     }

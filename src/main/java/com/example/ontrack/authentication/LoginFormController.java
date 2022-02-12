@@ -1,6 +1,8 @@
 package com.example.ontrack.authentication;
 
 import com.example.ontrack.Main;
+import com.example.ontrack.MainPageController;
+import com.example.ontrack.MainPageControllerHolder;
 import com.example.ontrack.database.DatabaseManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -101,6 +103,7 @@ public class LoginFormController implements Initializable {
                     Stage stage = new Stage(StageStyle.UNDECORATED);
                     FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("main/MainPage.fxml"));
                     Scene scene = new Scene(fxmlLoader.load());
+                    MainPageControllerHolder.getInstance().setMainPageController(fxmlLoader.getController());
                     stage.setScene(scene);
                     stage.setResizable(false);
                     stage.setMaximized(true);

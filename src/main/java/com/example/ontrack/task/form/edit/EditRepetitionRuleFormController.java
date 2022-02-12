@@ -1,5 +1,6 @@
 package com.example.ontrack.task.form.edit;
 
+import com.example.ontrack.MainPageControllerHolder;
 import com.example.ontrack.NotificationBox;
 import com.example.ontrack.authentication.CurrentUser;
 import com.example.ontrack.database.DatabaseHelper;
@@ -108,6 +109,7 @@ public class EditRepetitionRuleFormController implements IRepetitionRuleForm, In
             CurrentUser.getInstance().reloadUser();
             NotificationBox notificationBox = new NotificationBox();
             notificationBox.display("Success","Rule Edited");
+            MainPageControllerHolder.getInstance().getMainPageController().refresh();
         }
 
     }

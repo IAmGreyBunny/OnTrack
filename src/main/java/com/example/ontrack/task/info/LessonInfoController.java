@@ -84,6 +84,7 @@ public class LessonInfoController implements IBackButton, IDeleteTask, IComplete
     {
         LessonCycle lessonCycle = new LessonCycle(displayedLesson.getTaskName());
         lessonCycle.deleteLessonCycle();
+        MainPageControllerHolder.getInstance().getMainPageController().refresh();
     }
 
     @Override

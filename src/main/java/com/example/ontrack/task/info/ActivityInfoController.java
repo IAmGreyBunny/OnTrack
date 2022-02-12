@@ -1,9 +1,6 @@
 package com.example.ontrack.task.info;
 
-import com.example.ontrack.IBackButton;
-import com.example.ontrack.ICompleteTaskInput;
-import com.example.ontrack.IDeleteTask;
-import com.example.ontrack.Main;
+import com.example.ontrack.*;
 import com.example.ontrack.database.DatabaseManager;
 import com.example.ontrack.task.activity.Activity;
 import com.example.ontrack.task.activity.ActivityHelper;
@@ -106,5 +103,7 @@ public class ActivityInfoController implements IBackButton, ICompleteTaskInput, 
         {
             e.printStackTrace();
         }
+
+        MainPageControllerHolder.getInstance().getMainPageController().refresh();
     }
 }

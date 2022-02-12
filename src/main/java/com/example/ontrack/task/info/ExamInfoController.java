@@ -1,9 +1,6 @@
 package com.example.ontrack.task.info;
 
-import com.example.ontrack.IBackButton;
-import com.example.ontrack.ICompleteTaskInput;
-import com.example.ontrack.IDeleteTask;
-import com.example.ontrack.Main;
+import com.example.ontrack.*;
 import com.example.ontrack.database.DatabaseManager;
 import com.example.ontrack.task.exam.Exam;
 import com.example.ontrack.task.exam.ExamHelper;
@@ -108,5 +105,6 @@ public class ExamInfoController implements IBackButton, ICompleteTaskInput, IDel
         {
             e.printStackTrace();
         }
+        MainPageControllerHolder.getInstance().getMainPageController().refresh();
     }
 }

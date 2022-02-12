@@ -1,5 +1,6 @@
 package com.example.ontrack.task.form.add;
 
+import com.example.ontrack.MainPageControllerHolder;
 import com.example.ontrack.NotificationBox;
 import com.example.ontrack.authentication.CurrentUser;
 import com.example.ontrack.database.DatabaseHelper;
@@ -143,6 +144,7 @@ public class AddRepetitionRuleFormController implements IRepetitionRuleForm, Ini
         }
         NotificationBox notificationBox = new NotificationBox();
         notificationBox.display("Success","Rule Created");
+        MainPageControllerHolder.getInstance().getMainPageController().refresh();
 
     }
 

@@ -76,6 +76,7 @@ public class RevisionInfoController implements IBackButton, ICompleteTaskInput, 
     public void onDeleteTask() {
         RevisionCycle revisionCycle = new RevisionCycle(displayedRevision.getTaskName());
         revisionCycle.deleteRevisionCycle();
+        MainPageControllerHolder.getInstance().getMainPageController().refresh();
     }
 
     @Override
