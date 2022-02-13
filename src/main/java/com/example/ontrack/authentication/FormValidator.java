@@ -48,7 +48,7 @@ public class FormValidator {
             DatabaseManager databaseManager = new DatabaseManager();
             Connection connection = databaseManager.getConnection();
 
-            String sql = String.format("SELECT DISTINCT user FROM lessons WHERE (userId = %s)", CurrentUser.getInstance().getUser().getUserId());
+            String sql = "SELECT DISTINCT username FROM user";
             try{
                 PreparedStatement statement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
                 ResultSet resultSet = statement.executeQuery();
@@ -91,7 +91,7 @@ public class FormValidator {
             DatabaseManager databaseManager = new DatabaseManager();
             Connection connection = databaseManager.getConnection();
 
-            String sql = String.format("SELECT DISTINCT user FROM lessons WHERE (userId = %s)", CurrentUser.getInstance().getUser().getUserId());
+            String sql = "SELECT DISTINCT email FROM user";
             try{
                 PreparedStatement statement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
                 ResultSet resultSet = statement.executeQuery();

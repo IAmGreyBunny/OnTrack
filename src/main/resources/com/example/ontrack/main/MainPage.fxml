@@ -24,12 +24,17 @@
                         <MenuItem mnemonicParsing="false" onAction="#onLogout" text="Logout" />
                   </items>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Add New...">
+                <Menu mnemonicParsing="false" text="Add">
                   <items>
                     <MenuItem mnemonicParsing="false" onAction="#loadAddTaskForm" text="Task" />
                         <MenuItem mnemonicParsing="false" onAction="#loadAddRepetitionRuleForm" text="Repetition Rule" />
                   </items>
                 </Menu>
+                  <Menu mnemonicParsing="false" text="Edit">
+                    <items>
+                      <MenuItem mnemonicParsing="false" onAction="#loadSelectRepetitionRule" text="Repetition Rule" />
+                    </items>
+                  </Menu>
               </menus>
             </MenuBar>
             <Button mnemonicParsing="false" onAction="#onExit" style="-fx-background-color: #DC143C;" text="Exit" textFill="WHITE" />
