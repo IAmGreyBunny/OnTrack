@@ -63,6 +63,10 @@ public class LessonInfoController implements IBackButton, IDeleteTask, IComplete
             LessonCycle lessonCycle = new LessonCycle(lesson.getTaskName());
             lessonCompletionRateLabel.setText(String.format("%.2f",lessonCycle.getCompletionRateOfLessonCycle()));
         }
+        else
+        {
+            lessonCompletionRateLabel.setText("Infinite");
+        }
         completeTaskCheckBox.setSelected(lesson.getStatus());
         displayedLesson=lesson;
     }

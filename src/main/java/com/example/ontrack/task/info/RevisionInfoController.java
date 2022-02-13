@@ -54,6 +54,9 @@ public class RevisionInfoController implements IBackButton, ICompleteTaskInput, 
         {
             RevisionCycle revisionCycle = new RevisionCycle(revision.getTaskName());
             revisionCompletionRateLabel.setText(String.format("%.2f",revisionCycle.getCompletionRateOfRevisionCycle()));
+        }else
+        {
+            revisionCompletionRateLabel.setText("Infinite");
         }
         completeTaskCheckBox.setSelected(revision.getStatus());
         displayedRevision=revision;
