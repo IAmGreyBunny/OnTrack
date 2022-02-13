@@ -1,6 +1,7 @@
 package com.example.ontrack.task.form.edit;
 
 import com.example.ontrack.Main;
+import com.example.ontrack.alert.NotificationBox;
 import com.example.ontrack.authentication.CurrentUser;
 import com.example.ontrack.task.repetition.RepetitionRule;
 import javafx.collections.ObservableList;
@@ -77,18 +78,26 @@ public class SelectRepetitionRuleController implements Initializable {
         EditRepetitionRuleFormController editRepetitionRuleFormController;
         Parent editRepetitionRuleForm;
         try {
-            editRepetitionRuleForm = editRepetitionRuleFormLoader.load();
-            editRepetitionRuleFormController = editRepetitionRuleFormLoader.getController();
-            editRepetitionRuleFormController.setRepetitionRule(repetitionRuleDropDown.getValue()); //Load calendar cell content based on date given
+            if(repetitionRuleDropDown.getValue()!=null)
+            {
+                editRepetitionRuleForm = editRepetitionRuleFormLoader.load();
+                editRepetitionRuleFormController = editRepetitionRuleFormLoader.getController();
+                editRepetitionRuleFormController.setRepetitionRule(repetitionRuleDropDown.getValue()); //Load calendar cell content based on date given
 
-            //Display new window
-            Stage stage = new Stage();
-            Scene scene = new Scene(editRepetitionRuleForm);
-            stage.setScene(scene);
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.show();
-            Stage currentStage = (Stage) editButton.getScene().getWindow();
-            currentStage.close();
+                //Display new window
+                Stage stage = new Stage();
+                Scene scene = new Scene(editRepetitionRuleForm);
+                stage.setScene(scene);
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.show();
+                Stage currentStage = (Stage) editButton.getScene().getWindow();
+                currentStage.close();
+            }else
+            {
+                NotificationBox notificationBox = new NotificationBox();
+                notificationBox.display("Error","No repetition rule is selected");
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -55,6 +55,7 @@ public class LessonInfoController implements IBackButton, IDeleteTask, IComplete
         lessonCurrentRoundLabel.setText(String.valueOf(lesson.getCurrentRound()));
         lessonRepeatTypeLabel.setText(lesson.getRepetitionRule().getRepeatType());
         lessonRepetitionRuleLabel.setText(lesson.getRepetitionRule().getRuleName());
+        Animation.popUpChange(lessonCompletionRateLabel,1.2);
         if(! lesson.getRepetitionRule().getRepeatType().equals("Repeat Last"))
         {
             LessonCycle lessonCycle = new LessonCycle(lesson.getTaskName());
@@ -117,7 +118,6 @@ public class LessonInfoController implements IBackButton, IDeleteTask, IComplete
         Lesson newLesson = new Lesson(displayedLesson);
         newLesson.setStatus(completeTaskCheckBox.isSelected());
         LessonHelper.updateLessonInDb(displayedLesson,newLesson);
-        setLesson(newLesson);
         LessonCycle lessonCycle = new LessonCycle(displayedLesson.getTaskName());
         int numberOfRoundLeft = lessonCycle.getLastLessonInCycle().getCurrentRound()-newLesson.getCurrentRound();
         if(lessonCycle.getCompletionRateOfLessonCycle()==100 && newLesson.getRepetitionRule().getRepeatType().equals("Start Over"))
@@ -131,5 +131,6 @@ public class LessonInfoController implements IBackButton, IDeleteTask, IComplete
             lessonCycle.extendCycle(lessonCycle.getLastLessonInCycle(),newLesson.getRepetitionRule(),5);
         }
         CalendarControllerHolder.getInstance().refreshCalendar();
+        setLesson(newLesson);
     }
 }
