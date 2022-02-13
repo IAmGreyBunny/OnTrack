@@ -23,6 +23,7 @@
               </columnConstraints>
               <rowConstraints>
                   <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
                 <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
                 <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
                   <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
@@ -32,116 +33,125 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Button fx:id="backButton" mnemonicParsing="false" onAction="#onBackButtonClicked" text="Go Back">
-                     <GridPane.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </GridPane.margin></Button>
-                  <Label text="Name:" GridPane.rowIndex="1">
+                  <Label text="Name:" GridPane.rowIndex="2">
                      <GridPane.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label text="Description:" GridPane.rowIndex="2">
+                  <Label text="Description:" GridPane.rowIndex="3">
                      <GridPane.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label text="Venue:" GridPane.rowIndex="3">
+                  <Label text="Venue:" GridPane.rowIndex="4">
                      <GridPane.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label text="Date" GridPane.rowIndex="5">
+                  <Label text="Date" GridPane.rowIndex="6">
                      <GridPane.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label fx:id="lessonNameLabel" text="Label" wrapText="true" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="1">
+                  <Label fx:id="lessonNameLabel" text="Label" wrapText="true" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="2">
                      <GridPane.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label fx:id="lessonDescLabel" text="Label" wrapText="true" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="2">
+                  <Label fx:id="lessonDescLabel" text="Label" wrapText="true" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="3">
                      <GridPane.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label fx:id="lessonVenueLabel" text="Label" wrapText="true" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="3">
+                  <Label fx:id="lessonVenueLabel" text="Label" wrapText="true" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="4">
                      <GridPane.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label fx:id="lessonDateLabel" text="Label" wrapText="true" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="5">
+                  <Label fx:id="lessonDateLabel" text="Label" wrapText="true" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="6">
                      <GridPane.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label text="Subject" GridPane.rowIndex="4">
+                  <Label text="Subject" GridPane.rowIndex="5">
                      <GridPane.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label fx:id="lessonSubjectLabel" text="Label" wrapText="true" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="4">
+                  <Label fx:id="lessonSubjectLabel" text="Label" wrapText="true" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="5">
                      <GridPane.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label text="Current Round:" GridPane.rowIndex="7">
+                  <Label text="Current Round:" GridPane.rowIndex="8">
                      <GridPane.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label fx:id="lessonCurrentRoundLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="7">
+                  <Label fx:id="lessonCurrentRoundLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="8">
                      <GridPane.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label text="Repeat Type:" GridPane.columnIndex="2" GridPane.rowIndex="6">
+                  <Label text="Repeat Type:" GridPane.columnIndex="2" GridPane.rowIndex="7">
                      <GridPane.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label fx:id="lessonRepeatTypeLabel" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="6">
+                  <Label fx:id="lessonRepeatTypeLabel" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="7">
                      <GridPane.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label text="Completion:" GridPane.columnIndex="2" GridPane.rowIndex="7">
+                  <Label text="Completion:" GridPane.columnIndex="2" GridPane.rowIndex="8">
                      <GridPane.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label fx:id="lessonCompletionRateLabel" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="7">
+                  <Label fx:id="lessonCompletionRateLabel" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="8">
                      <GridPane.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label text="Repetition Rule:" GridPane.rowIndex="6">
+                  <Label text="Repetition Rule:" GridPane.rowIndex="7">
                      <GridPane.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label fx:id="lessonRepetitionRuleLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                  <Label fx:id="lessonRepetitionRuleLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="7">
                      <GridPane.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </GridPane.margin>
                   </Label>
+                  <Button fx:id="backButton" mnemonicParsing="false" onAction="#onBackButtonClicked" text="Go Back" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </GridPane.margin>
+                  </Button>
                </children>
             </GridPane>
-            <CheckBox fx:id="completeTaskCheckBox" mnemonicParsing="false" onAction="#onCompleteTask" text="Complete Task">
-               <VBox.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </VBox.margin></CheckBox>
-            <Button fx:id="editButton" mnemonicParsing="false" onAction="#onEditButtonClicked" text="Edit">
+            <VBox alignment="TOP_CENTER" prefWidth="100.0" spacing="10.0">
+               <children>
+                  <CheckBox fx:id="completeTaskCheckBox" mnemonicParsing="false" onAction="#onCompleteTask" text="Complete Task">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </CheckBox>
+                  <Button fx:id="editButton" mnemonicParsing="false" onAction="#onEditButtonClicked" text="Edit">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Button>
+                  <Button fx:id="deleteLessonButton" mnemonicParsing="false" onAction="#onDeleteTask" text="Delete Task">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Button>
+               </children>
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </VBox.margin>
-            </Button>
-            <Button fx:id="deleteLessonButton" mnemonicParsing="false" onAction="#onDeleteTask" text="Delete Task">
-               <VBox.margin>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </VBox.margin>
-            </Button>
+            </VBox>
          </children>
       </VBox>
    </children>

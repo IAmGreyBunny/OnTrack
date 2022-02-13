@@ -27,7 +27,10 @@
                   <RowConstraints minHeight="10.0" valignment="TOP" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Button fx:id="backButton" mnemonicParsing="false" onAction="#onBackButtonClicked" text="Go Back" />
+                  <Button fx:id="backButton" mnemonicParsing="false" onAction="#onBackButtonClicked" text="Go Back">
+                     <GridPane.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </GridPane.margin></Button>
                   <Label text="Name:" GridPane.rowIndex="1">
                      <GridPane.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -50,33 +53,48 @@
                   </Label>
                   <Label fx:id="activityName" text="Label" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <GridPane.margin>
-                        <Insets top="10.0" />
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </GridPane.margin>
                   </Label>
                   <Label fx:id="activityDesc" text="Label" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <GridPane.margin>
-                        <Insets top="10.0" />
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </GridPane.margin>
                   </Label>
                   <Label fx:id="activityVenue" text="Label" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="3">
                      <GridPane.margin>
-                        <Insets top="10.0" />
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </GridPane.margin>
                   </Label>
                   <Label fx:id="activityDate" text="Label" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="4">
                      <GridPane.margin>
-                        <Insets top="10.0" />
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </GridPane.margin>
                   </Label>
                </children>
             </GridPane>
-            <CheckBox fx:id="completeTaskCheckBox" mnemonicParsing="false" onAction="#onCompleteTask" text="Complete Task" />
-             <Button fx:id="editButton" mnemonicParsing="false" onAction="#onEditButtonClicked" text="Edit">
-                 <VBox.margin>
-                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                 </VBox.margin>
-             </Button>
-            <Button fx:id="deleteActivityButton" mnemonicParsing="false" onAction="#onDeleteTask" text="Delete Activity" />
+            <VBox alignment="TOP_CENTER" prefWidth="100.0" spacing="10.0">
+               <children>
+                  <CheckBox fx:id="completeTaskCheckBox" mnemonicParsing="false" onAction="#onCompleteTask" text="Complete Task">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </CheckBox>
+                   <Button fx:id="editButton" mnemonicParsing="false" onAction="#onEditButtonClicked" text="Edit">
+                       <VBox.margin>
+                           <Insets />
+                       </VBox.margin>
+                   </Button>
+                  <Button fx:id="deleteActivityButton" mnemonicParsing="false" onAction="#onDeleteTask" text="Delete Activity">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Button>
+               </children>
+               <VBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </VBox.margin>
+            </VBox>
          </children>
       </VBox>
    </children>

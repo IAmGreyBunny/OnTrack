@@ -114,6 +114,6 @@
             </Button>
          </children>
       </VBox>
-      <Button fx:id="backButton" mnemonicParsing="false" onAction="#onBackButtonClicked" text="Go Back" />
+      <Button fx:id="backButton" mnemonicParsing="false" onAction="#onBackButtonClicked" text="Go Back" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0" />
    </children>
 </AnchorPane>

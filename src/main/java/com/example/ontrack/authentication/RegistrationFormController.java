@@ -1,6 +1,6 @@
 package com.example.ontrack.authentication;
 
-import com.example.ontrack.NotificationBox;
+import com.example.ontrack.alert.NotificationBox;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -42,7 +42,6 @@ public class RegistrationFormController {
         String passwordConfirm = registrationPasswordConfirmTextField.getText();
 
         //Validates user input, returns error message
-        System.out.println("___________________________________");//For Debugging
         Boolean hasError = false;
         String usernameError = FormValidator.validateUsername(username);
         String emailError = FormValidator.validateEmail(email);

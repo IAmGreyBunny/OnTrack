@@ -33,4 +33,6 @@ module com.example.OnTrack {
     opens com.example.ontrack.task.exam to javafx.base, javafx.fxml;
     exports com.example.ontrack.task.activity;
     opens com.example.ontrack.task.activity to javafx.base, javafx.fxml;
+    exports com.example.ontrack.alert;
+    opens com.example.ontrack.alert to javafx.fxml;
 }

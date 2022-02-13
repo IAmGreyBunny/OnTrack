@@ -1,25 +1,20 @@
 package com.example.ontrack;
 
-import com.example.ontrack.Main;
+import com.example.ontrack.alert.ConfirmationBox;
 import com.example.ontrack.authentication.CurrentUser;
 import com.example.ontrack.authentication.User;
-import javafx.animation.TranslateTransition;
+import com.example.ontrack.overview.calendar.CalendarControllerHolder;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
@@ -40,7 +35,9 @@ public class MainPageController implements Initializable {
         try{
             form = FXMLLoader.load(Main.class.getResource("task/form/add/AddTaskForm.fxml"));
             borderPane.setLeft(form);
-            taskOverview = FXMLLoader.load(Main.class.getResource("overview/calendar/Calendar.fxml"));
+            FXMLLoader calendarLoader = new FXMLLoader(Main.class.getResource("overview/calendar/Calendar.fxml"));
+            taskOverview = calendarLoader.load();
+            CalendarControllerHolder.getInstance().setCalendarController(calendarLoader.getController());
             calendarTab.setContent(taskOverview);
         }
         catch (IOException ex)

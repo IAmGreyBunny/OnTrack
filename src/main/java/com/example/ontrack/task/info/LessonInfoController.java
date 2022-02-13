@@ -1,15 +1,12 @@
 package com.example.ontrack.task.info;
 
 import com.example.ontrack.*;
-import com.example.ontrack.task.exam.Exam;
-import com.example.ontrack.task.exam.ExamHelper;
+import com.example.ontrack.alert.ConfirmationBox;
+import com.example.ontrack.overview.calendar.CalendarControllerHolder;
 import com.example.ontrack.task.form.edit.EditLessonFormController;
-import com.example.ontrack.task.form.edit.EditExamFormController;
 import com.example.ontrack.task.lesson.LessonCycle;
 import com.example.ontrack.task.lesson.LessonHelper;
-import com.example.ontrack.task.repetition.RepetitionRuleHelper;
 import com.example.ontrack.task.lesson.Lesson;
-import com.example.ontrack.task.revision.RevisionCycle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -62,6 +59,7 @@ public class LessonInfoController implements IBackButton, IDeleteTask, IComplete
         {
             LessonCycle lessonCycle = new LessonCycle(lesson.getTaskName());
             lessonCompletionRateLabel.setText(String.format("%.2f",lessonCycle.getCompletionRateOfLessonCycle()));
+            Animation.popUpChange(lessonCompletionRateLabel,1.2);
         }
         else
         {
@@ -132,6 +130,6 @@ public class LessonInfoController implements IBackButton, IDeleteTask, IComplete
         {
             lessonCycle.extendCycle(lessonCycle.getLastLessonInCycle(),newLesson.getRepetitionRule(),5);
         }
-
+        CalendarControllerHolder.getInstance().refreshCalendar();
     }
 }

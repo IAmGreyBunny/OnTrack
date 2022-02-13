@@ -1,7 +1,7 @@
 package com.example.ontrack.task.form.add;
 
 import com.example.ontrack.MainPageControllerHolder;
-import com.example.ontrack.NotificationBox;
+import com.example.ontrack.alert.NotificationBox;
 import com.example.ontrack.authentication.CurrentUser;
 import com.example.ontrack.database.DatabaseHelper;
 import com.example.ontrack.database.DatabaseManager;

@@ -2,6 +2,7 @@ package com.example.ontrack.task.info;
 
 import com.example.ontrack.*;
 import com.example.ontrack.database.DatabaseManager;
+import com.example.ontrack.overview.calendar.CalendarControllerHolder;
 import com.example.ontrack.task.activity.Activity;
 import com.example.ontrack.task.activity.ActivityHelper;
 import com.example.ontrack.task.form.edit.EditActivityFormController;
@@ -84,6 +85,7 @@ public class ActivityInfoController implements IBackButton, ICompleteTaskInput, 
         newActivity.setStatus(completeTaskCheckBox.isSelected());
         ActivityHelper.updateActivityInDb(displayedActivity,newActivity);
         setActivity(newActivity);
+        CalendarControllerHolder.getInstance().refreshCalendar();
     }
 
     @Override

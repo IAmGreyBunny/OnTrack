@@ -1,6 +1,7 @@
 package com.example.ontrack.task.form.add;
 
 import com.example.ontrack.*;
+import com.example.ontrack.alert.NotificationBox;
 import com.example.ontrack.task.activity.Activity;
 import com.example.ontrack.task.activity.ActivityHelper;
 import com.example.ontrack.task.form.validator.IActivityForm;

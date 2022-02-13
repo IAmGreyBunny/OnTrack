@@ -1,6 +1,8 @@
 package com.example.ontrack.task.info;
 
 import com.example.ontrack.*;
+import com.example.ontrack.alert.ConfirmationBox;
+import com.example.ontrack.overview.calendar.CalendarControllerHolder;
 import com.example.ontrack.task.form.edit.EditRevisionFormController;
 import com.example.ontrack.task.revision.RevisionHelper;
 import com.example.ontrack.task.revision.Revision;
@@ -54,6 +56,7 @@ public class RevisionInfoController implements IBackButton, ICompleteTaskInput, 
         {
             RevisionCycle revisionCycle = new RevisionCycle(revision.getTaskName());
             revisionCompletionRateLabel.setText(String.format("%.2f",revisionCycle.getCompletionRateOfRevisionCycle()));
+            Animation.popUpChange(revisionCompletionRateLabel,1.2);
         }else
         {
             revisionCompletionRateLabel.setText("Infinite");
@@ -105,6 +108,7 @@ public class RevisionInfoController implements IBackButton, ICompleteTaskInput, 
         {
             revisionCycle.repeatLast(revisionCycle.getLastRevisionInCycle(),newRevision.getRepetitionRule(),5);
         }
+        CalendarControllerHolder.getInstance().refreshCalendar();
     }
 
     @Override

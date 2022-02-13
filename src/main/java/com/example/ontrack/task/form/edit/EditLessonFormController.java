@@ -1,7 +1,7 @@
 package com.example.ontrack.task.form.edit;
 
 import com.example.ontrack.MainPageControllerHolder;
-import com.example.ontrack.NotificationBox;
+import com.example.ontrack.alert.NotificationBox;
 import com.example.ontrack.IBackButton;
 import com.example.ontrack.Main;
 import com.example.ontrack.task.form.validator.ILessonForm;

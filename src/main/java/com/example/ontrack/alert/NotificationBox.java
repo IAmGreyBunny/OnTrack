@@ -1,4 +1,4 @@
-package com.example.ontrack;
+package com.example.ontrack.alert;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;

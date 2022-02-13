@@ -2,6 +2,7 @@ package com.example.ontrack.task.info;
 
 import com.example.ontrack.*;
 import com.example.ontrack.database.DatabaseManager;
+import com.example.ontrack.overview.calendar.CalendarControllerHolder;
 import com.example.ontrack.task.exam.Exam;
 import com.example.ontrack.task.exam.ExamHelper;
 import com.example.ontrack.task.form.edit.EditExamFormController;
@@ -86,6 +87,7 @@ public class ExamInfoController implements IBackButton, ICompleteTaskInput, IDel
         newExam.setStatus(completeTaskCheckBox.isSelected());
         ExamHelper.updateExamInDb(displayedExam,newExam);
         setExam(newExam);
+        CalendarControllerHolder.getInstance().refreshCalendar();
     }
 
     @Override
